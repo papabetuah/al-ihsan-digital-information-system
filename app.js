@@ -110,6 +110,18 @@ function prayerPhase(){
  }
  return{mode:"NORMAL",name:null}
 }
+function previewPhase(){
+ if(!forcedMode)return prayerPhase();
+ const m=String(forcedMode).toUpperCase(),n=st.now,next=st.next||nextPrayer(n,st.pr);
+ const key=next.key||"isya",name=next.label||"Sholat";
+ if(m==="MENJELANG_ADZAN")return{mode:m,key,name,start:n,end:next.date,adhan:next.date,iqamah:new Date(next.date.getTime()+(C.iqamahMinutes[key]||10)*60000)};
+ if(m==="ADZAN_IQAMAH")return{mode:m,key,name,start:n,end:new Date(n.getTime()+(C.iqamahMinutes[key]||10)*60000),adhan:n,iqamah:new Date(n.getTime()+(C.iqamahMinutes[key]||10)*60000)};
+ if(m==="SHOLAT_BERLANGSUNG")return{mode:m,key,name,start:n,end:new Date(n.getTime()+(C.prayerDurationMinutes[key]||12)*60000),adhan:n};
+ if(m==="JUMAT_PERSIAPAN")return{mode:m,name:"Jumat",start:n,end:new Date(n.getTime()+(C.friday.prepMinutes||30)*60000)};
+ if(m==="KHUTBAH_JUMAT")return{mode:m,name:"Jumat",start:n,end:new Date(n.getTime()+25*60000)};
+ if(m==="SHOLAT_JUMAT")return{mode:m,name:"Jumat",start:n,end:new Date(n.getTime()+12*60000)};
+ return{mode:"NORMAL",name:null}
+}
 function mode(){
  if(forcedMode)return String(forcedMode).toUpperCase();
  if(forcedSlide&&!livePreview)return"NORMAL";
@@ -121,7 +133,7 @@ function tick(){
  D.textContent=new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"2-digit",month:"long",year:"numeric",timeZone:C.timezone}).format(st.now);
  T.textContent=new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:C.timezone}).format(st.now).replace(/\./g,":");
  st.pr=prayers(st.now);st.next=nextPrayer(st.now,st.pr);
- st.phase=prayerPhase();
+ st.phase=previewPhase();
  const md=mode();if(md!==st.mode){st.mode=md;st.started=Date.now();render()}
  const quiet=["ADZAN_IQAMAH","SHOLAT_BERLANGSUNG","KHUTBAH_JUMAT","SHOLAT_JUMAT"].includes(st.mode);
  APP.classList.toggle("quiet-mode",quiet);
@@ -187,7 +199,7 @@ function donate(){
     <div class="panel bank"><b>Bank Nagari Syariah</b><strong>7100.0201.05008-5</strong><span>A/n Masjid Al Ihsan Kapuih</span></div>
    </div>
   </section>
-  <section class="panel qris"><div class="box"><img src="./assets/qris-rumah-tahfiz-final.jpg?v=visual12" alt="QRIS Rumah Tahfiz Al Ihsan"><div class="qcaption"><b>QRIS Rumah Tahfiz Al Ihsan</b><small>NMID ID1022210128701 • Scan dengan aplikasi pembayaran</small></div></div></section>
+  <section class="panel qris"><div class="box"><img src="./assets/qris-rumah-tahfiz-final.jpg?v=visual13" alt="QRIS Rumah Tahfiz Al Ihsan"><div class="qcaption"><b>QRIS Rumah Tahfiz Al Ihsan</b><small>NMID ID1022210128701 • Scan dengan aplikasi pembayaran</small></div></div></section>
  </div>`
 }
 function normal(){
@@ -227,7 +239,7 @@ function modeScreen(){
  return `<div class="slide mode prayer-mode">
   <div class="panel modebox">
    <div class="mode-watermark"></div>
-   <div class="mode-brand"><img src="./assets/logo-masjid-final.png?v=visual12"><span>${kicker}</span></div>
+   <div class="mode-brand"><img src="./assets/logo-masjid-final.png?v=visual13"><span>${kicker}</span></div>
    <h2>${title}</h2>
    <p class="mode-sub">${sub}</p>
    ${showPhaseCountdown?`<div class="phase-count"><span>${countLabel}</span><b data-cd-phase>${ph.end?cd(ph.end-st.now):"00:00:00"}</b></div>`:""}
