@@ -1,0 +1,11 @@
+[build]
+publish="."
+[[redirects]]
+from="/debug"
+to="/index.html?debug=1"
+status=200
+[[headers]]
+for="/*"
+[headers.values]
+X-Content-Type-Options="nosniff"
+Referrer-Policy="no-referrer"
