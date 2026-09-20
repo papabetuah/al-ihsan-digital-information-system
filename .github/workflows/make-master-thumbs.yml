@@ -24,11 +24,11 @@ jobs:
           ]
           for src,dst in jobs:
               im=Image.open(src).convert("RGB")
-              im.thumbnail((320,180), Image.Resampling.LANCZOS)
-              canvas=Image.new("RGB",(320,180),"white")
-              x=(320-im.width)//2; y=(180-im.height)//2
+              im.thumbnail((160,90), Image.Resampling.LANCZOS)
+              canvas=Image.new("RGB",(160,90),"white")
+              x=(160-im.width)//2; y=(90-im.height)//2
               canvas.paste(im,(x,y))
-              canvas.save(dst,"JPEG",quality=55,optimize=True)
+              canvas.save(dst,"JPEG",quality=35,optimize=True)
           PY
       - name: Commit thumbnails
         run: |
