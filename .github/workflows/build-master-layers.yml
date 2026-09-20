@@ -1,0 +1,58 @@
+name: Build dashboard master layers
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/build-master-layers.yml"
+      - "assets/dashboard-master.png"
+
+permissions:
+  contents: write
+
+jobs:
+  layers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pillow
+        run: pip install pillow
+
+      - name: Build overlay and original
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          src="assets/dashboard-master.png"
+          original="assets/dashboard-master-original.png"
+          overlay="assets/dashboard-master-overlay.png"
+
+          im=Image.open(src).convert("RGBA")
+          im.convert("RGB").save(original,"PNG",optimize=True)
+
+          alpha=Image.new("L",im.size,255)
+          # Dynamic slots calibrated to the approved 1672x941 master.
+          # Scale automatically if the source master dimensions change.
+          W,H=im.size
+          sx=W/1672.0
+          sy=H/941.0
+          rects=[
+            (1252,18,1593,56),   # date
+            (1232,67,1596,155),  # clock
+            (257,278,398,639),   # prayer times column
+            (53,654,393,801),    # next prayer + countdown
+          ]
+          for x1,y1,x2,y2 in rects:
+              box=(round(x1*sx),round(y1*sy),round(x2*sx),round(y2*sy))
+              alpha.paste(0,box)
+          im.putalpha(alpha)
+          im.save(overlay,"PNG",optimize=True)
+          PY
+
+      - name: Commit generated layers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/dashboard-master-original.png assets/dashboard-master-overlay.png
+          git diff --cached --quiet || git commit -m "Build dashboard master overlay layers [skip ci]"
+          git push
