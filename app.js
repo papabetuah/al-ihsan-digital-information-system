@@ -1,10 +1,11 @@
 (()=>{"use strict";
 const C=window.AL_IHSAN_CONFIG;
-const $=q=>document.querySelector(q),S=$("#screen"),D=$("#date"),T=$("#time"),M=$("#mode");
+const $=q=>document.querySelector(q),APP=$("#app"),S=$("#screen"),D=$("#date"),T=$("#time"),M=$("#mode");
 const qs=new URLSearchParams(location.search);
 const forcedSlide=qs.get("slide");
 const forcedMode=qs.get("mode");
-const st={now:new Date(),pr:null,next:null,mode:"NORMAL",idx:0,started:Date.now(),data:{},status:{},lastRefresh:null};
+const livePreview=qs.get("live")==="1";
+const st={now:new Date(),pr:null,next:null,mode:"NORMAL",phase:null,idx:0,started:Date.now(),data:{},status:{},lastRefresh:null,lastTick:Date.now(),lastRender:Date.now()};
 
 const fb={
  PENGUMUMAN:[
@@ -40,25 +41,40 @@ const truth=v=>["true","1","ya","yes","aktif"].includes(String(v||"").toLowerCas
 function csv(x){let rows=[],r=[],c="",q=false;for(let i=0;i<x.length;i++){const a=x[i],b=x[i+1];if(a=='"'&&q&&b=='"'){c+='"';i++;continue}if(a=='"'){q=!q;continue}if(a==","&&!q){r.push(c);c="";continue}if((a=="\n"||a=="\r")&&!q){if(a=="\r"&&b=="\n")i++;r.push(c);if(r.some(z=>z!==""))rows.push(r);r=[];c="";continue}c+=a}if(c||r.length){r.push(c);rows.push(r)}if(!rows.length)return[];const h=rows[0].map(z=>z.trim());return rows.slice(1).map(rr=>Object.fromEntries(h.map((k,i)=>[k,(rr[i]??"").trim()])))}
 async function load(tab){
  const u=`https://docs.google.com/spreadsheets/d/${C.spreadsheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}&_=${Date.now()}`;
- try{const r=await fetch(u,{cache:"no-store"});if(!r.ok)throw Error();const t=await r.text();if(/<html|doctype/i.test(t))throw Error();const a=csv(t);if(!a.length)throw Error();localStorage.setItem("alihsan_"+tab,JSON.stringify(a));st.status[tab]="google-sheets";return a}
- catch(e){let a;try{a=JSON.parse(localStorage.getItem("alihsan_"+tab)||"null")}catch{}st.status[tab]=a?"cache":"fallback";return a||fb[tab]}
+ const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),C.fetchTimeoutMs||8000);
+ try{
+  const r=await fetch(u,{cache:"no-store",signal:ctl.signal});if(!r.ok)throw Error("http");
+  const t=await r.text();if(/<html|doctype/i.test(t))throw Error("auth");
+  const a=csv(t);if(!a.length)throw Error("empty");
+  localStorage.setItem("alihsan_"+tab,JSON.stringify(a));localStorage.setItem("alihsan_"+tab+"_ts",String(Date.now()));
+  st.status[tab]="google-sheets";return a
+ }catch(e){
+  let a;try{a=JSON.parse(localStorage.getItem("alihsan_"+tab)||"null")}catch{}
+  st.status[tab]=a?"cache":"fallback";return a||fb[tab]
+ }finally{clearTimeout(timer)}
 }
 function applyControl(){
  const map=Object.fromEntries((st.data.KONTROL_TV||[]).filter(r=>r.KEY).map(r=>[String(r.KEY).trim(),r.VALUE]));
  const n=(k,d)=>map[k]!==undefined&&map[k]!==""?num(map[k]):d;
+ const s=(k,d)=>map[k]!==undefined&&String(map[k]).trim()!==""?String(map[k]).trim():d;
  C.preAdhanMinutes=n("pre_adhan_minutes",C.preAdhanMinutes);
- C.prayerModeMinutes.shubuh=n("durasi_sholat_subuh_menit",C.prayerModeMinutes.shubuh);
- C.prayerModeMinutes.dzuhur=n("durasi_sholat_dzuhur_menit",C.prayerModeMinutes.dzuhur);
- C.prayerModeMinutes.ashar=n("durasi_sholat_ashar_menit",C.prayerModeMinutes.ashar);
- C.prayerModeMinutes.maghrib=n("durasi_sholat_maghrib_menit",C.prayerModeMinutes.maghrib);
- C.prayerModeMinutes.isya=n("durasi_sholat_isya_menit",C.prayerModeMinutes.isya);
+ for(const k of ["shubuh","dzuhur","ashar","maghrib","isya"]){
+  C.iqamahMinutes[k]=n("iqamah_"+k+"_menit",C.iqamahMinutes[k]);
+  C.prayerDurationMinutes[k]=n("durasi_sholat_"+k+"_menit",C.prayerDurationMinutes[k]);
+ }
  const durations={pengumuman:"durasi_pengumuman_detik",agenda:"durasi_agenda_detik",keuangan:"durasi_keuangan_detik",pembangunan:"durasi_pembangunan_detik",dokumentasi:"durasi_dokumentasi_detik",dakwah:"durasi_dakwah_detik"};
  C.playlist=C.playlist.map(([k,d])=>[k,durations[k]?n(durations[k],d):d]);
  C.friday.prepMinutes=n("jumat_persiapan_menit",C.friday.prepMinutes);
- if(map.jumat_khutbah_mulai)C.friday.khutbahStart=map.jumat_khutbah_mulai;
- if(map.jumat_selesai)C.friday.end=map.jumat_selesai;
+ C.friday.khutbahStart=s("jumat_khutbah_mulai",C.friday.khutbahStart);
+ C.friday.prayerStart=s("jumat_sholat_mulai",C.friday.prayerStart);
+ C.friday.end=s("jumat_selesai",C.friday.end);
+ C.manualMode=s("manual_mode",C.manualMode||"AUTO").toUpperCase();
 }
-async function refresh(){for(const t of tabs)st.data[t]=await load(t);applyControl();st.lastRefresh=new Date();render()}
+async function refresh(){
+ const values=await Promise.all(tabs.map(async t=>[t,await load(t)]));
+ values.forEach(([t,v])=>st.data[t]=v);
+ applyControl();st.lastRefresh=new Date();render()
+}
 const R=Math.PI/180,ds=d=>Math.sin(d*R),dc=d=>Math.cos(d*R),dt=d=>Math.tan(d*R),asin=x=>Math.asin(x)/R,acos=x=>Math.acos(x)/R,atan2=(y,x)=>Math.atan2(y,x)/R,acot=x=>Math.atan2(1,x)/R,fa=a=>a-360*Math.floor(a/360),fh=a=>a-24*Math.floor(a/24);
 function jul(y,m,d){if(m<=2){y--;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
 function sun(j){const D=j-2451545,g=fa(357.529+.98560028*D),q=fa(280.459+.98564736*D),L=fa(q+1.915*ds(g)+.020*ds(2*g)),e=23.439-.00000036*D,RA=atan2(dc(e)*ds(L),dc(L))/15;return{dec:asin(ds(e)*ds(L)),eq:q/15-fh(RA)}}
@@ -74,30 +90,54 @@ function prayers(date){
 function nextPrayer(n,p){for(const k of["shubuh","dzuhur","ashar","maghrib","isya"])if(n<p[k].date)return p[k];const t=new Date(n);t.setDate(t.getDate()+1);return prayers(t).shubuh}
 function cd(ms){let s=Math.max(0,Math.floor(ms/1000));return`${pad(Math.floor(s/3600))}:${pad(Math.floor(s%3600/60))}:${pad(s%60)}`}
 function active(tab){return(st.data[tab]||fb[tab]||[]).filter(r=>r.AKTIF===undefined||truth(r.AKTIF))}
-function mode(){
- if(forcedMode)return forcedMode;
+function timeToday(hm,base=st.now){const [h,m]=String(hm).split(":").map(Number),d=new Date(base);d.setHours(h||0,m||0,0,0);return d}
+function prayerPhase(){
  const n=st.now,p=st.pr,day=n.getDay();
- if(day===5){const [kh,km]=C.friday.khutbahStart.split(":").map(Number),[eh,em]=C.friday.end.split(":").map(Number),k=new Date(n),e=new Date(n);k.setHours(kh,km,0,0);e.setHours(eh,em,0,0);const prep=new Date(k.getTime()-C.friday.prepMinutes*60000);if(n>=prep&&n<k)return"JUMAT_PERSIAPAN";if(n>=k&&n<e)return"KHUTBAH_JUMAT"}
- for(const k of["shubuh","dzuhur","ashar","maghrib","isya"]){const t=p[k].date,mins=C.prayerModeMinutes[k]||20;if(n>=new Date(t.getTime()-C.preAdhanMinutes*60000)&&n<t)return"MENJELANG_ADZAN";if(n>=t&&n<new Date(t.getTime()+mins*60000))return"SHOLAT_BERLANGSUNG"}
- return"NORMAL"
+ if(day===5){
+  const khutbah=timeToday(C.friday.khutbahStart),sholat=timeToday(C.friday.prayerStart),end=timeToday(C.friday.end),prep=new Date(khutbah.getTime()-C.friday.prepMinutes*60000);
+  if(n>=prep&&n<khutbah)return{mode:"JUMAT_PERSIAPAN",name:"Jumat",start:prep,end:khutbah};
+  if(n>=khutbah&&n<sholat)return{mode:"KHUTBAH_JUMAT",name:"Jumat",start:khutbah,end:sholat};
+  if(n>=sholat&&n<end)return{mode:"SHOLAT_JUMAT",name:"Jumat",start:sholat,end};
+ }
+ for(const k of["shubuh","dzuhur","ashar","maghrib","isya"]){
+  if(day===5&&k==="dzuhur")continue;
+  const adhan=p[k].date,pre=new Date(adhan.getTime()-C.preAdhanMinutes*60000);
+  const iqamah=new Date(adhan.getTime()+(C.iqamahMinutes[k]||0)*60000);
+  const end=new Date(iqamah.getTime()+(C.prayerDurationMinutes[k]||12)*60000);
+  if(n>=pre&&n<adhan)return{mode:"MENJELANG_ADZAN",key:k,name:p[k].label,start:pre,end:adhan,adhan,iqamah};
+  if(n>=adhan&&n<iqamah)return{mode:"ADZAN_IQAMAH",key:k,name:p[k].label,start:adhan,end:iqamah,adhan,iqamah};
+  if(n>=iqamah&&n<end)return{mode:"SHOLAT_BERLANGSUNG",key:k,name:p[k].label,start:iqamah,end,adhan,iqamah};
+ }
+ return{mode:"NORMAL",name:null}
+}
+function mode(){
+ if(forcedMode)return String(forcedMode).toUpperCase();
+ if(forcedSlide&&!livePreview)return"NORMAL";
+ if(C.manualMode&&C.manualMode!=="AUTO")return C.manualMode;
+ const ph=prayerPhase();st.phase=ph;return ph.mode
 }
 function tick(){
- st.now=new Date();
+ st.lastTick=Date.now();st.now=new Date();
  D.textContent=new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"2-digit",month:"long",year:"numeric",timeZone:C.timezone}).format(st.now);
  T.textContent=new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:C.timezone}).format(st.now).replace(/\./g,":");
  st.pr=prayers(st.now);st.next=nextPrayer(st.now,st.pr);
- const md=mode();if(md!==st.mode){st.mode=md;st.started=Date.now();render()}M.textContent=st.mode.replaceAll("_"," ");
+ st.phase=prayerPhase();
+ const md=mode();if(md!==st.mode){st.mode=md;st.started=Date.now();render()}
+ const quiet=["ADZAN_IQAMAH","SHOLAT_BERLANGSUNG","KHUTBAH_JUMAT","SHOLAT_JUMAT"].includes(st.mode);
+ APP.classList.toggle("quiet-mode",quiet);
+ M.textContent=st.mode==="ADZAN_IQAMAH"?"PERSIAPAN IQAMAH":st.mode.replaceAll("_"," ");
  if(st.mode==="NORMAL"&&!forcedSlide){const dur=C.playlist[st.idx][1]*1000;if(Date.now()-st.started>=dur){st.idx=(st.idx+1)%C.playlist.length;st.started=Date.now();render()}}
- document.querySelectorAll("[data-cd]").forEach(x=>x.textContent=cd(st.next.date-st.now))
+ document.querySelectorAll("[data-cd-next]").forEach(x=>x.textContent=cd(st.next.date-st.now));
+ document.querySelectorAll("[data-cd-phase]").forEach(x=>x.textContent=st.phase&&st.phase.end?cd(st.phase.end-st.now):"00:00:00")
 }
-function head(title,sub){return`<div class="titlebar"><div><h2>${esc(title)}</h2><p>${esc(sub||"")}</p></div><div class="next">Menuju ${esc(st.next.label)}<br><b>${esc(st.next.time)} • <span data-cd>${cd(st.next.date-st.now)}</span></b></div></div>`}
+function head(title,sub){return`<div class="titlebar"><div><h2>${esc(title)}</h2><p>${esc(sub||"")}</p></div><div class="next">Menuju ${esc(st.next.label)}<br><b>${esc(st.next.time)} • <span data-cd-next>${cd(st.next.date-st.now)}</span></b></div></div>`}
 const picons={shubuh:"☾",terbit:"☼",dzuhur:"☀",ashar:"◒",maghrib:"◓",isya:"☾"};
 function dashboard(){
  return`<div class="slide dashboard">
  <section class="panel prayer">
    <div class="prayer-head"><div class="mosque-icon">♜</div><h2>Jadwal Sholat</h2></div>
    ${Object.values(st.pr).map(p=>`<div class="prayrow ${p.key===st.next.key?"active":""}"><span class="picon">${picons[p.key]}</span><span>${p.label}</span><b>${p.time}</b></div>`).join("")}
-   <div class="count"><div class="count-title"><span class="gold">♜</span> Menuju ${st.next.label}</div><b data-cd>${cd(st.next.date-st.now)}</b><div class="count-labels"><span>JAM</span><span>MENIT</span><span>DETIK</span></div></div>
+   <div class="count"><div class="count-title"><span class="gold">♜</span> Menuju ${st.next.label}</div><b data-cd-next>${cd(st.next.date-st.now)}</b><div class="count-labels"><span>JAM</span><span>MENIT</span><span>DETIK</span></div></div>
  </section>
  <section class="hero">
    <div class="heroimg"><div class="herotext"><div class="eyebrow">TEMPAT KEMBALI<br>MERAIH KETENANGAN</div><h2>Masjid<br>Al Ihsan Kapuih</h2><p>Rumah Ibadah, Pusat Ilmu,<br>Sarana Umat Berdaya</p></div></div>
@@ -166,10 +206,10 @@ function modeScreen(){
  if(st.mode==="MENJELANG_ADZAN"){title="Menuju "+st.next.label;sub="Persiapkan diri untuk sholat berjamaah";items=["📱 Mohon silent-kan HP","🧒 Anak-anak mohon tenang","🕌 Segera rapatkan dan luruskan shaf"]}
  if(st.mode==="JUMAT_PERSIAPAN"){title="Persiapan Sholat Jumat";sub="Mohon bersiap menyimak khutbah dengan tenang.";items=["📱 Silent-kan HP","🤫 Jaga ketenangan","🧒 Anak-anak dalam pengawasan"]}
  if(st.mode==="KHUTBAH_JUMAT"){title="Khutbah Jumat Sedang Berlangsung";sub="Mohon diam dan simak khutbah.";items=["🤫 Jangan berbicara saat khutbah","📱 Silent-kan HP","🧒 Anak-anak mohon tenang"]}
- return`<div class="slide mode"><div class="panel modebox"><img src="./assets/logo-masjid-final.png?v=final8"><h2>${title}</h2><p>${sub}</p>${st.mode==="MENJELANG_ADZAN"?`<div class="count"><div class="count-title">Menuju ${st.next.label}</div><b data-cd>${cd(st.next.date-st.now)}</b></div>`:""}<div class="reminders">${items.map(x=>`<div>${x}</div>`).join("")}</div></div></div>`
+ return`<div class="slide mode"><div class="panel modebox"><img src="./assets/logo-masjid-final.png?v=final8"><h2>${title}</h2><p>${sub}</p>${st.mode==="MENJELANG_ADZAN"?`<div class="count"><div class="count-title">Menuju ${st.next.label}</div><b data-cd-next>${cd(st.next.date-st.now)}</b></div>`:""}<div class="reminders">${items.map(x=>`<div>${x}</div>`).join("")}</div></div></div>`
 }
 function debug(){
- return`<div class="slide debug"><h2>Al Ihsan Digital Information System — Debug</h2><div class="debuggrid"><div class="panel"><b>Waktu</b>${esc(st.now.toString())}</div><div class="panel"><b>Mode</b>${st.mode}</div><div class="panel"><b>Slide</b>${forcedSlide||C.playlist[st.idx][0]}</div><div class="panel"><b>Sholat berikutnya</b>${st.next.label} ${st.next.time}<br><span data-cd>${cd(st.next.date-st.now)}</span></div><div class="panel"><b>Jadwal</b>${Object.values(st.pr).map(x=>x.label+" "+x.time).join("<br>")}</div><div class="panel"><b>Sumber data</b>${Object.entries(st.status).map(([k,v])=>k+": "+v).join("<br>")}</div></div></div>`
+ return`<div class="slide debug"><h2>Al Ihsan Digital Information System — Debug</h2><div class="debuggrid"><div class="panel"><b>Waktu</b>${esc(st.now.toString())}</div><div class="panel"><b>Mode</b>${st.mode}</div><div class="panel"><b>Slide</b>${forcedSlide||C.playlist[st.idx][0]}</div><div class="panel"><b>Sholat berikutnya</b>${st.next.label} ${st.next.time}<br><span data-cd-next>${cd(st.next.date-st.now)}</span></div><div class="panel"><b>Jadwal</b>${Object.values(st.pr).map(x=>x.label+" "+x.time).join("<br>")}</div><div class="panel"><b>Sumber data</b>${Object.entries(st.status).map(([k,v])=>k+": "+v).join("<br>")}</div></div></div>`
 }
 function render(){if(!st.pr)return;S.innerHTML=qs.get("debug")==="1"?debug():st.mode==="NORMAL"?normal():modeScreen()}
 tick();render();refresh();setInterval(tick,1000);setInterval(refresh,C.refreshMinutes*60000);
