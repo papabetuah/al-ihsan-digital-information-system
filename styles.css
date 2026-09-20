@@ -1,104 +1,70 @@
 :root{
---bg:#001c1f;--bg2:#032f32;--panel:#043f42;--panel2:#075d5c;--panel3:#087a74;
---line:#35e8da;--lineSoft:rgba(53,232,218,.42);--gold:#d8b55f;--gold2:#f0d884;
---text:#f7ffff;--muted:#c9dedd;--ink:#052d2f;
+--deep:#001d20;--deep2:#03383b;--panel:#064f50;--panel2:#08716d;
+--cyan:#32eadc;--cyanSoft:#90fff6;--gold:#d8b35d;--goldSoft:#f0d784;
+--text:#f7ffff;--muted:#c9dedd;--ink:#06393b;
 }
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000f11;color:var(--text);font-family:Inter,Arial,Helvetica,sans-serif}
-body{display:grid;place-items:center}
-#frame{width:100vw;height:100vh;display:grid;place-items:center;background:#000f11}
-#app{
-  width:min(100vw,177.7778vh);
-  height:min(100vh,56.25vw);
-  aspect-ratio:16/9;
-  display:grid;
-  grid-template-rows:15.5% 78.5% 6%;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 82% 10%,rgba(42,238,221,.13),transparent 25%),
-    linear-gradient(180deg,#063d40 0%,#02282b 42%,#001c1f 100%);
-  box-shadow:0 0 80px rgba(0,0,0,.65);
-  position:relative
-}
-#app:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.045;background-image:linear-gradient(30deg,transparent 24%,#b8fff8 25%,transparent 26%),linear-gradient(150deg,transparent 24%,#b8fff8 25%,transparent 26%);background-size:42px 42px}
-.topbar{z-index:2;display:grid;grid-template-columns:71% 29%;min-height:0;background:linear-gradient(90deg,#f7ffff 0 68%,#e8f7f6 71%,#06484a 71%);border-bottom:2px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,.28)}
-.brand{position:relative;display:flex;align-items:center;gap:1.2vw;padding:.55vh 1.9vw;color:var(--ink);overflow:hidden}
-.brand:before{content:"";position:absolute;right:2vw;top:-7vh;width:19vw;height:25vh;border:1px solid rgba(0,110,105,.11);border-radius:50%;box-shadow:0 0 0 18px rgba(0,110,105,.035),0 0 0 38px rgba(0,110,105,.022)}
-.brand-logo{z-index:1;width:10.3vh;height:10.3vh;object-fit:contain;filter:drop-shadow(0 4px 7px rgba(0,0,0,.15))}
-.brand-copy{z-index:1}
-.brand-kicker{font-size:.55vw;letter-spacing:.25em;color:#0b8a82;font-weight:800;margin-bottom:.35vh}
-.brand h1{font-family:Georgia,serif;font-size:2.85vw;line-height:.95;margin:0;color:#073b3d;letter-spacing:-.035em}
-.brand p{font-size:.9vw;margin:.62vh 0 0;color:#244b4b}
-.clock-wrap{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;background:
- radial-gradient(circle at 88% 2%,rgba(29,205,190,.24),transparent 29%),
- linear-gradient(145deg,#043e41,#08756f 72%,#044649);overflow:hidden}
-.clock-wrap:before{content:"";position:absolute;left:-3.9vw;top:-8vh;width:7.5vw;height:31vh;background:#e8f7f6;transform:rotate(17deg);border-right:3px solid var(--gold)}
-.clock-date{font-size:.96vw;z-index:1;margin-bottom:.15vh}
-.clock-main{z-index:1;display:flex;align-items:flex-end;gap:.5vw}
-.clock-main b{font-size:3.55vw;line-height:.93;padding:.42vh .72vw;border:1.5px solid var(--line);border-radius:.82vw;background:rgba(0,37,39,.52);font-variant-numeric:tabular-nums;box-shadow:inset 0 0 18px rgba(53,232,218,.09)}
-.clock-main span{font-size:.9vw;padding-bottom:.5vh}
-.clock-mode{z-index:1;display:flex;align-items:center;gap:.4vw;margin-top:.38vh;font-size:.48vw;letter-spacing:.28em;color:#a9fff7}.clock-mode i{width:3vw;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}.clock-mode i:last-child{background:linear-gradient(90deg,var(--gold),transparent)}.clock-mode em{font-style:normal}
-main{z-index:1;padding:.72vh .7vw .75vh;min-height:0;overflow:hidden}
-.slide{height:100%;display:grid;gap:.62vw}.panel{position:relative;border:1.3px solid var(--line);border-radius:.85vw;background:linear-gradient(145deg,rgba(6,91,90,.96),rgba(0,44,47,.98));box-shadow:0 0 16px rgba(53,232,218,.11);overflow:hidden}.panel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.035),transparent 30%)}
-.dashboard{grid-template-columns:23.5% 76.5%}
-.prayer{padding:.72vh .66vw;background:linear-gradient(180deg,#075b59,#003639)}
-.prayer-head{display:flex;align-items:center;gap:.55vw;padding:0 .1vw .45vh;border-bottom:1px solid rgba(216,181,95,.65);margin-bottom:.35vh}
-.prayer-head .mosque-icon{font-size:1.45vw;color:var(--gold2)}.prayer-head h2{font-family:Georgia,serif;font-size:1.9vw;margin:0}
-.prayrow{display:grid;grid-template-columns:1.9vw 1fr auto;align-items:center;gap:.38vw;margin:.3vh 0;padding:.46vh .56vw;border:1px solid rgba(53,232,218,.48);border-radius:.6vw;background:linear-gradient(90deg,rgba(0,52,54,.62),rgba(0,91,88,.35));font-size:.94vw}
-.prayrow .picon{font-size:1.14vw}.prayrow b{font-size:1.46vw;font-variant-numeric:tabular-nums}.prayrow.active{background:linear-gradient(90deg,#0b9189,#087069);box-shadow:0 0 13px rgba(53,232,218,.27)}
-.count{margin-top:.42vh;padding:.55vh .45vw .4vh;border:1.4px solid var(--line);border-radius:.7vw;text-align:center;background:linear-gradient(180deg,#087a74,#034146)}
-.count-title{font-size:.94vw}.count b{display:block;font-size:2.25vw;line-height:1;margin:.18vh 0;font-variant-numeric:tabular-nums}.count-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:.49vw;color:#d4e8e6}
-.hero{display:grid;grid-template-rows:1fr 21%;gap:.62vh}
-.heroimg{position:relative;border:1.3px solid var(--line);border-radius:.86vw;overflow:hidden;background:
- linear-gradient(90deg,rgba(0,27,29,.92) 0,rgba(0,27,29,.64) 31%,rgba(0,27,29,.07) 61%),
- url('./assets/masjid-hero-clean-final.jpg?v=visual11') center 54%/cover no-repeat}
-.heroimg:after{content:"";position:absolute;right:-1px;top:-1px;width:22%;height:36%;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-radius:0 0 0 100%;box-shadow:-6px 6px 18px rgba(53,232,218,.13)}
-.herotext{position:absolute;left:2vw;top:3.5vh;width:38%;z-index:2;text-shadow:0 2px 8px rgba(0,0,0,.6)}
-.eyebrow{font-size:.62vw;letter-spacing:.32em}.eyebrow:after{content:"";display:block;width:3.8vw;height:2px;background:var(--gold);margin-top:.75vh}.herotext h2{font-family:Georgia,serif;font-size:2.95vw;line-height:.96;margin:1vh 0 .45vh}.herotext p{font-family:Georgia,serif;font-size:1.08vw;line-height:1.15;margin:0}
-.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:.47vw}.menucard{display:grid;grid-template-columns:2.6vw 1fr .6vw;align-items:center;gap:.35vw;padding:.55vh .52vw;border-radius:.72vw}.menucard .mi{width:2.5vw;height:2.5vw;display:grid;place-items:center;font-size:1.35vw}.menucard b{font-size:.73vw;line-height:1.05}.menucard small{grid-column:2;font-size:.52vw;color:#cbdedc}.menucard .arr{font-size:1.25vw}.menucard:last-child{background:linear-gradient(180deg,#fff,#e0f4f2);color:var(--ink);border-color:#fff}.menucard:last-child small{color:#315657}
-.content{grid-template-rows:auto 1fr}
-.titlebar{display:flex;align-items:flex-end;justify-content:space-between;min-height:6.5vh;padding:.05vh .18vw .35vh}.titlebar h2{font-family:Georgia,serif;font-size:2.1vw;margin:0 0 .2vh;line-height:1}.titlebar p{font-size:.78vw;color:var(--muted);margin:0}.next{min-width:9.5vw;border:1px solid var(--line);border-radius:.62vw;padding:.42vh .55vw;text-align:center;background:rgba(0,59,61,.72);font-size:.64vw}.next b{font-size:.83vw}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.65vw}.card{padding:1.2vh .95vw}.news-card{display:flex;flex-direction:column;justify-content:center}.badge{align-self:flex-start;padding:.22vh .42vw;border:1px solid rgba(255,255,255,.17);border-radius:1vw;color:var(--gold2);font-size:.54vw;margin-bottom:.42vh}.card h3{font-family:Georgia,serif;font-size:1.3vw;margin:.18vh 0 .5vh}.card p{font-size:.8vw;line-height:1.34}.meta{color:var(--gold2);font-size:.68vw;font-weight:700}
-.finance{display:grid;grid-template-rows:auto 15% 1fr;gap:.56vh}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.52vw}.metric{padding:.72vh .75vw}.metric span{font-size:.68vw;color:#d6e8e6}.metric b{display:block;font-size:1.3vw;margin-top:.08vh}.metric .mini{font-size:.49vw;color:#a9ece7;margin-top:.16vh}
-.finance-body{display:grid;grid-template-columns:65% 35%;gap:.58vw;min-height:0}.table{padding:.62vh .66vw}.table h3,.sidepanel h3{font-family:Georgia,serif;font-size:1.04vw;margin:.02vh 0 .4vh}.table table{width:100%;border-collapse:collapse;font-size:.66vw}.table th,.table td{padding:.36vh .35vw;border-bottom:1px solid rgba(255,255,255,.11);text-align:left}.table th{color:var(--gold2);font-size:.6vw}.table td:last-child,.table th:last-child{text-align:right}
-.finance-side{display:grid;grid-template-rows:1fr 1fr;gap:.58vw}.sidepanel{padding:.62vh .7vw}.barrow{display:grid;grid-template-columns:1fr auto;gap:.26vw;align-items:center;font-size:.59vw;margin:.42vh 0}.bar{grid-column:1/3;height:.55vh;background:#003436;border-radius:1vh;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#59eab7)}.cta{display:flex;flex-direction:column;justify-content:center}.cta strong{font-family:Georgia,serif;font-size:1.07vw}.cta p{font-size:.62vw;margin:.32vh 0}.cta .accounts{font-size:.52vw;color:#d7e9e7}
-.buildgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.62vw}.buildcard{padding:1.1vh .9vw;display:flex;flex-direction:column;justify-content:center}.buildcard h3{font-family:Georgia,serif;font-size:1.18vw;margin:.2vh 0}.progress{height:.7vh;background:#002b2d;border-radius:1vh;overflow:hidden;margin:.4vh 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#5eedbb)}
-.donate{grid-template-columns:65% 35%;gap:.62vw}.donateleft{display:grid;grid-template-rows:1fr 25%;gap:.58vh}.donatehero{position:relative;padding:2vh 1.8vw;background:linear-gradient(90deg,rgba(0,27,29,.91),rgba(0,27,29,.54) 43%,rgba(0,27,29,.06)),url('./assets/masjid-hero-clean-final.jpg?v=visual11') center 56%/cover no-repeat}.donatehero h2{font-family:Georgia,serif;font-size:2.2vw;line-height:1;margin:.1vh 0 .7vh;max-width:55%}.donatehero p{font-size:.76vw;max-width:52%;line-height:1.32}.donation-points{position:absolute;left:1.8vw;bottom:1.35vh;display:flex;gap:.33vw}.donation-points span{font-size:.5vw;padding:.3vh .4vw;border:1px solid rgba(53,232,218,.48);border-radius:.45vw;background:rgba(0,58,59,.6)}
-.banks{display:grid;grid-template-columns:1fr 1fr;gap:.52vw}.bank{padding:.72vh .72vw}.bank b{font-size:.67vw}.bank strong{display:block;font-size:1.16vw;margin:.18vh 0}.bank span{font-size:.56vw}
-.qris{display:flex;align-items:center;justify-content:center;padding:.7vh;background:linear-gradient(180deg,#faffff,#dcefed)}.qris .box{width:90%;height:94%;background:#fff;border-radius:.85vw;padding:.4vw;display:grid;grid-template-rows:1fr auto;place-items:center;color:var(--ink);box-shadow:0 8px 20px rgba(0,0,0,.16)}.qris img{width:100%;height:100%;object-fit:contain;min-height:0}.qcaption{text-align:center;font-size:.55vw}.qcaption b{display:block;font-size:.68vw}.qcaption small{display:block;color:#456b6c;margin-top:.08vh}
-.mode{display:grid;place-items:center}.modebox{width:88%;height:82%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2.6vh 3.5vw;background:radial-gradient(circle at 50% 20%,rgba(12,139,130,.74),rgba(2,56,58,.96) 55%,rgba(0,34,36,.98));border:1.4px solid var(--line)}.modebox img{width:7.4vw;height:7.4vw;object-fit:contain}.modebox h2{font-family:Georgia,serif;font-size:2.7vw;margin:.65vh 0}.modebox p{font-size:1vw;color:#e0f2f1}.reminders{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:.62vw;margin-top:1.2vh}.reminders div{padding:.95vh .7vw;border:1px solid var(--line);border-radius:.66vw;background:rgba(4,77,78,.82);font-size:.78vw}
-footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:linear-gradient(90deg,#003638,#075a57 69%,#023536);border-top:1px solid var(--line)}.ticker{display:flex;align-items:center;justify-content:center;gap:.48vw;font-size:.54vw;white-space:nowrap}.ticker i{width:1px;height:1.6vh;background:rgba(255,255,255,.45)}.footer-brand{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;border-left:1px solid rgba(53,232,218,.28);font-size:.46vw;letter-spacing:.16em;color:#bfe1df}.footer-brand b{font-family:Georgia,serif;font-size:.72vw;letter-spacing:.08em;color:var(--gold2)}
-.debug{display:block;overflow:auto;padding:.4vh}.debuggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6vw}.debuggrid .panel{padding:.8vh}.debug b{display:block;color:var(--gold2);margin-bottom:.25vh}
-
-/* Prayer-mode technical refinement v12 */
-#app.quiet-mode{grid-template-rows:15.5% 84.5% 0}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#00181a;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(circle at 82% 8%,rgba(50,234,220,.11),transparent 27%),linear-gradient(180deg,#064447 0%,#02292c 44%,#001d20 100%)}
+#frame,#app{width:100vw;height:100vh}
+#app{display:grid;grid-template-rows:16% 78% 6%;overflow:hidden;background:
+radial-gradient(circle at 82% 7%,rgba(50,234,220,.11),transparent 25%),
+linear-gradient(180deg,#064447 0%,#02292c 45%,#001d20 100%)}
+.topbar{display:grid;grid-template-columns:72% 28%;border-bottom:2px solid var(--gold);box-shadow:0 5px 24px rgba(0,0,0,.26);min-height:0;z-index:4}
+.brand{position:relative;display:flex;align-items:center;gap:1.35vw;padding:.65vh 2.05vw;background:linear-gradient(105deg,#fff 0 79%,#ecffff 90%,#cceeed 100%);color:var(--ink);overflow:hidden}
+.brand:after{content:"";position:absolute;right:3vw;top:-9vh;width:21vw;height:29vh;border:1px solid rgba(0,108,103,.10);border-radius:50%;box-shadow:0 0 0 20px rgba(0,108,103,.03),0 0 0 40px rgba(0,108,103,.02)}
+.brand-logo{z-index:1;width:11vh;height:11vh;object-fit:contain;filter:drop-shadow(0 4px 7px rgba(0,0,0,.15))}
+.brand-copy{z-index:1}.brand-kicker{font-size:.58vw;letter-spacing:.28em;font-weight:800;color:#078c83;margin-bottom:.35vh}
+.brand h1{font-family:Georgia,serif;font-size:3vw;line-height:.96;margin:0;color:#063c3e;letter-spacing:-.035em}.brand p{font-size:.95vw;margin:.6vh 0 0;color:#234f50}
+.clock-wrap{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 90% 4%,rgba(31,207,192,.28),transparent 28%),linear-gradient(145deg,#043d40,#08776f 72%,#04484b);overflow:hidden}
+.clock-wrap:before{content:"";position:absolute;left:-4vw;top:-8vh;width:7.5vw;height:31vh;background:#eaffff;transform:rotate(17deg);border-right:3px solid var(--gold)}
+.clock-date{z-index:1;font-size:1vw;margin-bottom:.15vh}
+.clock-main{z-index:1;display:flex;align-items:flex-end;gap:.52vw}.clock-main b{font-size:3.65vw;line-height:.95;padding:.45vh .78vw;border:1.5px solid var(--cyan);border-radius:.86vw;background:rgba(0,34,36,.52);font-variant-numeric:tabular-nums;box-shadow:inset 0 0 16px rgba(50,234,220,.10)}.clock-main span{font-size:.95vw;padding-bottom:.55vh}
+.clock-mode{z-index:1;display:flex;align-items:center;gap:.45vw;margin-top:.42vh;font-size:.5vw;letter-spacing:.28em;color:#b0fff8}.clock-mode i{width:3vw;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}.clock-mode i:last-child{background:linear-gradient(90deg,var(--gold),transparent)}.clock-mode em{font-style:normal}
+main{padding:.72vh .75vw .78vh;overflow:hidden;min-height:0}.slide{height:100%;display:grid;gap:.62vw}
+.panel{position:relative;border:1.35px solid var(--cyan);border-radius:.86vw;background:linear-gradient(145deg,rgba(7,93,91,.96),rgba(0,44,47,.98));box-shadow:0 0 16px rgba(50,234,220,.12),0 14px 28px rgba(0,0,0,.12);overflow:hidden}.panel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.035),transparent 30%)}
+.dashboard{grid-template-columns:24.5% 75.5%}.prayer{padding:.72vh .68vw;background:linear-gradient(180deg,#075d5a,#00373a)}
+.prayer-head{display:flex;align-items:center;gap:.55vw;padding:.02vh .12vw .48vh;margin-bottom:.35vh;border-bottom:1px solid rgba(216,179,93,.68)}.prayer-head .mosque-icon{font-size:1.5vw;color:var(--goldSoft)}.prayer-head h2{font-family:Georgia,serif;font-size:2vw;margin:0}
+.prayrow{display:grid;grid-template-columns:1.9vw 1fr auto;align-items:center;gap:.38vw;margin:.31vh 0;padding:.46vh .58vw;border:1px solid rgba(50,234,220,.48);border-radius:.61vw;background:linear-gradient(90deg,rgba(0,54,56,.62),rgba(0,94,90,.35));font-size:.96vw}.prayrow .picon{font-size:1.15vw}.prayrow b{font-size:1.5vw;font-variant-numeric:tabular-nums}.prayrow.active{background:linear-gradient(90deg,#0b938a,#08726c);box-shadow:0 0 13px rgba(50,234,220,.27)}
+.count{margin-top:.44vh;padding:.58vh .45vw .44vh;border:1.4px solid var(--cyan);border-radius:.72vw;text-align:center;background:linear-gradient(180deg,#087c76,#034246)}.count-title{font-size:.96vw}.count b{display:block;font-size:2.3vw;line-height:1;margin:.2vh 0}.count-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:.5vw;color:#d5e8e6}
+.hero{display:grid;grid-template-rows:1fr 21%;gap:.62vh}.heroimg{position:relative;border:1.35px solid var(--cyan);border-radius:.86vw;overflow:hidden;background:linear-gradient(90deg,rgba(0,27,29,.92) 0,rgba(0,27,29,.64) 31%,rgba(0,27,29,.08) 61%),url('./assets/masjid-hero-clean-final.jpg?v=visual13') center 54%/cover no-repeat}.heroimg:after{content:"";position:absolute;right:-1px;top:-1px;width:22%;height:36%;border-left:2px solid var(--cyan);border-bottom:2px solid var(--cyan);border-radius:0 0 0 100%;box-shadow:-6px 6px 18px rgba(50,234,220,.13)}
+.herotext{position:absolute;left:2vw;top:3.6vh;width:39%;z-index:2;text-shadow:0 2px 8px rgba(0,0,0,.6)}.eyebrow{font-size:.63vw;letter-spacing:.32em}.eyebrow:after{content:"";display:block;width:3.9vw;height:2px;background:var(--gold);margin-top:.78vh}.herotext h2{font-family:Georgia,serif;font-size:3vw;line-height:.96;margin:1vh 0 .48vh}.herotext p{font-family:Georgia,serif;font-size:1.1vw;line-height:1.16;margin:0}
+.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:.48vw}.menucard{display:grid;grid-template-columns:2.65vw 1fr .62vw;align-items:center;gap:.36vw;padding:.58vh .54vw}.menucard .mi{width:2.5vw;height:2.5vw;display:grid;place-items:center;font-size:1.36vw}.menucard b{font-size:.74vw;line-height:1.04}.menucard small{grid-column:2;font-size:.53vw;color:#cbdedc}.menucard .arr{font-size:1.25vw}.menucard:last-child{background:linear-gradient(180deg,#fff,#e1f4f2);color:var(--ink);border-color:#fff}.menucard:last-child small{color:#315758}
+.content{grid-template-rows:auto 1fr}.titlebar{display:flex;align-items:flex-end;justify-content:space-between;min-height:6.7vh;padding:.06vh .2vw .38vh}.titlebar h2{font-family:Georgia,serif;font-size:2.15vw;margin:0 0 .2vh}.titlebar p{font-size:.8vw;color:var(--muted);margin:0}.next{min-width:9.7vw;border:1px solid var(--cyan);border-radius:.64vw;padding:.42vh .58vw;text-align:center;background:rgba(0,59,61,.72);font-size:.65vw}.next b{font-size:.84vw}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.65vw}.card{padding:1.2vh .95vw}.news-card{display:flex;flex-direction:column;justify-content:center}.badge{align-self:flex-start;padding:.22vh .42vw;border:1px solid rgba(255,255,255,.17);border-radius:1vw;color:var(--goldSoft);font-size:.54vw;margin-bottom:.42vh}.card h3{font-family:Georgia,serif;font-size:1.3vw;margin:.18vh 0 .5vh}.card p{font-size:.8vw;line-height:1.34}.meta{color:var(--goldSoft);font-size:.68vw;font-weight:700}
+.finance{display:grid;grid-template-rows:auto 15% 1fr;gap:.56vh}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.52vw}.metric{padding:.72vh .75vw}.metric span{font-size:.68vw;color:#d6e8e6}.metric b{display:block;font-size:1.3vw}.metric .mini{font-size:.49vw;color:#a9ece7}.finance-body{display:grid;grid-template-columns:65% 35%;gap:.58vw}.table{padding:.62vh .66vw}.table h3,.sidepanel h3{font-family:Georgia,serif;font-size:1.04vw;margin:0 0 .4vh}.table table{width:100%;border-collapse:collapse;font-size:.66vw}.table th,.table td{padding:.36vh .35vw;border-bottom:1px solid rgba(255,255,255,.11)}.table th{color:var(--goldSoft);font-size:.6vw}.table td:last-child,.table th:last-child{text-align:right}.finance-side{display:grid;grid-template-rows:1fr 1fr;gap:.58vw}.sidepanel{padding:.62vh .7vw}.barrow{display:grid;grid-template-columns:1fr auto;gap:.26vw;align-items:center;font-size:.59vw;margin:.42vh 0}.bar{grid-column:1/3;height:.55vh;background:#003436;border-radius:1vh;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#59eab7)}.cta{display:flex;flex-direction:column;justify-content:center}.cta strong{font-family:Georgia,serif;font-size:1.07vw}.cta p{font-size:.62vw}.cta .accounts{font-size:.52vw;color:#d7e9e7}
+.buildgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:.62vw}.buildcard{padding:1.1vh .9vw;display:flex;flex-direction:column;justify-content:center}.buildcard h3{font-family:Georgia,serif;font-size:1.18vw}.progress{height:.7vh;background:#002b2d;border-radius:1vh;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#5eedbb)}
+.donate{grid-template-columns:65% 35%;gap:.62vw}.donateleft{display:grid;grid-template-rows:1fr 25%;gap:.58vh}.donatehero{position:relative;padding:2vh 1.8vw;background:linear-gradient(90deg,rgba(0,27,29,.91),rgba(0,27,29,.54) 43%,rgba(0,27,29,.06)),url('./assets/masjid-hero-clean-final.jpg?v=visual13') center 56%/cover no-repeat}.donatehero h2{font-family:Georgia,serif;font-size:2.2vw;line-height:1;margin:.1vh 0 .7vh;max-width:55%}.donatehero p{font-size:.76vw;max-width:52%;line-height:1.32}.donation-points{position:absolute;left:1.8vw;bottom:1.35vh;display:flex;gap:.33vw}.donation-points span{font-size:.5vw;padding:.3vh .4vw;border:1px solid rgba(50,234,220,.48);border-radius:.45vw;background:rgba(0,58,59,.6)}.banks{display:grid;grid-template-columns:1fr 1fr;gap:.52vw}.bank{padding:.72vh}.bank b{font-size:.67vw}.bank strong{display:block;font-size:1.16vw}.bank span{font-size:.56vw}.qris{display:flex;align-items:center;justify-content:center;padding:.7vh;background:linear-gradient(180deg,#faffff,#dcefed)}.qris .box{width:90%;height:94%;background:#fff;border-radius:.85vw;padding:.4vw;display:grid;grid-template-rows:1fr auto;place-items:center;color:var(--ink)}.qris img{width:100%;height:100%;object-fit:contain}.qcaption{text-align:center;font-size:.55vw}.qcaption b{display:block;font-size:.68vw}.qcaption small{display:block;color:#456b6c}
+footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:linear-gradient(90deg,#003638,#075a57 69%,#023536);border-top:1px solid var(--cyan)}.ticker{display:flex;align-items:center;justify-content:center;gap:.48vw;font-size:.54vw;white-space:nowrap}.ticker i{width:1px;height:1.6vh;background:rgba(255,255,255,.45)}.footer-brand{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;border-left:1px solid rgba(50,234,220,.28);font-size:.46vw;letter-spacing:.16em;color:#bfe1df}.footer-brand b{font-family:Georgia,serif;font-size:.72vw;color:var(--goldSoft)}
+/* Cinematic worship screens: intentionally no large centered empty card */
+#app.quiet-mode{grid-template-rows:16% 84% 0}
 #app.quiet-mode footer{display:none}
-#app.quiet-mode main{padding:.7vh .75vw}
-.prayer-mode{place-items:center;position:relative}
-.prayer-mode:before{content:"";position:absolute;inset:0;border-radius:1vw;background:
- linear-gradient(180deg,rgba(0,28,30,.78),rgba(0,28,30,.90)),
- url('./assets/masjid-hero-clean-final.jpg?v=visual12') center/cover no-repeat;
- opacity:.62}
-.prayer-mode .modebox{
- width:86%;height:78%;z-index:1;display:grid;
- grid-template-rows:auto auto auto auto 1fr auto;
- place-items:center;align-content:center;text-align:center;
- padding:3.2vh 4vw 2.2vh;
- background:linear-gradient(180deg,rgba(4,72,72,.88),rgba(0,38,41,.93));
- border:1.4px solid var(--line);
- box-shadow:0 0 34px rgba(53,232,218,.13),0 18px 40px rgba(0,0,0,.22)
-}
-.mode-watermark{position:absolute;width:25vw;height:25vw;border:1px solid rgba(53,232,218,.08);border-radius:50%;box-shadow:0 0 0 2.3vw rgba(53,232,218,.025),0 0 0 4.6vw rgba(53,232,218,.018)}
-.mode-brand{z-index:1;display:flex;align-items:center;gap:.8vw;margin-bottom:.7vh}
-.mode-brand img{width:6.5vw;height:6.5vw;object-fit:contain;filter:drop-shadow(0 5px 10px rgba(0,0,0,.24))}
-.mode-brand span{font-size:.63vw;letter-spacing:.28em;color:var(--gold2);font-weight:800}
-.prayer-mode .modebox h2{z-index:1;font-family:Georgia,serif;font-size:2.95vw;line-height:1;margin:.3vh 0 .6vh}
-.mode-sub{z-index:1;font-size:1.02vw;color:#d9eeee;margin:0;max-width:70%;line-height:1.3}
-.phase-count{z-index:1;margin-top:1.2vh;min-width:16vw;padding:.75vh 1.2vw;border:1px solid var(--line);border-radius:.72vw;background:rgba(0,55,58,.72)}
-.phase-count span{display:block;font-size:.66vw;color:#d5ece9}
-.phase-count b{display:block;font-size:1.7vw;margin-top:.15vh;font-variant-numeric:tabular-nums}
-.prayer-mode .reminders{z-index:1;align-self:end;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:.62vw;margin-top:1.7vh}
-.prayer-mode .reminders div{min-height:7.2vh;display:grid;grid-template-columns:3.1vw 1fr;align-items:center;text-align:left;padding:.7vh .85vw;border:1px solid rgba(53,232,218,.72);border-radius:.68vw;background:rgba(5,78,79,.76)}
-.prayer-mode .reminders b{width:2.6vw;height:2.6vw;display:grid;place-items:center;border-radius:50%;background:rgba(216,181,95,.16);color:var(--gold2);font-size:.55vw;letter-spacing:.05em}
-.prayer-mode .reminders span{font-size:.78vw;line-height:1.25}
-.mode-foot{z-index:1;margin-top:1.4vh;padding-top:.7vh;width:50%;border-top:1px solid rgba(216,181,95,.35);font-size:.56vw;letter-spacing:.16em;color:#afcfcd}
+#app.quiet-mode main{padding:0}
+.prayer-mode{position:relative;display:block;isolation:isolate;background:#002629;overflow:hidden}
+.prayer-mode:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,28,30,.94) 0%,rgba(0,39,41,.86) 46%,rgba(0,38,40,.50) 100%),url('./assets/masjid-hero-clean-final.jpg?v=visual13') center 57%/cover no-repeat;z-index:-3}
+.prayer-mode:after{content:"";position:absolute;right:-6vw;top:-10vh;width:40vw;height:40vw;border:1px solid rgba(50,234,220,.24);border-radius:50%;box-shadow:0 0 0 3.2vw rgba(50,234,220,.04),0 0 0 6.4vw rgba(50,234,220,.025);z-index:-2}
+.prayer-mode .modebox{height:100%;width:100%;border:0;border-radius:0;box-shadow:none;background:transparent;display:grid;grid-template-columns:58% 42%;grid-template-rows:1fr;overflow:hidden}
+.prayer-mode .modebox:after{display:none}
+.mode-watermark{display:none}
+.mode-brand{grid-column:1;align-self:end;justify-self:start;display:grid;grid-template-columns:6.2vw 1fr;align-items:center;column-gap:1vw;margin:0 0 1.6vh 5vw;z-index:2}
+.mode-brand img{width:6.2vw;height:6.2vw;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.28))}
+.mode-brand span{font-size:.68vw;letter-spacing:.28em;color:var(--goldSoft);font-weight:800}
+.prayer-mode .modebox h2{grid-column:1;align-self:start;justify-self:start;margin:0 4vw 0 5vw;font-family:Georgia,serif;font-size:3.9vw;line-height:.98;text-align:left;z-index:2;text-shadow:0 3px 10px rgba(0,0,0,.52)}
+.mode-sub{grid-column:1;align-self:start;justify-self:start;margin:1.2vh 4vw 0 5vw;max-width:45vw;font-size:1.15vw;line-height:1.35;color:#e0f1ef;text-align:left;z-index:2}
+.phase-count{grid-column:1;align-self:start;justify-self:start;margin:2vh 0 0 5vw;min-width:18vw;padding:1.1vh 1.3vw;border:1.4px solid var(--cyan);border-radius:.7vw;background:rgba(0,55,58,.72);z-index:2}
+.phase-count span{display:block;font-size:.72vw;color:#d6ece9}.phase-count b{display:block;font-size:2.2vw;line-height:1.05;margin-top:.2vh;font-variant-numeric:tabular-nums}
+.prayer-mode .reminders{grid-column:2;grid-row:1;align-self:center;justify-self:end;width:34vw;margin-right:4.2vw;display:grid;grid-template-columns:1fr;gap:1.15vh;z-index:2}
+.prayer-mode .reminders div{min-height:9vh;display:grid;grid-template-columns:4.2vw 1fr;align-items:center;padding:1.1vh 1vw;border:1px solid rgba(50,234,220,.68);border-radius:.72vw;background:linear-gradient(90deg,rgba(5,90,87,.80),rgba(0,55,58,.82));box-shadow:0 8px 22px rgba(0,0,0,.13)}
+.prayer-mode .reminders b{width:3.2vw;height:3.2vw;border-radius:50%;display:grid;place-items:center;background:rgba(216,179,93,.16);color:var(--goldSoft);font-size:.58vw;letter-spacing:.04em}
+.prayer-mode .reminders span{font-size:.95vw;line-height:1.25}
+.mode-foot{position:absolute;left:5vw;bottom:4vh;width:36vw;padding-top:.8vh;border-top:1px solid rgba(216,179,93,.35);font-size:.58vw;letter-spacing:.14em;color:#b8d3d1;text-align:left;z-index:2}
+.prayer-mode .modebox{padding:8vh 0 0}
+.prayer-mode .modebox>*:not(.reminders):not(.mode-foot):not(.mode-watermark){grid-row:auto}
+.prayer-mode .mode-brand{grid-row:1;align-self:start;margin-top:7vh}
+.prayer-mode .modebox h2{grid-row:1;align-self:start;margin-top:16vh}
+.prayer-mode .mode-sub{grid-row:1;align-self:start;margin-top:30vh}
+.prayer-mode .phase-count{grid-row:1;align-self:start;margin-top:36vh}
+.prayer-mode .reminders{grid-row:1}
+/* For sholat/khutbah without countdown, keep balance */
+#app.quiet-mode .prayer-mode .modebox h2{max-width:52vw}
+.debug{display:block;overflow:auto;padding:.4vh}.debuggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6vw}.debuggrid .panel{padding:.8vh}.debug b{display:block;color:var(--goldSoft)}
