@@ -1,4 +1,5 @@
 name: Deploy Al Ihsan TV to GitHub Pages
+# deployment refresh after Pages activation
 
 on:
   push:
