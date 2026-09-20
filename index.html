@@ -5,42 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#022f31">
   <title>Al Ihsan Digital Information System</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=final8">
-  <link rel="stylesheet" href="./styles.css?v=final8">
+  <link rel="manifest" href="./manifest.webmanifest?v=visual10">
+  <link rel="stylesheet" href="./styles.css?v=visual10">
 </head>
 <body>
-  <div id="app">
-    <header class="topbar">
-      <section class="brand">
-        <img src="./assets/logo-masjid-final.png?v=final8" alt="Logo Masjid Al Ihsan">
-        <div class="brand-copy">
-          <h1>Masjid Al Ihsan Kapuih</h1>
-          <p><span class="pin">●</span> Jalan Kapuih, Kel. Limau Manis, Kec. Pauh, Padang</p>
-          <div class="motto"><i></i><b>MEMAKMURKAN MASJID, MEMBANGUN UMAT</b><i></i></div>
-        </div>
-      </section>
-      <section class="clock">
-        <div id="date"></div>
-        <div class="clock-row"><b id="time">00:00:00</b><span>WIB</span></div>
-        <div class="clock-quote">“Dan dirikanlah shalat, tunaikanlah zakat dan ruku'lah beserta orang-orang yang ruku'.”<br><small>QS. Al-Baqarah: 43</small></div>
-        <em id="mode">NORMAL</em>
-      </section>
-    </header>
-    <main id="screen"></main>
-    <footer>
-      <div class="ticker"><b>🔊</b><span>Mohon menjaga kebersihan masjid</span><i></i><span>Ikuti kegiatan rutin masjid: kajian, tahsin, dan pengajian</span><i></i><span>Infak membantu operasional & pembangunan masjid</span><i></i><span>Bersama memakmurkan masjid, meraih keberkahan</span></div>
-      <div class="footer-mark">Jadikan Masjid<br><b>Lebih Hidup</b></div>
-    </footer>
-  </div>
-
-  <script>
-  (async()=>{const V="final8";if(localStorage.getItem("alihsan-ui-release")!==V){
-    try{if("serviceWorker"in navigator){const r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(x=>x.unregister()));}
-    if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)));}}catch(e){}
-    localStorage.setItem("alihsan-ui-release",V);
-  }})();
-  </script>
-  <script src="./config.js?v=final8"></script>
-  <script src="./app.js?v=final8"></script>
+<div id="app">
+  <header class="topbar">
+    <section class="brand">
+      <img class="brand-logo" src="./assets/logo-masjid-final.png?v=visual10" alt="Logo Masjid Al Ihsan">
+      <div class="brand-copy">
+        <h1>Masjid Al Ihsan Kapuih</h1>
+        <p>Jalan Kapuih, Kel. Limau Manis, Kec. Pauh, Padang</p>
+        <div class="brand-rule"><span></span><b>MEMAKMURKAN MASJID, MEMBANGUN UMAT</b><span></span></div>
+      </div>
+    </section>
+    <section class="clock-wrap">
+      <div class="clock-date" id="date"></div>
+      <div class="clock-main"><b id="time">00:00:00</b><span>WIB</span></div>
+      <div class="clock-mode"><i></i><em id="mode">NORMAL</em><i></i></div>
+    </section>
+  </header>
+  <main id="screen"></main>
+  <footer>
+    <div class="ticker">
+      <span>◉ Mohon menjaga kebersihan masjid</span>
+      <span>•</span>
+      <span>Ikuti kegiatan rutin masjid: kajian, tahsin, dan pengajian</span>
+      <span>•</span>
+      <span>Infak membantu operasional & pembangunan masjid</span>
+    </div>
+    <div class="footer-brand">Masjid Al Ihsan <b>Kapuih</b></div>
+  </footer>
+</div>
+<script>
+(async()=>{const V="visual10";if(localStorage.getItem("alihsan-ui-release")!==V){
+  try{
+    if("serviceWorker"in navigator){const r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(x=>x.unregister()));}
+    if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)));}
+  }catch(e){}
+  localStorage.setItem("alihsan-ui-release",V);
+}})();
+</script>
+<script src="./config.js?v=visual10"></script>
+<script src="./app.js?v=visual10"></script>
 </body>
 </html>
