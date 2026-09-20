@@ -202,15 +202,57 @@ function normal(){
  return cards("PESAN_DAKWAH","Pesan Dakwah / Adab Masjid","Nasihat singkat untuk jamaah",r=>`<div class="panel card news-card"><span class="badge">PESAN DAKWAH</span><h3>${esc(r.JUDUL||"Pesan Dakwah")}</h3><p>“${esc(r["ISI SINGKAT"]||"")}”</p><div class="meta">${esc(r.SUMBER||"")}</div></div>`)
 }
 function modeScreen(){
- let title="Sholat Sedang Berlangsung",sub="Mohon menjaga ketenangan dan kekhusyukan",items=["📱 Mohon silent-kan HP","🧒 Anak-anak mohon tenang, tidak ribut / bersuara","👥 Rapatkan dan luruskan shaf"];
- if(st.mode==="MENJELANG_ADZAN"){title="Menuju "+st.next.label;sub="Persiapkan diri untuk sholat berjamaah";items=["📱 Mohon silent-kan HP","🧒 Anak-anak mohon tenang","🕌 Segera rapatkan dan luruskan shaf"]}
- if(st.mode==="JUMAT_PERSIAPAN"){title="Persiapan Sholat Jumat";sub="Mohon bersiap menyimak khutbah dengan tenang.";items=["📱 Silent-kan HP","🤫 Jaga ketenangan","🧒 Anak-anak dalam pengawasan"]}
- if(st.mode==="KHUTBAH_JUMAT"){title="Khutbah Jumat Sedang Berlangsung";sub="Mohon diam dan simak khutbah.";items=["🤫 Jangan berbicara saat khutbah","📱 Silent-kan HP","🧒 Anak-anak mohon tenang"]}
- return`<div class="slide mode"><div class="panel modebox"><img src="./assets/logo-masjid-final.png?v=final8"><h2>${title}</h2><p>${sub}</p>${st.mode==="MENJELANG_ADZAN"?`<div class="count"><div class="count-title">Menuju ${st.next.label}</div><b data-cd-next>${cd(st.next.date-st.now)}</b></div>`:""}<div class="reminders">${items.map(x=>`<div>${x}</div>`).join("")}</div></div></div>`
+ const ph=st.phase||prayerPhase();
+ let kicker="",title="",sub="",showPhaseCountdown=false,countLabel="",items=[];
+ if(st.mode==="MENJELANG_ADZAN"){
+  kicker="BERSIAP UNTUK SHOLAT BERJAMAAH";title="Menuju "+(ph.name||st.next.label);sub="Tinggalkan aktivitas sejenak dan persiapkan diri menuju shaf.";showPhaseCountdown=true;countLabel="Menuju adzan";
+  items=[["HP","Silent-kan HP"],["TENANG","Bimbing anak-anak untuk tenang"],["SHAF","Datang lebih awal & rapatkan shaf"]];
+ }else if(st.mode==="ADZAN_IQAMAH"){
+  kicker="WAKTU SHOLAT TELAH MASUK";title=(ph.name||"Sholat")+" • Persiapan Iqamah";sub="Selesaikan sholat sunnah dan bersiap berdiri ketika iqamah dikumandangkan.";showPhaseCountdown=true;countLabel="Perkiraan menuju iqamah";
+  items=[["HP","Silent-kan HP"],["TENANG","Jaga ketenangan masjid"],["SHAF","Isi shaf terdepan terlebih dahulu"]];
+ }else if(st.mode==="SHOLAT_BERLANGSUNG"){
+  kicker="MOHON MENJAGA KEKHUSYUKAN";title="Sholat "+(ph.name||"")+" Sedang Berlangsung";sub="Layar informasi dihentikan sementara selama sholat berjamaah.";
+  items=[["HP","Pastikan HP dalam mode silent"],["ANAK","Anak-anak mohon tenang, tidak ribut / bersuara"],["SHAF","Rapatkan dan luruskan shaf"]];
+ }else if(st.mode==="JUMAT_PERSIAPAN"){
+  kicker="HARI JUMAT";title="Persiapan Sholat Jumat";sub="Silakan duduk dengan tertib dan persiapkan diri untuk menyimak khutbah.";showPhaseCountdown=true;countLabel="Menuju khutbah";
+  items=[["HP","Silent-kan HP"],["TENANG","Jaga ketenangan"],["ANAK","Anak-anak dalam pengawasan"]];
+ }else if(st.mode==="KHUTBAH_JUMAT"){
+  kicker="KHUTBAH JUMAT";title="Mohon Diam & Simak Khutbah";sub="Jangan berbicara saat khutbah berlangsung.";
+  items=[["DIAM","Tidak berbicara saat khutbah"],["HP","Pastikan HP silent"],["TENANG","Jaga anak-anak tetap tenang"]];
+ }else if(st.mode==="SHOLAT_JUMAT"){
+  kicker="SHOLAT JUMAT";title="Sholat Jumat Sedang Berlangsung";sub="Mohon menjaga ketenangan dan kekhusyukan.";
+  items=[["HP","Pastikan HP silent"],["TENANG","Anak-anak mohon tenang"],["SHAF","Rapatkan dan luruskan shaf"]];
+ }else{return dashboard()}
+ const info=ph&&ph.name?(ph.name==="Jumat"?"Masjid Al Ihsan Kapuih":"Waktu "+ph.name+(ph.adhan?" • "+new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",hour12:false}).format(ph.adhan).replace(".",":"):"")):"Masjid Al Ihsan Kapuih";
+ return `<div class="slide mode prayer-mode">
+  <div class="panel modebox">
+   <div class="mode-watermark"></div>
+   <div class="mode-brand"><img src="./assets/logo-masjid-final.png?v=visual12"><span>${kicker}</span></div>
+   <h2>${title}</h2>
+   <p class="mode-sub">${sub}</p>
+   ${showPhaseCountdown?`<div class="phase-count"><span>${countLabel}</span><b data-cd-phase>${ph.end?cd(ph.end-st.now):"00:00:00"}</b></div>`:""}
+   <div class="reminders">${items.map(([tag,txt])=>`<div><b>${tag}</b><span>${txt}</span></div>`).join("")}</div>
+   <div class="mode-foot">${info}</div>
+  </div>
+ </div>`
 }
 function debug(){
  return`<div class="slide debug"><h2>Al Ihsan Digital Information System — Debug</h2><div class="debuggrid"><div class="panel"><b>Waktu</b>${esc(st.now.toString())}</div><div class="panel"><b>Mode</b>${st.mode}</div><div class="panel"><b>Slide</b>${forcedSlide||C.playlist[st.idx][0]}</div><div class="panel"><b>Sholat berikutnya</b>${st.next.label} ${st.next.time}<br><span data-cd-next>${cd(st.next.date-st.now)}</span></div><div class="panel"><b>Jadwal</b>${Object.values(st.pr).map(x=>x.label+" "+x.time).join("<br>")}</div><div class="panel"><b>Sumber data</b>${Object.entries(st.status).map(([k,v])=>k+": "+v).join("<br>")}</div></div></div>`
 }
-function render(){if(!st.pr)return;S.innerHTML=qs.get("debug")==="1"?debug():st.mode==="NORMAL"?normal():modeScreen()}
-tick();render();refresh();setInterval(tick,1000);setInterval(refresh,C.refreshMinutes*60000);
+function render(){
+ if(!st.pr)return;
+ try{
+  S.innerHTML=qs.get("debug")==="1"?debug():st.mode==="NORMAL"?normal():modeScreen();
+  st.lastRender=Date.now()
+ }catch(e){
+  S.innerHTML='<div class="slide mode"><div class="panel modebox"><h2>Masjid Al Ihsan Kapuih</h2><p class="mode-sub">Sistem informasi sedang memulihkan tampilan.</p></div></div>'
+ }
+}
+window.addEventListener("error",()=>{if(Date.now()-st.lastRender>30000)location.reload()});
+window.addEventListener("unhandledrejection",()=>{if(Date.now()-st.lastRender>30000)location.reload()});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){tick();render();refresh()}});
+tick();render();refresh();
+setInterval(tick,1000);
+setInterval(refresh,C.refreshMinutes*60000);
+setInterval(()=>{if(Date.now()-st.lastTick>90000)location.reload()},30000);
 })();
