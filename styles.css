@@ -219,3 +219,31 @@ footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:
 @media(min-aspect-ratio:16/9){
   #app.master-template{width:177.7778vh;height:100vh;margin:0 auto}
 }
+
+/* MASTER14 clock calibration — align live clock to approved master */
+.master-dashboard .master-clock-mask,
+.master-sholat .master-clock-mask{
+  top:2.0%!important;
+  right:1.85%!important;
+  width:25.7%!important;
+  height:15.7%!important;
+  padding:.55% .9%!important;
+  border-radius:1.15vw!important;
+  background:linear-gradient(145deg,rgba(0,52,54,1),rgba(0,102,96,1))!important;
+}
+.master-dashboard .master-clock-mask span,
+.master-sholat .master-clock-mask span{
+  font-size:1.02vw!important;
+  line-height:1!important;
+  margin-bottom:.15vh!important;
+}
+.master-dashboard .master-clock-mask b,
+.master-sholat .master-clock-mask b{
+  font-size:3.75vw!important;
+  line-height:.92!important;
+}
+.master-dashboard .master-clock-mask em,
+.master-sholat .master-clock-mask em{
+  font-size:.9vw!important;
+  padding-bottom:.55vh!important;
+}
