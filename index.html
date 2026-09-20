@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#022f31">
+  <meta name="theme-color" content="#001f21">
   <title>Al Ihsan Digital Information System</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=visual10">
-  <link rel="stylesheet" href="./styles.css?v=visual10">
+  <link rel="manifest" href="./manifest.webmanifest?v=visual11">
+  <link rel="stylesheet" href="./styles.css?v=visual11">
 </head>
 <body>
+<div id="frame">
 <div id="app">
   <header class="topbar">
     <section class="brand">
-      <img class="brand-logo" src="./assets/logo-masjid-final.png?v=visual10" alt="Logo Masjid Al Ihsan">
+      <img class="brand-logo" src="./assets/logo-masjid-final.png?v=visual11" alt="Logo Masjid Al Ihsan">
       <div class="brand-copy">
+        <div class="brand-kicker">AL IHSAN DIGITAL INFORMATION SYSTEM</div>
         <h1>Masjid Al Ihsan Kapuih</h1>
         <p>Jalan Kapuih, Kel. Limau Manis, Kec. Pauh, Padang</p>
-        <div class="brand-rule"><span></span><b>MEMAKMURKAN MASJID, MEMBANGUN UMAT</b><span></span></div>
       </div>
     </section>
     <section class="clock-wrap">
@@ -25,20 +26,22 @@
       <div class="clock-mode"><i></i><em id="mode">NORMAL</em><i></i></div>
     </section>
   </header>
+
   <main id="screen"></main>
+
   <footer>
     <div class="ticker">
-      <span>◉ Mohon menjaga kebersihan masjid</span>
-      <span>•</span>
-      <span>Ikuti kegiatan rutin masjid: kajian, tahsin, dan pengajian</span>
-      <span>•</span>
+      <span>Mohon menjaga kebersihan masjid</span><i></i>
+      <span>Ikuti kajian, tahsin, dan kegiatan jamaah</span><i></i>
       <span>Infak membantu operasional & pembangunan masjid</span>
     </div>
-    <div class="footer-brand">Masjid Al Ihsan <b>Kapuih</b></div>
+    <div class="footer-brand"><span>MEMAKMURKAN MASJID</span><b>MEMBANGUN UMAT</b></div>
   </footer>
 </div>
+</div>
+
 <script>
-(async()=>{const V="visual10";if(localStorage.getItem("alihsan-ui-release")!==V){
+(async()=>{const V="visual11";if(localStorage.getItem("alihsan-ui-release")!==V){
   try{
     if("serviceWorker"in navigator){const r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(x=>x.unregister()));}
     if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)));}
@@ -46,7 +49,7 @@
   localStorage.setItem("alihsan-ui-release",V);
 }})();
 </script>
-<script src="./config.js?v=visual10"></script>
-<script src="./app.js?v=visual10"></script>
+<script src="./config.js?v=visual11"></script>
+<script src="./app.js?v=visual11"></script>
 </body>
 </html>
