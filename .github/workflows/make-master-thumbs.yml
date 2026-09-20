@@ -1,0 +1,39 @@
+name: Make master thumbnails
+on:
+  push:
+    paths:
+      - ".github/workflows/make-master-thumbs.yml"
+      - "assets/dashboard-master.png"
+      - "assets/sholat-master.jpg"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  thumbs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - name: Make small reference thumbnails
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          jobs=[
+            ("assets/dashboard-master.png","assets/dashboard-master-thumb.jpg"),
+            ("assets/sholat-master.jpg","assets/sholat-master-thumb.jpg"),
+          ]
+          for src,dst in jobs:
+              im=Image.open(src).convert("RGB")
+              im.thumbnail((320,180), Image.Resampling.LANCZOS)
+              canvas=Image.new("RGB",(320,180),"white")
+              x=(320-im.width)//2; y=(180-im.height)//2
+              canvas.paste(im,(x,y))
+              canvas.save(dst,"JPEG",quality=55,optimize=True)
+          PY
+      - name: Commit thumbnails
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*-thumb.jpg
+          git diff --cached --quiet || git commit -m "Add master reference thumbnails [skip ci]"
+          git push
