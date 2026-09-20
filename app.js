@@ -147,7 +147,7 @@ function donate(){
     <div class="panel bank"><b>Bank Nagari Syariah</b><strong>7100.0201.05008-5</strong><span>A/n Masjid Al Ihsan Kapuih</span></div>
    </div>
   </section>
-  <section class="panel qris"><div class="box"><img src="./assets/qris-rumah-tahfiz-final.jpg?v=final7" alt="QRIS Rumah Tahfiz Al Ihsan"><div class="qcaption"><b>QRIS Rumah Tahfiz Al Ihsan</b><small>NMID ID1022210128701 • Scan dengan aplikasi pembayaran</small></div></div></section>
+  <section class="panel qris"><div class="box"><img src="./assets/qris-rumah-tahfiz-final.jpg?v=final8" alt="QRIS Rumah Tahfiz Al Ihsan"><div class="qcaption"><b>QRIS Rumah Tahfiz Al Ihsan</b><small>NMID ID1022210128701 • Scan dengan aplikasi pembayaran</small></div></div></section>
  </div>`
 }
 function normal(){
@@ -166,7 +166,7 @@ function modeScreen(){
  if(st.mode==="MENJELANG_ADZAN"){title="Menuju "+st.next.label;sub="Persiapkan diri untuk sholat berjamaah";items=["📱 Mohon silent-kan HP","🧒 Anak-anak mohon tenang","🕌 Segera rapatkan dan luruskan shaf"]}
  if(st.mode==="JUMAT_PERSIAPAN"){title="Persiapan Sholat Jumat";sub="Mohon bersiap menyimak khutbah dengan tenang.";items=["📱 Silent-kan HP","🤫 Jaga ketenangan","🧒 Anak-anak dalam pengawasan"]}
  if(st.mode==="KHUTBAH_JUMAT"){title="Khutbah Jumat Sedang Berlangsung";sub="Mohon diam dan simak khutbah.";items=["🤫 Jangan berbicara saat khutbah","📱 Silent-kan HP","🧒 Anak-anak mohon tenang"]}
- return`<div class="slide mode"><div class="panel modebox"><img src="./assets/logo-masjid-final.png?v=final7"><h2>${title}</h2><p>${sub}</p>${st.mode==="MENJELANG_ADZAN"?`<div class="count"><div class="count-title">Menuju ${st.next.label}</div><b data-cd>${cd(st.next.date-st.now)}</b></div>`:""}<div class="reminders">${items.map(x=>`<div>${x}</div>`).join("")}</div></div></div>`
+ return`<div class="slide mode"><div class="panel modebox"><img src="./assets/logo-masjid-final.png?v=final8"><h2>${title}</h2><p>${sub}</p>${st.mode==="MENJELANG_ADZAN"?`<div class="count"><div class="count-title">Menuju ${st.next.label}</div><b data-cd>${cd(st.next.date-st.now)}</b></div>`:""}<div class="reminders">${items.map(x=>`<div>${x}</div>`).join("")}</div></div></div>`
 }
 function debug(){
  return`<div class="slide debug"><h2>Al Ihsan Digital Information System — Debug</h2><div class="debuggrid"><div class="panel"><b>Waktu</b>${esc(st.now.toString())}</div><div class="panel"><b>Mode</b>${st.mode}</div><div class="panel"><b>Slide</b>${forcedSlide||C.playlist[st.idx][0]}</div><div class="panel"><b>Sholat berikutnya</b>${st.next.label} ${st.next.time}<br><span data-cd>${cd(st.next.date-st.now)}</span></div><div class="panel"><b>Jadwal</b>${Object.values(st.pr).map(x=>x.label+" "+x.time).join("<br>")}</div><div class="panel"><b>Sumber data</b>${Object.entries(st.status).map(([k,v])=>k+": "+v).join("<br>")}</div></div></div>`
