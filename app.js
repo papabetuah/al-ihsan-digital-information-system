@@ -144,6 +144,7 @@ function tick(){
  document.querySelectorAll("[data-live-clock]").forEach(x=>x.textContent=masterClock());
  document.querySelectorAll("[data-live-date]").forEach(x=>x.textContent=masterDate());
  document.querySelectorAll("[data-master-cd]").forEach(x=>x.textContent=cd(st.next.date-st.now));
+ document.querySelectorAll("[data-master-next]").forEach(x=>x.textContent=`Menuju ${st.next.label}`);
  const prayerNodes={shubuh:st.pr.shubuh,terbit:st.pr.terbit,dzuhur:st.pr.dzuhur,ashar:st.pr.ashar,maghrib:st.pr.maghrib,isya:st.pr.isya};
  Object.entries(prayerNodes).forEach(([k,p])=>document.querySelectorAll(".master-prayer-"+k).forEach(x=>x.textContent=p.time))
 }
@@ -153,12 +154,14 @@ function masterDate(){return new Intl.DateTimeFormat("id-ID",{weekday:"long",day
 function masterClock(){return new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:C.timezone}).format(st.now).replace(/\./g,":")}
 function dashboard(){
  const ps=["shubuh","terbit","dzuhur","ashar","maghrib","isya"];
- return`<div class="master-canvas master-dashboard">
-   <img class="master-bg" src="./assets/dashboard-master.png?v=master14" alt="">
-   <div class="master-clock-mask"><span data-live-date>${masterDate()}</span><b data-live-clock>${masterClock()}</b><em>WIB</em></div>
-   ${ps.map(k=>`<div class="master-prayer-time master-prayer-${k}">${st.pr[k].time}</div>`).join("")}
-   <div class="master-count-mask"><span>Menuju ${st.next.label}</span><b data-master-cd>${cd(st.next.date-st.now)}</b><small>JAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MENIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DETIK</small></div>
-   <div class="master-qris"><img src="./assets/qris-rumah-tahfiz-final.jpg?v=master14" alt="QRIS Rumah Tahfiz Al Ihsan"></div>
+ return`<div class="slide master-dashboard-stage">
+   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-2" alt="">
+   <div class="master-live master-date" data-live-date>${masterDate()}</div>
+   <div class="master-live master-clock" data-live-clock>${masterClock()}</div>
+   ${ps.map(k=>`<div class="master-live master-prayer master-prayer-${k}">${st.pr[k].time}</div>`).join("")}
+   <div class="master-live master-next-label" data-master-next>Menuju ${st.next.label}</div>
+   <div class="master-live master-countdown" data-master-cd>${cd(st.next.date-st.now)}</div>
+   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-2" alt="Master Dashboard Masjid Al Ihsan Kapuih">
   </div>`
 }
 function masterPrayerScreen(){
