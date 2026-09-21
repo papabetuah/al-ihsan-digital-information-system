@@ -8,5 +8,5 @@ window.AL_IHSAN_CONFIG = Object.freeze({
   ishaAngle: 18,
   asrFactor: 1,
   sunriseSunsetAngle: 0.833,
-  release: "approved-live-1"
+  release: "approved-live-2"
 });
