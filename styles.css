@@ -354,3 +354,18 @@ footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:
     height:100%;
   }
 }
+
+
+/* DASHBOARD FINAL PIXEL CALIBRATION V3
+   Aligned to transparent holes in the approved 1672x941 master. */
+.master-dashboard-stage .master-date{left:74.462%!important;top:1.063%!important;width:21.053%!important;height:5.101%!important;font-size:1.316vw!important;font-weight:500!important}
+.master-dashboard-stage .master-clock{left:73.086%!important;top:6.589%!important;width:22.907%!important;height:10.308%!important;font-size:4.067vw!important;font-weight:900!important;letter-spacing:.012em!important}
+.master-dashboard-stage .master-prayer{left:15.072%!important;width:9.270%!important;height:6.270%!important;padding-right:.598vw!important;font-size:2.572vw!important;font-weight:900!important}
+.master-dashboard-stage .master-prayer-shubuh{top:29.649%!important}
+.master-dashboard-stage .master-prayer-terbit{top:36.132%!important}
+.master-dashboard-stage .master-prayer-dzuhur{top:42.720%!important}
+.master-dashboard-stage .master-prayer-ashar{top:49.309%!important}
+.master-dashboard-stage .master-prayer-maghrib{top:55.792%!important}
+.master-dashboard-stage .master-prayer-isya{top:62.380%!important}
+.master-dashboard-stage .master-next-label{left:7.775%!important;top:69.607%!important;width:14.773%!important;height:6.057%!important;font-size:1.734vw!important;font-family:Georgia,"Times New Roman",serif!important;font-weight:800!important}
+.master-dashboard-stage .master-countdown{left:2.871%!important;top:75.983%!important;width:20.455%!important;height:8.714%!important;font-size:3.289vw!important;letter-spacing:.028em!important}
