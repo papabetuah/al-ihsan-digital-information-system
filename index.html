@@ -3,53 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#001f21">
-  <title>Al Ihsan Digital Information System</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=master-final-1">
-  <link rel="stylesheet" href="./styles.css?v=master-final-1">
+  <meta name="theme-color" content="#002f32">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
+  <link rel="stylesheet" href="./styles.css?v=approved-live-1">
 </head>
 <body>
-<div id="frame">
-<div id="app">
-  <header class="topbar">
-    <section class="brand">
-      <img class="brand-logo" src="./assets/logo-masjid-final.png?v=master-final-1" alt="Logo Masjid Al Ihsan">
-      <div class="brand-copy">
-        <div class="brand-kicker">AL IHSAN DIGITAL INFORMATION SYSTEM</div>
-        <h1>Masjid Al Ihsan Kapuih</h1>
-        <p>Jalan Kapuih, Kel. Limau Manis, Kec. Pauh, Padang</p>
-      </div>
+  <main id="viewport" aria-label="Al Ihsan Digital Information System">
+    <section id="stage" class="stage" aria-live="polite">
+      <img class="master" src="./assets/master-dashboard-approved-final.png?v=approved-live-1" alt="Dashboard Masjid Al Ihsan Kapuih">
+
+      <div id="liveDate" class="live live-date">—</div>
+      <div class="live live-clock"><strong id="liveClock">00:00:00</strong><span>WIB</span></div>
+
+      <div id="timeShubuh" class="live prayer-time prayer-shubuh">--:--</div>
+      <div id="timeTerbit" class="live prayer-time prayer-terbit">--:--</div>
+      <div id="timeDzuhur" class="live prayer-time prayer-dzuhur">--:--</div>
+      <div id="timeAshar" class="live prayer-time prayer-ashar">--:--</div>
+      <div id="timeMaghrib" class="live prayer-time prayer-maghrib">--:--</div>
+      <div id="timeIsya" class="live prayer-time prayer-isya">--:--</div>
+
+      <div id="nextPrayer" class="live next-prayer">Menuju Shubuh</div>
+      <div id="countdown" class="live countdown">00:00:00</div>
+
+      <div id="statusDot" class="status-dot" title="Sistem aktif"></div>
     </section>
-    <section class="clock-wrap">
-      <div class="clock-date" id="date"></div>
-      <div class="clock-main"><b id="time">00:00:00</b><span>WIB</span></div>
-      <div class="clock-mode"><i></i><em id="mode">NORMAL</em><i></i></div>
-    </section>
-  </header>
-
-  <main id="screen"></main>
-
-  <footer>
-    <div class="ticker">
-      <span>Mohon menjaga kebersihan masjid</span><i></i>
-      <span>Ikuti kajian, tahsin, dan kegiatan jamaah</span><i></i>
-      <span>Infak membantu operasional & pembangunan masjid</span>
-    </div>
-    <div class="footer-brand"><span>MEMAKMURKAN MASJID</span><b>MEMBANGUN UMAT</b></div>
-  </footer>
-</div>
-</div>
-
-<script>
-(async()=>{const V="master-final-1";if(localStorage.getItem("alihsan-ui-release")!==V){
-  try{
-    if("serviceWorker"in navigator){const r=await navigator.serviceWorker.getRegistrations();await Promise.all(r.map(x=>x.unregister()));}
-    if(window.caches){const k=await caches.keys();await Promise.all(k.map(x=>caches.delete(x)));}
-  }catch(e){}
-  localStorage.setItem("alihsan-ui-release",V);
-}})();
-</script>
-<script src="./config.js?v=master-final-1"></script>
-<script src="./app.js?v=master-final-1"></script>
+  </main>
+  <script src="./config.js?v=approved-live-1"></script>
+  <script src="./app.js?v=approved-live-1"></script>
 </body>
 </html>
