@@ -369,3 +369,25 @@ footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:
 .master-dashboard-stage .master-prayer-isya{top:62.380%!important}
 .master-dashboard-stage .master-next-label{left:7.775%!important;top:69.607%!important;width:14.773%!important;height:6.057%!important;font-size:1.734vw!important;font-family:Georgia,"Times New Roman",serif!important;font-weight:800!important}
 .master-dashboard-stage .master-countdown{left:2.871%!important;top:75.983%!important;width:20.455%!important;height:8.714%!important;font-size:3.289vw!important;letter-spacing:.028em!important}
+
+
+/* DASHBOARD FINAL MICRO-CALIBRATION V4
+   Tuned from live mobile screenshot against the approved master. */
+.master-dashboard-stage .master-countdown{
+  font-size:5.45vw!important;
+  font-weight:950!important;
+  letter-spacing:.005em!important;
+  transform:translateY(.30vh) scaleX(.81)!important;
+  transform-origin:center center!important;
+}
+.master-dashboard-stage .master-prayer{
+  transform:scaleX(1.045)!important;
+  transform-origin:right center!important;
+}
+.master-dashboard-stage .master-clock{
+  font-size:4.12vw!important;
+  letter-spacing:.008em!important;
+}
+.master-dashboard-stage .master-next-label{
+  transform:translateY(.18vh)!important;
+}

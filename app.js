@@ -155,13 +155,13 @@ function masterClock(){return new Intl.DateTimeFormat("id-ID",{hour:"2-digit",mi
 function dashboard(){
  const ps=["shubuh","terbit","dzuhur","ashar","maghrib","isya"];
  return`<div class="slide master-dashboard-stage">
-   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-3" alt="">
+   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-4" alt="">
    <div class="master-live master-date" data-live-date>${masterDate()}</div>
    <div class="master-live master-clock" data-live-clock>${masterClock()}</div>
    ${ps.map(k=>`<div class="master-live master-prayer master-prayer-${k}">${st.pr[k].time}</div>`).join("")}
    <div class="master-live master-next-label" data-master-next>Menuju ${st.next.label}</div>
    <div class="master-live master-countdown" data-master-cd>${cd(st.next.date-st.now)}</div>
-   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-3" alt="Master Dashboard Masjid Al Ihsan Kapuih">
+   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-4" alt="Master Dashboard Masjid Al Ihsan Kapuih">
   </div>`
 }
 function masterPrayerScreen(){
