@@ -391,3 +391,134 @@ footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:
 .master-dashboard-stage .master-next-label{
   transform:translateY(.18vh)!important;
 }
+
+
+/* DASHBOARD NEXT-PRAYER GLASS INDICATOR V5
+   Replaces the misleading fixed Dzuhur emphasis with a dynamic glass cue.
+   Existing schedule-row shadow cleanup is intentionally deferred. */
+.master-dashboard-stage .master-dzuhur-neutralizer{
+  position:absolute;
+  z-index:11;
+  left:1.55%;
+  top:42.45%;
+  width:22.72%;
+  height:6.15%;
+  border-radius:.72vw;
+  background:linear-gradient(90deg,rgba(0,49,52,.54),rgba(0,55,57,.40));
+  border:1px solid rgba(57,239,224,.20);
+  box-shadow:inset 0 0 1.2vw rgba(0,20,22,.28);
+  backdrop-filter:brightness(.68) saturate(.72);
+  -webkit-backdrop-filter:brightness(.68) saturate(.72);
+  pointer-events:none;
+}
+.master-dashboard-stage .master-prayer-dzuhur{
+  z-index:13!important;
+}
+.master-dashboard-stage .master-next-glass{
+  position:absolute;
+  z-index:15;
+  left:25.10%;
+  top:19.45%;
+  width:19.35%;
+  height:5.25%;
+  display:grid;
+  grid-template-columns:1.8vw minmax(0,1fr) auto;
+  align-items:center;
+  gap:.55vw;
+  padding:.42vh .78vw;
+  border-radius:.82vw;
+  color:#f7ffff;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.14),rgba(40,236,218,.08) 28%,rgba(0,53,56,.48) 72%,rgba(0,37,40,.58));
+  border:1px solid rgba(95,255,240,.78);
+  box-shadow:
+    0 .45vh 1.3vw rgba(0,0,0,.22),
+    0 0 1.45vw rgba(49,239,222,.34),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -.45vh 1vw rgba(0,24,27,.25);
+  backdrop-filter:blur(8px) saturate(1.25);
+  -webkit-backdrop-filter:blur(8px) saturate(1.25);
+  overflow:hidden;
+  pointer-events:none;
+}
+.master-dashboard-stage .master-next-glass:before{
+  content:"";
+  position:absolute;
+  left:-18%;
+  top:-110%;
+  width:62%;
+  height:280%;
+  transform:rotate(25deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  animation:nextGlassShine 4.8s ease-in-out infinite;
+}
+.master-dashboard-stage .master-next-glass:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(circle at 8% 50%,rgba(77,255,235,.20),transparent 28%);
+  pointer-events:none;
+}
+.master-dashboard-stage .next-glow{
+  position:relative;
+  z-index:1;
+  width:1.15vw;
+  height:1.15vw;
+  border-radius:50%;
+  justify-self:center;
+  background:#71fff1;
+  box-shadow:0 0 .38vw #7afff2,0 0 1.05vw rgba(67,255,235,.92),inset 0 0 .22vw #fff;
+}
+.master-dashboard-stage .next-glow:after{
+  content:"";
+  position:absolute;
+  inset:-.42vw;
+  border:1px solid rgba(103,255,239,.50);
+  border-radius:50%;
+  animation:nextGlowPulse 1.9s ease-out infinite;
+}
+.master-dashboard-stage .next-copy{
+  position:relative;
+  z-index:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  line-height:1.02;
+}
+.master-dashboard-stage .next-copy span{
+  font-size:.50vw;
+  letter-spacing:.20em;
+  font-weight:800;
+  color:#c8fffa;
+  opacity:.90;
+}
+.master-dashboard-stage .next-copy strong{
+  margin-top:.20vh;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.18vw;
+  font-weight:800;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.master-dashboard-stage .master-next-glass>b{
+  position:relative;
+  z-index:1;
+  font-size:1.55vw;
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+  color:#fff;
+  text-shadow:0 0 .65vw rgba(84,255,239,.42);
+}
+@keyframes nextGlassShine{
+  0%,58%{transform:translateX(-110%) rotate(25deg);opacity:0}
+  66%{opacity:.8}
+  82%,100%{transform:translateX(360%) rotate(25deg);opacity:0}
+}
+@keyframes nextGlowPulse{
+  0%{transform:scale(.65);opacity:.75}
+  75%,100%{transform:scale(1.55);opacity:0}
+}

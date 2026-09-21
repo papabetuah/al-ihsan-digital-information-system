@@ -144,7 +144,7 @@ function tick(){
  document.querySelectorAll("[data-live-clock]").forEach(x=>x.textContent=masterClock());
  document.querySelectorAll("[data-live-date]").forEach(x=>x.textContent=masterDate());
  document.querySelectorAll("[data-master-cd]").forEach(x=>x.textContent=cd(st.next.date-st.now));
- document.querySelectorAll("[data-master-next]").forEach(x=>x.textContent=`Menuju ${st.next.label}`);
+ document.querySelectorAll("[data-master-next]").forEach(x=>x.textContent=`Menuju ${st.next.label}`);\n document.querySelectorAll("[data-master-next-name]").forEach(x=>x.textContent=st.next.label);\n document.querySelectorAll("[data-master-next-time]").forEach(x=>x.textContent=st.next.time);
  const prayerNodes={shubuh:st.pr.shubuh,terbit:st.pr.terbit,dzuhur:st.pr.dzuhur,ashar:st.pr.ashar,maghrib:st.pr.maghrib,isya:st.pr.isya};
  Object.entries(prayerNodes).forEach(([k,p])=>document.querySelectorAll(".master-prayer-"+k).forEach(x=>x.textContent=p.time))
 }
@@ -155,13 +155,19 @@ function masterClock(){return new Intl.DateTimeFormat("id-ID",{hour:"2-digit",mi
 function dashboard(){
  const ps=["shubuh","terbit","dzuhur","ashar","maghrib","isya"];
  return`<div class="slide master-dashboard-stage">
-   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-4" alt="">
+   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-5" alt="">
    <div class="master-live master-date" data-live-date>${masterDate()}</div>
    <div class="master-live master-clock" data-live-clock>${masterClock()}</div>
    ${ps.map(k=>`<div class="master-live master-prayer master-prayer-${k}">${st.pr[k].time}</div>`).join("")}
    <div class="master-live master-next-label" data-master-next>Menuju ${st.next.label}</div>
    <div class="master-live master-countdown" data-master-cd>${cd(st.next.date-st.now)}</div>
-   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-4" alt="Master Dashboard Masjid Al Ihsan Kapuih">
+   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-5" alt="Master Dashboard Masjid Al Ihsan Kapuih">
+   <div class="master-dzuhur-neutralizer" aria-hidden="true"></div>
+   <div class="master-next-glass" aria-label="Sholat berikutnya">
+     <i class="next-glow"></i>
+     <div class="next-copy"><span>SHOLAT BERIKUTNYA</span><strong data-master-next-name>${st.next.label}</strong></div>
+     <b data-master-next-time>${st.next.time}</b>
+   </div>
   </div>`
 }
 function masterPrayerScreen(){
