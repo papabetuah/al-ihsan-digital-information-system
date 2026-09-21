@@ -1,4 +1,4 @@
-const C="alihsan-tv-dashboard-final-v5";
+const C="alihsan-tv-master-final-1";
 const A=[
   "./","./index.html","./styles.css","./app.js","./config.js","./manifest.webmanifest",
   "./assets/logo-masjid-final.png","./assets/masjid-hero-clean-final.jpg","./assets/qris-rumah-tahfiz-final.jpg",

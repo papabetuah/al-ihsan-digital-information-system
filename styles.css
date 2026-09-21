@@ -522,3 +522,494 @@ footer{display:grid;grid-template-columns:1fr 18%;align-items:center;background:
   0%{transform:scale(.65);opacity:.75}
   75%,100%{transform:scale(1.55);opacity:0}
 }
+
+
+/* =====================================================================
+   MASTER FINAL 1 — DASHBOARD REBUILD FROM ZERO
+   1920x1080 virtual canvas; no baked-in time/prayer values; no row highlight.
+   ===================================================================== */
+#app.final-dashboard-active{
+  display:block!important;
+  width:100vw!important;
+  height:100vh!important;
+  overflow:hidden!important;
+  background:#001b1d!important;
+}
+#app.final-dashboard-active>.topbar,
+#app.final-dashboard-active>footer{display:none!important}
+#app.final-dashboard-active main,
+#app.final-dashboard-active #screen{
+  position:relative!important;
+  width:100vw!important;
+  height:100vh!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:#001b1d!important;
+}
+.final-dashboard{
+  --fd-scale:1;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:1920px;
+  height:1080px;
+  transform:translate(-50%,-50%) scale(var(--fd-scale));
+  transform-origin:center center;
+  overflow:hidden;
+  color:#f7ffff;
+  background:
+    radial-gradient(circle at 85% 12%,rgba(39,229,210,.13),transparent 27%),
+    linear-gradient(180deg,#075052 0%,#002b2e 55%,#001e21 100%);
+  font-family:Arial,Helvetica,sans-serif;
+}
+.final-dashboard *{box-sizing:border-box}
+.fd-header{
+  height:188px;
+  display:grid;
+  grid-template-columns:1365px 555px;
+  position:relative;
+  z-index:3;
+  border-bottom:3px solid #d9b35a;
+  box-shadow:0 8px 26px rgba(0,0,0,.26);
+}
+.fd-brand{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  padding:12px 42px 10px 70px;
+  color:#073b3d;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 52%,rgba(20,173,163,.10) 0 72px,transparent 73px),
+    radial-gradient(circle at 78% 52%,rgba(20,173,163,.06) 0 116px,transparent 117px),
+    linear-gradient(100deg,#ffffff 0%,#f8ffff 77%,#d9f3f1 100%);
+}
+.fd-brand:after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:-65px;
+  width:170px;
+  height:315px;
+  background:#e9f8f7;
+  transform:skewX(-20deg);
+  border-right:4px solid #d9b35a;
+}
+.fd-brand>img{
+  width:128px;
+  height:128px;
+  object-fit:contain;
+  flex:0 0 auto;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));
+  z-index:1;
+}
+.fd-brand-copy{z-index:1;min-width:0}
+.fd-brand-copy h1{
+  margin:0;
+  color:#06383a;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:59px;
+  line-height:.95;
+  letter-spacing:-2.2px;
+  white-space:nowrap;
+}
+.fd-address{
+  margin-top:11px;
+  font-size:21px;
+  font-weight:650;
+  color:#173f40;
+  white-space:nowrap;
+}
+.fd-address span{color:#0a9a90;margin-right:8px}
+.fd-motto{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:15px;
+  color:#174b4c;
+}
+.fd-motto i{display:block;width:82px;height:3px;background:#d9b35a}
+.fd-motto b{font-size:14px;letter-spacing:5px;white-space:nowrap}
+.fd-clockbox{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:8px 26px 12px 42px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(42,235,218,.23),transparent 32%),
+    linear-gradient(145deg,#073f42,#08756f 72%,#03464a);
+  overflow:hidden;
+}
+.fd-clockbox:before{
+  content:"";
+  position:absolute;
+  left:-43px;
+  top:-30px;
+  width:90px;
+  height:260px;
+  background:#e9f8f7;
+  transform:rotate(19deg);
+  border-right:4px solid #d9b35a;
+}
+.fd-date{
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:7px;
+  position:relative;
+  z-index:1;
+}
+.fd-clockline{
+  width:430px;
+  height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+  border:2px solid #31e8db;
+  border-radius:20px;
+  background:rgba(0,32,35,.52);
+  box-shadow:inset 0 0 18px rgba(49,232,219,.10),0 0 20px rgba(49,232,219,.12);
+  position:relative;
+  z-index:1;
+}
+.fd-clockline strong{
+  font-size:59px;
+  line-height:1;
+  letter-spacing:1px;
+  font-variant-numeric:tabular-nums;
+}
+.fd-clockline span{font-size:20px;font-weight:800;margin-top:25px}
+.fd-verse{
+  margin-top:7px;
+  text-align:center;
+  font-size:14px;
+  line-height:1.20;
+  color:#edfefe;
+  position:relative;
+  z-index:1;
+}
+.fd-verse small{display:block;color:#dfc46e;margin-top:2px;font-size:13px}
+
+.fd-main{
+  height:828px;
+  display:grid;
+  grid-template-columns:452px 1fr;
+  gap:14px;
+  padding:12px 14px 10px;
+}
+.fd-prayer-card{
+  height:806px;
+  padding:14px 13px 14px;
+  border:2px solid #2debdc;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 12% 4%,rgba(52,238,221,.11),transparent 28%),
+    linear-gradient(180deg,rgba(5,91,90,.96),rgba(0,45,48,.98));
+  box-shadow:0 0 24px rgba(45,235,220,.20),inset 0 0 0 1px rgba(255,255,255,.04);
+  overflow:hidden;
+}
+.fd-prayer-title{
+  height:76px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:0 12px 10px;
+  border-bottom:1px solid rgba(217,179,90,.62);
+}
+.fd-prayer-title img{width:64px;height:64px;object-fit:contain;filter:brightness(0) invert(1)}
+.fd-prayer-title h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:34px;
+  line-height:1;
+}
+.fd-prayer-title small{
+  display:block;
+  margin-top:6px;
+  color:#a9eee9;
+  font-size:12px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+.fd-prayer-list{
+  display:grid;
+  grid-template-rows:repeat(6,58px);
+  gap:7px;
+  padding:10px 1px 8px;
+}
+.fd-prayer-row{
+  display:grid;
+  grid-template-columns:56px 1fr 126px;
+  align-items:center;
+  height:58px;
+  border:1px solid rgba(47,235,220,.56);
+  border-radius:14px;
+  background:linear-gradient(90deg,rgba(0,56,59,.70),rgba(4,91,89,.38));
+  overflow:hidden;
+}
+.fd-prayer-icon{
+  width:56px;height:58px;
+  position:relative;
+  display:grid;
+  place-items:center;
+  color:#e2c65f;
+}
+.fd-prayer-icon:before{
+  font-size:27px;
+  line-height:1;
+  color:#f0d571;
+}
+.fd-icon-shubuh:before{content:"☾";color:#fff}
+.fd-icon-terbit:before{content:"☼"}
+.fd-icon-dzuhur:before{content:"☀";color:#fff}
+.fd-icon-ashar:before{content:"◒";color:#f1d46d}
+.fd-icon-maghrib:before{content:"◓";color:#f1d46d}
+.fd-icon-isya:before{content:"☾";color:#fff}
+.fd-prayer-name{font-size:25px;font-weight:650}
+.fd-prayer-time{
+  justify-self:stretch;
+  text-align:right;
+  padding-right:18px;
+  font-size:37px;
+  line-height:1;
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.5px;
+}
+.fd-countdown-card{
+  height:264px;
+  margin-top:1px;
+  padding:13px 14px 10px;
+  border:2px solid #31e8db;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 20% 5%,rgba(96,255,237,.12),transparent 30%),
+    linear-gradient(180deg,rgba(6,119,114,.92),rgba(0,48,51,.98));
+  box-shadow:0 0 24px rgba(49,232,219,.26),inset 0 1px 0 rgba(255,255,255,.09);
+}
+.fd-count-head{
+  display:grid;
+  grid-template-columns:52px 1fr;
+  align-items:center;
+  gap:7px;
+}
+.fd-hourglass{
+  width:48px;height:48px;
+  display:grid;place-items:center;
+  color:#f0d56c;
+  font-size:31px;
+}
+.fd-count-head h3{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:29px;
+  line-height:1;
+}
+.fd-count-head p{
+  margin:5px 0 0;
+  font-size:12px;
+  color:#c8eeeb;
+}
+.fd-countdown{
+  height:82px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #30e6d8;
+  border-radius:16px;
+  background:rgba(0,31,34,.70);
+  font-size:58px;
+  line-height:1;
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.fd-count-units{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:5px;
+  padding:0 29px;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#d5ecea;
+  text-align:center;
+}
+.fd-ready{
+  margin-top:9px;
+  padding-top:8px;
+  border-top:1px solid rgba(217,179,90,.38);
+  text-align:center;
+  font-size:15px;
+  font-weight:800;
+  color:#fff;
+}
+.fd-ready span{color:#e3c766;margin-right:7px}
+
+.fd-right{
+  height:806px;
+  display:grid;
+  grid-template-rows:616px 178px;
+  gap:12px;
+}
+.fd-hero{
+  position:relative;
+  overflow:hidden;
+  border:2px solid #31e8db;
+  border-radius:26px;
+  background:#063b3e;
+  box-shadow:0 0 22px rgba(49,232,219,.18);
+}
+.fd-hero>img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 55%;
+  transform:scale(1.015);
+  filter:saturate(1.08) contrast(1.03) brightness(.92);
+}
+.fd-hero-shade{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(0,29,31,.89) 0%,rgba(0,29,31,.64) 27%,rgba(0,29,31,.13) 55%,rgba(0,29,31,.10) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.08));
+}
+.fd-hero-copy{
+  position:absolute;
+  left:42px;
+  top:76px;
+  z-index:2;
+  width:480px;
+  text-shadow:0 3px 14px rgba(0,0,0,.52);
+}
+.fd-eyebrow{
+  font-size:15px;
+  line-height:1.35;
+  letter-spacing:6px;
+  font-weight:800;
+}
+.fd-hero-copy>i{
+  display:block;
+  width:76px;height:3px;
+  background:#d9b35a;
+  margin:16px 0 18px;
+}
+.fd-hero-copy h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:66px;
+  line-height:.93;
+  letter-spacing:-1px;
+}
+.fd-hero-copy p{
+  margin:14px 0 0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:26px;
+  line-height:1.12;
+}
+.fd-signature{
+  position:absolute;
+  right:42px;
+  top:46px;
+  z-index:2;
+  color:#f4ffff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  line-height:1.1;
+  font-style:italic;
+  text-align:right;
+  transform:rotate(-4deg);
+  text-shadow:0 3px 12px rgba(0,0,0,.55);
+}
+.fd-signature b{color:#e4c866;font-size:31px;font-weight:700}
+
+.fd-menu-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+.fd-menu-card{
+  position:relative;
+  display:grid;
+  grid-template-columns:68px 1fr 20px;
+  align-items:center;
+  gap:4px;
+  padding:12px 12px;
+  border:1.8px solid #2ee8da;
+  border-radius:19px;
+  color:#fff;
+  background:
+    linear-gradient(135deg,rgba(9,101,98,.84),rgba(1,53,56,.96));
+  box-shadow:0 0 18px rgba(46,232,218,.16),inset 0 1px 0 rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.fd-menu-card:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.14;
+  background:radial-gradient(circle at 80% 20%,#63fff2,transparent 30%);
+}
+.fd-menu-icon{
+  position:relative;z-index:1;
+  width:58px;height:58px;
+  display:grid;place-items:center;
+  color:#f4ffff;
+}
+.fd-menu-icon svg{width:53px;height:53px}
+.fd-menu-text{position:relative;z-index:1;min-width:0}
+.fd-menu-text strong{
+  display:block;
+  font-size:18px;
+  line-height:1.04;
+}
+.fd-menu-text span{
+  display:block;
+  margin-top:8px;
+  color:#d0e9e7;
+  font-size:12px;
+  line-height:1.2;
+}
+.fd-menu-arrow{
+  position:relative;z-index:1;
+  font-size:34px;
+  color:#e3c55f;
+  justify-self:end;
+}
+.fd-menu-card:last-child{
+  background:linear-gradient(135deg,rgba(10,119,113,.92),rgba(1,57,60,.98));
+  border-color:#62f1e5;
+}
+
+.fd-footer{
+  height:64px;
+  display:grid;
+  grid-template-columns:64px 1fr 264px;
+  align-items:center;
+  padding:0 20px 0 22px;
+  border-top:1px solid #2ce6d8;
+  background:linear-gradient(90deg,#00393c,#075b58 72%,#023638);
+  box-shadow:0 -5px 18px rgba(0,0,0,.20);
+}
+.fd-speaker{font-size:23px;color:#fff;font-weight:900}
+.fd-ticker{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  white-space:nowrap;
+  font-size:12px;
+  color:#e9fafa;
+}
+.fd-ticker i{width:1px;height:20px;background:rgba(255,255,255,.5)}
+.fd-footer-sign{
+  justify-self:end;
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+  color:#d9eeeb;
+  font-size:17px;
+}
+.fd-footer-sign b{color:#e0c463;font-size:21px}

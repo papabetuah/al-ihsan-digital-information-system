@@ -144,6 +144,11 @@ function tick(){
  document.querySelectorAll("[data-live-clock]").forEach(x=>x.textContent=masterClock());
  document.querySelectorAll("[data-live-date]").forEach(x=>x.textContent=masterDate());
  document.querySelectorAll("[data-master-cd]").forEach(x=>x.textContent=cd(st.next.date-st.now));
+ document.querySelectorAll("[data-fd-clock]").forEach(x=>x.textContent=masterClock());
+ document.querySelectorAll("[data-fd-date]").forEach(x=>x.textContent=masterDate());
+ document.querySelectorAll("[data-fd-countdown]").forEach(x=>x.textContent=cd(st.next.date-st.now));
+ document.querySelectorAll("[data-fd-next]").forEach(x=>x.textContent=`Menuju ${st.next.label}`);
+ ["shubuh","terbit","dzuhur","ashar","maghrib","isya"].forEach(k=>document.querySelectorAll(".fd-time-"+k).forEach(x=>x.textContent=st.pr[k].time));
  document.querySelectorAll("[data-master-next]").forEach(x=>x.textContent=`Menuju ${st.next.label}`);\n document.querySelectorAll("[data-master-next-name]").forEach(x=>x.textContent=st.next.label);\n document.querySelectorAll("[data-master-next-time]").forEach(x=>x.textContent=st.next.time);
  const prayerNodes={shubuh:st.pr.shubuh,terbit:st.pr.terbit,dzuhur:st.pr.dzuhur,ashar:st.pr.ashar,maghrib:st.pr.maghrib,isya:st.pr.isya};
  Object.entries(prayerNodes).forEach(([k,p])=>document.querySelectorAll(".master-prayer-"+k).forEach(x=>x.textContent=p.time))
@@ -152,23 +157,99 @@ function head(title,sub){return`<div class="titlebar"><div><h2>${esc(title)}</h2
 const picons={shubuh:"☾",terbit:"☼",dzuhur:"☀",ashar:"◒",maghrib:"◓",isya:"☾"};
 function masterDate(){return new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"2-digit",month:"long",year:"numeric",timeZone:C.timezone}).format(st.now)}
 function masterClock(){return new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:C.timezone}).format(st.now).replace(/\./g,":")}
+function fdIcon(name){
+ const common='viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+ const icons={
+  announcement:`<svg ${common}><path d="M11 31h10l25-12v26L21 33H11z"/><path d="M21 33l4 16h9l-6-14"/><path d="M49 25l5-4M50 32h7M49 39l5 4"/></svg>`,
+  book:`<svg ${common}><path d="M7 15c10-3 18-1 25 5v31c-7-6-15-8-25-5z"/><path d="M57 15c-10-3-18-1-25 5v31c7-6 15-8 25-5z"/><path d="M32 20v31"/></svg>`,
+  finance:`<svg ${common}><path d="M16 7h25l9 9v41H16z"/><path d="M41 7v11h10"/><path d="M23 29h20M23 38h8M23 47h15"/><circle cx="45" cy="43" r="6"/></svg>`,
+  build:`<svg ${common}><path d="M7 55h50"/><path d="M13 55V33h13v22M38 55V27h13v28"/><path d="M18 33v-9l5-5 5 5v9"/><path d="M42 27v-9l5-5 5 5v9"/><path d="M31 55V18h7v37"/><path d="M31 18l3.5-6L38 18"/></svg>`,
+  donate:`<svg ${common}><path d="M32 52S12 41 12 24c0-7 5-12 12-12 4 0 7 2 8 5 2-3 5-5 9-5 7 0 12 5 12 12 0 17-21 28-21 28z"/><path d="M7 57h50"/></svg>`
+ };
+ return icons[name]||icons.finance
+}
 function dashboard(){
- const ps=["shubuh","terbit","dzuhur","ashar","maghrib","isya"];
- return`<div class="slide master-dashboard-stage">
-   <img class="master-layer master-underlay" src="./assets/dashboard-master-underlay.png?v=dashboard-final-5" alt="">
-   <div class="master-live master-date" data-live-date>${masterDate()}</div>
-   <div class="master-live master-clock" data-live-clock>${masterClock()}</div>
-   ${ps.map(k=>`<div class="master-live master-prayer master-prayer-${k}">${st.pr[k].time}</div>`).join("")}
-   <div class="master-live master-next-label" data-master-next>Menuju ${st.next.label}</div>
-   <div class="master-live master-countdown" data-master-cd>${cd(st.next.date-st.now)}</div>
-   <img class="master-layer master-overlay" src="./assets/dashboard-master-overlay.png?v=dashboard-final-5" alt="Master Dashboard Masjid Al Ihsan Kapuih">
-   <div class="master-dzuhur-neutralizer" aria-hidden="true"></div>
-   <div class="master-next-glass" aria-label="Sholat berikutnya">
-     <i class="next-glow"></i>
-     <div class="next-copy"><span>SHOLAT BERIKUTNYA</span><strong data-master-next-name>${st.next.label}</strong></div>
-     <b data-master-next-time>${st.next.time}</b>
-   </div>
-  </div>`
+ const rows=[
+  ["shubuh","Shubuh"],["terbit","Terbit"],["dzuhur","Dzuhur"],
+  ["ashar","Ashar"],["maghrib","Maghrib"],["isya","Isya"]
+ ];
+ const menus=[
+  ["announcement","Pengumuman<br>Masjid","Info terbaru seputar<br>masjid Al Ihsan"],
+  ["book","Kajian Rutin","Majelis ilmu<br>untuk semua usia"],
+  ["finance","Laporan<br>Keuangan","Transparan<br>& amanah"],
+  ["build","Program<br>Pembangunan","Bersama membangun<br>rumah Allah"],
+  ["donate","Donasi via<br>QRIS & Transfer","Salurkan infak terbaik<br>untuk kemakmuran masjid"]
+ ];
+ return`<div class="final-dashboard" data-fd-root>
+  <header class="fd-header">
+    <div class="fd-brand">
+      <img src="./assets/logo-masjid-final.png?v=master-final-1" alt="Logo Masjid Al Ihsan">
+      <div class="fd-brand-copy">
+        <h1>Masjid Al Ihsan Kapuih</h1>
+        <div class="fd-address"><span>●</span> Jalan Kapuih, Kel. Limau Manis, Kec. Pauh, Padang</div>
+        <div class="fd-motto"><i></i><b>MEMAKMURKAN MASJID, MEMBANGUN UMAT</b><i></i></div>
+      </div>
+    </div>
+    <div class="fd-clockbox">
+      <div class="fd-date" data-fd-date>${masterDate()}</div>
+      <div class="fd-clockline"><strong data-fd-clock>${masterClock()}</strong><span>WIB</span></div>
+      <div class="fd-verse">“Dan dirikanlah shalat, tunaikanlah zakat<br>dan rukuklah bersama orang-orang yang rukuk”<small>(QS. Al-Baqarah : 43)</small></div>
+    </div>
+  </header>
+
+  <section class="fd-main">
+    <aside class="fd-prayer-card">
+      <div class="fd-prayer-title">
+        <img src="./assets/masjid.svg?v=master-final-1" alt="">
+        <div><h2>Jadwal Sholat</h2><small>WILAYAH PADANG & SEKITARNYA</small></div>
+      </div>
+      <div class="fd-prayer-list">
+        ${rows.map(([k,label])=>`<div class="fd-prayer-row">
+          <span class="fd-prayer-icon fd-icon-${k}"></span>
+          <span class="fd-prayer-name">${label}</span>
+          <b class="fd-prayer-time fd-time-${k}">${st.pr[k].time}</b>
+        </div>`).join("")}
+      </div>
+      <div class="fd-countdown-card">
+        <div class="fd-count-head">
+          <span class="fd-hourglass">⌛</span>
+          <div><h3 data-fd-next>Menuju ${st.next.label}</h3><p>Hitungan Mundur Waktu Sholat Berikutnya</p></div>
+        </div>
+        <div class="fd-countdown" data-fd-countdown>${cd(st.next.date-st.now)}</div>
+        <div class="fd-count-units"><span>JAM</span><span>MENIT</span><span>DETIK</span></div>
+        <div class="fd-ready"><span>♜</span> Mari Bersiap Menuju Sholat Fardhu</div>
+      </div>
+    </aside>
+
+    <div class="fd-right">
+      <div class="fd-hero">
+        <img src="./assets/masjid-hero-clean-final.jpg?v=master-final-1" alt="Masjid Al Ihsan Kapuih">
+        <div class="fd-hero-shade"></div>
+        <div class="fd-hero-copy">
+          <div class="fd-eyebrow">TEMPAT KEMBALI<br>MERAIH KETENANGAN</div>
+          <i></i>
+          <h2>Masjid<br>Al Ihsan Kapuih</h2>
+          <p>Rumah Ibadah, Pusat Ilmu,<br>Sarana Umat Berdaya</p>
+        </div>
+        <div class="fd-signature">Jadikan Masjid<br><b>Lebih Hidup</b></div>
+      </div>
+
+      <div class="fd-menu-grid">
+        ${menus.map(([icon,title,sub])=>`<div class="fd-menu-card">
+          <div class="fd-menu-icon">${fdIcon(icon)}</div>
+          <div class="fd-menu-text"><strong>${title}</strong><span>${sub}</span></div>
+          <b class="fd-menu-arrow">›</b>
+        </div>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <footer class="fd-footer">
+    <div class="fd-speaker">◖))</div>
+    <div class="fd-ticker"><span>Mohon menjaga kebersihan masjid</span><i></i><span>Ikuti kegiatan rutin masjid: kajian, tahsin, dan pengajian</span><i></i><span>Infak membantu operasional & pembangunan masjid</span><i></i><span>Bersama memakmurkan masjid, meraih keberkahan</span></div>
+    <div class="fd-footer-sign">Jadikan Masjid <b>Lebih Hidup</b></div>
+  </footer>
+ </div>`
 }
 function masterPrayerScreen(){
  return`<div class="master-canvas master-sholat">
@@ -265,22 +346,30 @@ function debug(){
  return`<div class="slide debug"><h2>Al Ihsan Digital Information System — Debug</h2><div class="debuggrid"><div class="panel"><b>Waktu</b>${esc(st.now.toString())}</div><div class="panel"><b>Mode</b>${st.mode}</div><div class="panel"><b>Slide</b>${forcedSlide||C.playlist[st.idx][0]}</div><div class="panel"><b>Sholat berikutnya</b>${st.next.label} ${st.next.time}<br><span data-cd-next>${cd(st.next.date-st.now)}</span></div><div class="panel"><b>Jadwal</b>${Object.values(st.pr).map(x=>x.label+" "+x.time).join("<br>")}</div><div class="panel"><b>Sumber data</b>${Object.entries(st.status).map(([k,v])=>k+": "+v).join("<br>")}</div></div></div>`
 }
 function currentSlideKey(){return forcedSlide||C.playlist[st.idx][0]}
+function fitFinalDashboard(){
+ const root=document.querySelector("[data-fd-root]");
+ if(!root)return;
+ const scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+ root.style.setProperty("--fd-scale",String(scale))
+}
 function render(){
  if(!st.pr)return;
  try{
   const isDashboard=st.mode==="NORMAL"&&currentSlideKey()==="dashboard";
   const isPrayerMaster=st.mode==="SHOLAT_BERLANGSUNG"||st.mode==="SHOLAT_JUMAT";
-  APP.classList.toggle("master-template",isDashboard||isPrayerMaster);
-  APP.classList.toggle("master-dashboard-active",isDashboard);
+  APP.classList.toggle("final-dashboard-active",isDashboard);
+  APP.classList.toggle("master-template",isPrayerMaster);
+  APP.classList.toggle("master-dashboard-active",false);
   APP.classList.toggle("master-sholat-active",isPrayerMaster);
   S.innerHTML=qs.get("debug")==="1"?debug():st.mode==="NORMAL"?normal():modeScreen();
+  if(isDashboard)requestAnimationFrame(fitFinalDashboard);
   st.lastRender=Date.now()
  }catch(e){
-  APP.classList.remove("master-template","master-dashboard-active","master-sholat-active");
+  APP.classList.remove("final-dashboard-active","master-template","master-dashboard-active","master-sholat-active");
   S.innerHTML='<div class="slide mode"><div class="panel modebox"><h2>Masjid Al Ihsan Kapuih</h2><p class="mode-sub">Sistem informasi sedang memulihkan tampilan.</p></div></div>'
  }
 }
-window.addEventListener("error",()=>{if(Date.now()-st.lastRender>30000)location.reload()});
+window.addEventListener("resize",fitFinalDashboard);\nwindow.addEventListener("error",()=>{if(Date.now()-st.lastRender>30000)location.reload()});
 window.addEventListener("unhandledrejection",()=>{if(Date.now()-st.lastRender>30000)location.reload()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){tick();render();refresh()}});
 tick();render();refresh();
