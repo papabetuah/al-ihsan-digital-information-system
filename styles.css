@@ -4,14 +4,14 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
 #viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
 .stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638}
 .master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
-.live{position:absolute;z-index:5;color:#fff;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 2px 7px rgba(0,0,0,.38)}
-.live-date{left:1230px;top:16px;width:356px;height:42px;background:#075b59;font-size:18px;font-weight:600;border-radius:5px}
-.live-clock{left:1194px;top:59px;width:414px;height:100px;border-radius:16px;background:linear-gradient(180deg,#00373a,#002c2f);gap:13px;box-shadow:inset 0 0 12px rgba(55,238,224,.08)}
+.live{position:absolute;z-index:5;color:#fff;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 2px 7px rgba(0,0,0,.55)}
+.live-date{left:1230px;top:16px;width:356px;height:42px;background:transparent;font-size:18px;font-weight:600}
+.live-clock{left:1194px;top:59px;width:414px;height:100px;background:transparent;gap:13px;box-shadow:none}
 .live-clock strong{font-size:54px;line-height:1;font-weight:900;letter-spacing:1px}
 .live-clock span{font-size:18px;font-weight:800;margin-top:31px}
-.prayer-time{left:244px;width:136px;height:50px;justify-content:flex-end;padding-right:17px;background:linear-gradient(90deg,#045956,#075f5b);font-size:38px;font-weight:900;border-radius:10px}
+.prayer-time{left:244px;width:136px;height:50px;justify-content:flex-end;padding-right:17px;background:transparent;font-size:38px;font-weight:900}
 .prayer-shubuh{top:278px}.prayer-terbit{top:338px}.prayer-dzuhur{top:398px}.prayer-ashar{top:458px}.prayer-maghrib{top:518px}.prayer-isya{top:578px}
-.next-prayer{left:108px;top:627px;width:270px;height:48px;background:linear-gradient(90deg,#075c59,#075b59);font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:700;border-radius:6px}
-.countdown{left:43px;top:703px;width:329px;height:82px;background:linear-gradient(180deg,#002f32,#002529);border-radius:14px;font-size:53px;font-weight:900;letter-spacing:.5px}
+.next-prayer{left:108px;top:627px;width:270px;height:48px;background:transparent;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:700}
+.countdown{left:43px;top:703px;width:329px;height:82px;background:transparent;font-size:53px;font-weight:900;letter-spacing:.5px}
 .status-dot{position:absolute;z-index:7;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
