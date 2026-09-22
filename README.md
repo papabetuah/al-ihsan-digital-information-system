@@ -2,6 +2,18 @@
 
 Digital signage web app for Masjid Al Ihsan Kapuih, optimized for 16:9 Google/Android TV through Yodeck.
 
+## Production delivery
+
+GitHub Pages is the current production delivery path for the mosque TV dashboard:
+
+`GitHub repository -> GitHub Pages -> Yodeck -> Android/Google TV`
+
+Production URL:
+
+`https://papabetuah.github.io/al-ihsan-digital-information-system/`
+
+Netlify is not required for the current static TV architecture and is not the canonical production target. Reconsider a server-side host only if the dashboard later needs protected secrets, authenticated administration, server-side APIs, or other backend workloads.
+
 ## Main URL
 
 `/` — fullscreen TV display.
