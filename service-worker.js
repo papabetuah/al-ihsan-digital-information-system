@@ -1,4 +1,4 @@
-const CACHE="alihsan-tarjih-padang-v10";
+const CACHE="alihsan-tarjih-padang-v9";
 const FILES=[
   "./",
   "./index.html",
@@ -6,7 +6,8 @@ const FILES=[
   "./app.js",
   "./config.js",
   "./prayer-times.js",
-  "./assets/dashboard-master-underlay.jpg"
+  "./assets/dashboard-master-underlay.png",
+  "./assets/dashboard-master-overlay.png"
 ];
 
 self.addEventListener("install",event=>{

@@ -12,27 +12,19 @@ Production URL:
 
 `https://papabetuah.github.io/al-ihsan-digital-information-system/`
 
+Netlify is not required for the current static TV architecture and is not the canonical production target. Reconsider a server-side host only if the dashboard later needs protected secrets, authenticated administration, server-side APIs, or other backend workloads.
+
 ## Main URL
 
 `/` — fullscreen TV display.
 
 ## TV visual architecture
 
-The **only active canonical underlay** is:
+The **active canonical underlay** is `assets/dashboard-master-underlay.png`.
 
-`assets/dashboard-master-underlay.jpg`
+It has been replaced with the owner-approved image supplied on 22 September 2026. The previous underlay is obsolete and must not be used again.
 
-This file is the latest owner-approved image supplied on **22 September 2026**. It supersedes every previous dashboard underlay/master image.
-
-The following older assets are **LEGACY / NOT ACTIVE / MUST NOT BE USED AS UNDERLAY**:
-
-- `assets/dashboard-master-underlay.png` — obsolete and removed from the active tree
-- `assets/dashboard-master-original.png`
-- `assets/dashboard-master.png`
-- `assets/master-dashboard-approved-final.png`
-- `assets/dashboard-master-overlay.png` — legacy mask; no longer loaded by the live dashboard
-
-The current approved underlay already contains the complete static artwork. These values remain live HTML/JavaScript overlays:
+The master image contains the static design only. These values are always rendered live by HTML/JavaScript:
 
 - date and WIB clock
 - Shubuh
@@ -41,10 +33,12 @@ The current approved underlay already contains the complete static artwork. Thes
 - Ashar
 - Maghrib
 - Isya
-- next-prayer label
+- next-prayer label (`Menuju ...`)
 - prayer countdown
 
-The dashboard uses a fixed 1672×941 internal coordinate system and scales proportionally to the TV viewport, including 1920×1080 output.
+`assets/dashboard-master-overlay.png` remains the transparent detail mask used above the active underlay. The live-value slots are cut out so fixed numbers cannot overlap the dynamic values.
+
+The dashboard uses a fixed 1672×941 internal coordinate system matching the approved master and scales proportionally to the TV viewport, including 1920×1080 output.
 
 ## Prayer-time standard
 
@@ -61,6 +55,8 @@ Core criteria:
 - Dzuhur: solar transit plus calendar normalization
 - Terbit/Maghrib: calibrated sunrise/sunset profile
 
+The implementation is separated into `prayer-times.js` and uses a Tarjih-style ephemeris/transit/hour-angle engine, guarded by a strict regression test against the Majelis Tarjih Padang 2026 printed-calendar samples.
+
 Run:
 
 ```bash
@@ -69,7 +65,7 @@ node tests/prayer-regression.mjs
 
 Acceptance: **100% exact-to-minute matches. Any one-minute deviation fails CI.**
 
-See [PRAYER_METHOD.md](PRAYER_METHOD.md) for the standardized method and change-control rules.
+See [PRAYER_METHOD.md](PRAYER_METHOD.md) for the full standardized method and change-control rules.
 
 ## Google Sheets
 
@@ -88,3 +84,5 @@ Tabs:
 - PESAN_DAKWAH
 - JUMAT
 - DONASI
+
+For direct browser fetching, Google Sheets must be published/shared so the CSV `gviz` endpoint can be read without authentication. Until then, the app uses local cache and safe fallback demo data.
