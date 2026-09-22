@@ -2,7 +2,7 @@ window.AL_IHSAN_CONFIG = Object.freeze({
   name: "Masjid Al Ihsan Kapuih",
   timezone: "Asia/Jakarta",
   timezoneOffset: 7,
-  release: "tarjih-padang-v5",
+  release: "tarjih-padang-v6",
   prayerMethod: Object.freeze({
     id: "majelis-tarjih-muhammadiyah-padang",
     engine: "tarjih-ephemeris-v2",
