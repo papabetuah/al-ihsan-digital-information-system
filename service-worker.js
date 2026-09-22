@@ -1,4 +1,4 @@
-const CACHE="alihsan-tarjih-padang-v7";
+const CACHE="alihsan-tarjih-padang-v8";
 const FILES=[
   "./",
   "./index.html",
