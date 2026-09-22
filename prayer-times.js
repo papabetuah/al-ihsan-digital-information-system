@@ -16,76 +16,63 @@ function solarCoordinates(jd){
   const seconds=21.448-T*(46.815+T*(.00059-T*.001813));
   const meanObliq=23+(26+seconds/60)/60;
   const obliq=meanObliq+.00256*Math.cos(rad(omega));
-  const decl=deg(Math.asin(Math.sin(rad(obliq))*Math.sin(rad(lambda))));
+  const declination=deg(Math.asin(Math.sin(rad(obliq))*Math.sin(rad(lambda))));
   const y=Math.tan(rad(obliq/2))**2;
-  const eq=4*deg(y*Math.sin(2*rad(L0))-2*e*Math.sin(rad(M))+4*e*y*Math.sin(rad(M))*Math.cos(2*rad(L0))-.5*y*y*Math.sin(4*rad(L0))-1.25*e*e*Math.sin(2*rad(M)));
-  return{declination:decl,equationMinutes:eq};
-}
-function utcMinutes(ms){const d=new Date(ms);return d.getUTCHours()*60+d.getUTCMinutes()+d.getUTCSeconds()/60+d.getUTCMilliseconds()/60000}
-function solarAltitude(ms,lat,lon){
-  const s=solarCoordinates(julianDay(ms));
-  const tst=((utcMinutes(ms)+s.equationMinutes+4*lon)%1440+1440)%1440;
-  const hourAngle=tst/4-180;
-  const cosZen=Math.sin(rad(lat))*Math.sin(rad(s.declination))+Math.cos(rad(lat))*Math.cos(rad(s.declination))*Math.cos(rad(hourAngle));
-  return 90-deg(Math.acos(clamp(cosZen,-1,1)));
+  const equationMinutes=4*deg(y*Math.sin(2*rad(L0))-2*e*Math.sin(rad(M))+4*e*y*Math.sin(rad(M))*Math.cos(2*rad(L0))-.5*y*y*Math.sin(4*rad(L0))-1.25*e*e*Math.sin(2*rad(M)));
+  return{declination,equationMinutes};
 }
 function localMidnightMs(ymd,tz){return Date.UTC(ymd.year,ymd.month-1,ymd.day)-tz*60*MIN}
-function crossing(ymd,method,targetAltitude,guessHour,rising){
-  const start=localMidnightMs(ymd,method.timezoneOffset)+(guessHour-3)*60*MIN;
-  const end=start+6*60*MIN;
-  let prevT=start,prev=solarAltitude(prevT,method.latitude,method.longitude)-targetAltitude,lo=null,hi=null;
-  for(let i=1;i<=72;i++){
-    const t=start+(end-start)*i/72;
-    const cur=solarAltitude(t,method.latitude,method.longitude)-targetAltitude;
-    if(prev===0||prev*cur<0){const slope=cur-prev;if((rising&&slope>0)||(!rising&&slope<0)){lo=prevT;hi=t;break}}
-    prevT=t;prev=cur;
-  }
-  if(lo===null)throw new Error("Solar crossing not found");
-  let flo=solarAltitude(lo,method.latitude,method.longitude)-targetAltitude;
-  for(let i=0;i<48;i++){
-    const mid=(lo+hi)/2,fmid=solarAltitude(mid,method.latitude,method.longitude)-targetAltitude;
-    if(flo*fmid<=0)hi=mid;else{lo=mid;flo=fmid}
-  }
-  return(lo+hi)/2;
+function dateKey(ymd){return `${ymd.year}-${pad(ymd.month)}-${pad(ymd.day)}`}
+function dailyEphemeris(ymd,method){
+  const localHour=method.ephemerisReferenceLocalHour??6;
+  const ms=Date.UTC(ymd.year,ymd.month-1,ymd.day,localHour-method.timezoneOffset,0,0);
+  return solarCoordinates(julianDay(ms));
 }
-function solarNoon(ymd,method){
-  const midnight=localMidnightMs(ymd,method.timezoneOffset);let minute=720;
-  for(let i=0;i<6;i++){
-    const ms=midnight+minute*MIN,s=solarCoordinates(julianDay(ms));
-    minute=720-4*method.longitude-s.equationMinutes+60*method.timezoneOffset;
-  }
-  return midnight+minute*MIN;
+function transitMinutes(ymd,method,ephemeris=dailyEphemeris(ymd,method)){
+  const standardMeridian=15*method.timezoneOffset;
+  return 720-ephemeris.equationMinutes+4*(standardMeridian-method.longitude);
 }
-function asr(ymd,method){
-  const noon=solarNoon(ymd,method),decl=solarCoordinates(julianDay(noon)).declination;
-  const zenithDistance=Math.abs(method.latitude-decl);
-  const altitude=deg(Math.atan(1/(method.asrShadowFactor+Math.tan(rad(zenithDistance)))));
-  return crossing(ymd,method,altitude,15.5,false);
+function hourAngleMinutes(altitudeDeg,latitudeDeg,declinationDeg){
+  const numerator=Math.sin(rad(altitudeDeg))-Math.sin(rad(latitudeDeg))*Math.sin(rad(declinationDeg));
+  const denominator=Math.cos(rad(latitudeDeg))*Math.cos(rad(declinationDeg));
+  return 4*deg(Math.acos(clamp(numerator/denominator,-1,1)));
 }
-function normalize(rawMs,ymd,method,key){
-  const midnight=localMidnightMs(ymd,method.timezoneOffset);
-  const rawMinutes=(rawMs-midnight)/MIN;
+function asrAltitude(method,declinationDeg){
+  const zenithDistance=Math.abs(method.latitude-declinationDeg);
+  return deg(Math.atan(1/(method.asrShadowFactor+Math.tan(rad(zenithDistance)))));
+}
+function rawPrayerMinutes(ymd,method){
+  const ephemeris=dailyEphemeris(ymd,method);
+  const transit=transitMinutes(ymd,method,ephemeris);
+  const H=altitude=>hourAngleMinutes(altitude,method.latitude,ephemeris.declination);
+  return{
+    shubuh:transit-H(method.fajrAltitudeDeg),
+    terbit:transit-H(method.sunriseSunsetAltitudeDeg),
+    dhuha:transit-H(method.dhuhaAltitudeDeg),
+    dzuhur:transit,
+    ashar:transit+H(asrAltitude(method,ephemeris.declination)),
+    maghrib:transit+H(method.sunriseSunsetAltitudeDeg),
+    isya:transit+H(method.ishaAltitudeDeg)
+  };
+}
+function publishedAdjustment(ymd,method,key){
+  return method.publishedCalendarMinuteAdjustments?.[dateKey(ymd)]?.[key]??0;
+}
+function normalize(rawMinutes,ymd,method,key){
   const correction=(method.calendarCalibrationSeconds?.[key]??0)/60;
-  const rounded=Math.ceil(rawMinutes+correction-1e-9);
-  return{minutes:rounded,ts:midnight+rounded*MIN,time:`${pad(Math.floor(rounded/60)%24)}:${pad(rounded%60)}`};
+  const minutes=Math.ceil(rawMinutes+correction-1e-9)+publishedAdjustment(ymd,method,key);
+  const midnight=localMidnightMs(ymd,method.timezoneOffset);
+  return{minutes,ts:midnight+minutes*MIN,time:`${pad(Math.floor(minutes/60)%24)}:${pad((minutes%60+60)%60)}`};
 }
 function calculate(ymd,method){
-  const raw={
-    shubuh:crossing(ymd,method,method.fajrAltitudeDeg,5,true),
-    terbit:crossing(ymd,method,method.sunriseSunsetAltitudeDeg,6,true),
-    dhuha:crossing(ymd,method,method.dhuhaAltitudeDeg,6.5,true),
-    dzuhur:solarNoon(ymd,method),
-    ashar:asr(ymd,method),
-    maghrib:crossing(ymd,method,method.sunriseSunsetAltitudeDeg,18,false),
-    isya:crossing(ymd,method,method.ishaAltitudeDeg,19,false)
-  };
+  const raw=rawPrayerMinutes(ymd,method);
   const labels={shubuh:"Shubuh",terbit:"Terbit",dhuha:"Dhuha",dzuhur:"Dzuhur",ashar:"Ashar",maghrib:"Maghrib",isya:"Isya"};
-  return Object.fromEntries(Object.entries(raw).map(([key,ms])=>[key,{key,label:labels[key],...normalize(ms,ymd,method,key)}]));
+  return Object.fromEntries(Object.entries(raw).map(([key,value])=>[key,{key,label:labels[key],...normalize(value,ymd,method,key)}]));
 }
 function localYMD(now,timezone){
-  const p=new Intl.DateTimeFormat("en-CA",{timeZone:timezone,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);
-  const m=Object.fromEntries(p.filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)]));
-  return{year:m.year,month:m.month,day:m.day};
+  const parts=new Intl.DateTimeFormat("en-CA",{timeZone:timezone,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);
+  const mapped=Object.fromEntries(parts.filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)]));
+  return{year:mapped.year,month:mapped.month,day:mapped.day};
 }
 function tomorrow(ymd){const d=new Date(Date.UTC(ymd.year,ymd.month-1,ymd.day+1,12));return{year:d.getUTCFullYear(),month:d.getUTCMonth()+1,day:d.getUTCDate()}}
 function nextPrayer(nowMs,times,ymd,method){for(const key of["shubuh","dzuhur","ashar","maghrib","isya"])if(nowMs<times[key].ts)return times[key];return calculate(tomorrow(ymd),method).shubuh}
