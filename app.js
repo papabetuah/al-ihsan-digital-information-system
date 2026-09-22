@@ -13,11 +13,17 @@ function midday(t,j){return fixHour(12-sunPosition(j+t).equation)}
 function angleTime(angle,t,j,lat,beforeNoon){const dec=sunPosition(j+t).declination,noon=midday(t,j);let x=(-sin(angle)-sin(dec)*sin(lat))/(cos(dec)*cos(lat));x=Math.max(-1,Math.min(1,x));const delta=acos(x)/15;return noon+(beforeNoon?-delta:delta)}
 function asrTime(factor,t,j,lat){const dec=sunPosition(j+t).declination,angle=-acot(factor+tan(Math.abs(lat-dec)));return angleTime(angle,t,j,lat,false)}
 function localYMD(now=new Date()){const p=new Intl.DateTimeFormat("en-CA",{timeZone:C.timezone,year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);const m=Object.fromEntries(p.filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)]));return{year:m.year,month:m.month,day:m.day}}
+function correctionMinutes(key){return Number(C.prayerCorrectionsMinutes?.[key]??0)}
 function calcPrayerTimes(ymd){
  const j=julian(ymd.year,ymd.month,ymd.day)-C.longitude/(15*24),t={shubuh:5,terbit:6,dzuhur:12,ashar:13,maghrib:18,isya:19};
  for(let i=0;i<5;i++){Object.keys(t).forEach(k=>t[k]/=24);t.shubuh=angleTime(C.fajrAngle,t.shubuh,j,C.latitude,true);t.terbit=angleTime(C.sunriseSunsetAngle,t.terbit,j,C.latitude,true);t.dzuhur=midday(t.dzuhur,j);t.ashar=asrTime(C.asrFactor,t.ashar,j,C.latitude);t.maghrib=angleTime(C.sunriseSunsetAngle,t.maghrib,j,C.latitude,false);t.isya=angleTime(C.ishaAngle,t.isya,j,C.latitude,false)}
  const labels={shubuh:"Shubuh",terbit:"Terbit",dzuhur:"Dzuhur",ashar:"Ashar",maghrib:"Maghrib",isya:"Isya"},out={};
- for(const[k,v]of Object.entries(t)){let h=fixHour(v+C.timezoneOffset-C.longitude/15),hh=Math.floor(h),mm=Math.round((h-hh)*60);if(mm===60){hh=(hh+1)%24;mm=0}const ts=Date.UTC(ymd.year,ymd.month-1,ymd.day,hh-C.timezoneOffset,mm,0,0);out[k]={key:k,label:labels[k],time:`${pad(hh)}:${pad(mm)}`,ts}}
+ for(const[k,v]of Object.entries(t)){
+   let h=fixHour(v+C.timezoneOffset-C.longitude/15+correctionMinutes(k)/60),hh=Math.floor(h),mm=Math.round((h-hh)*60);
+   if(mm===60){hh=(hh+1)%24;mm=0}
+   const ts=Date.UTC(ymd.year,ymd.month-1,ymd.day,hh-C.timezoneOffset,mm,0,0);
+   out[k]={key:k,label:labels[k],time:`${pad(hh)}:${pad(mm)}`,ts}
+ }
  return out
 }
 function tomorrow(ymd){const d=new Date(Date.UTC(ymd.year,ymd.month-1,ymd.day+1,12));return{year:d.getUTCFullYear(),month:d.getUTCMonth()+1,day:d.getUTCDate()}}
@@ -33,5 +39,6 @@ function render(){
 }
 function init(){fit();render();setInterval(render,1000);addEventListener("resize",fit,{passive:true});if("serviceWorker"in navigator)navigator.serviceWorker.register(`./service-worker.js?v=${encodeURIComponent(C.release)}`).catch(()=>{})}
 addEventListener("error",()=>{E.status.style.background="#ffb158"});
+window.AL_IHSAN_PRAYER_ENGINE=Object.freeze({calcPrayerTimes,method:C.prayerMethod});
 init();
 })();
