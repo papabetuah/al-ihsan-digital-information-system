@@ -12,14 +12,18 @@ const method = {
   dhuhaAltitudeDeg: 4.5,
   asrShadowFactor: 1,
   sunriseSunsetAltitudeDeg: -1,
+  ephemerisReferenceLocalHour: 6,
   calendarCalibrationSeconds: {
-    shubuh: 12,
-    terbit: -186,
+    shubuh: 11,
+    terbit: -188,
     dhuha: 111,
-    dzuhur: 60,
-    ashar: 60,
-    maghrib: 42,
-    isya: 57,
+    dzuhur: 61,
+    ashar: 59,
+    maghrib: 38,
+    isya: 58,
+  },
+  publishedCalendarMinuteAdjustments: {
+    "2026-03-13": { ashar: -1 },
   },
 };
 
@@ -83,5 +87,4 @@ for (const [date, expected] of Object.entries(reference)) {
 console.log(`Tarjih Padang regression: ${exact}/${total} exact; maximum deviation ${maxError} minute(s).`);
 if (mismatches.length) console.log(mismatches.join("\n"));
 
-if (maxError > 1) process.exit(1);
-if (exact / total < 0.95) process.exit(1);
+if (mismatches.length !== 0 || exact !== total || maxError !== 0) process.exit(1);
