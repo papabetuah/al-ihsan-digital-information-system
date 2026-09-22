@@ -1,4 +1,4 @@
-const CACHE="alihsan-tarjih-padang-v9";
+const CACHE="alihsan-underlay-final-20260922-v11";
 const FILES=[
   "./",
   "./index.html",
@@ -6,8 +6,7 @@ const FILES=[
   "./app.js",
   "./config.js",
   "./prayer-times.js",
-  "./assets/dashboard-master-underlay.png",
-  "./assets/dashboard-master-overlay.png"
+  "./assets/dashboard-underlay-active.jpg"
 ];
 
 self.addEventListener("install",event=>{
@@ -24,7 +23,6 @@ self.addEventListener("activate",event=>{
 
 self.addEventListener("fetch",event=>{
   if(event.request.method!=="GET")return;
-
   event.respondWith(
     fetch(event.request,{cache:"no-store"})
       .then(response=>{

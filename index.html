@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#002f32">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
-  <link rel="stylesheet" href="./styles.css?v=tarjih-padang-v9">
+  <link rel="stylesheet" href="./styles.css?v=underlay-final-20260922-v11">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
     <section id="stage" class="stage" aria-live="polite">
-      <!-- Canonical static baseline. The active underlay is the owner-approved master image. -->
+      <!-- THE ONLY DASHBOARD UNDERLAY SOURCE. Do not add master/overlay images. -->
       <img
         class="master master-underlay"
-        src="./assets/dashboard-master-underlay.png?v=tarjih-padang-v9"
+        src="./assets/dashboard-underlay-active.jpg?v=underlay-final-20260922-v11"
         alt=""
         aria-hidden="true"
       >
 
-      <!-- All changing values are rendered by app.js. -->
+      <!-- Only changing values are rendered by app.js. -->
       <div id="liveDate" class="live live-date"></div>
       <div class="live live-clock"><strong id="liveClock"></strong></div>
 
@@ -33,20 +35,12 @@
       <div id="nextPrayer" class="live next-prayer"></div>
       <div id="countdown" class="live countdown"></div>
 
-      <!-- Transparent static detail mask. Dynamic slots are cut out, so no fixed numbers can overlap live values. -->
-      <img
-        class="master master-overlay"
-        src="./assets/dashboard-master-overlay.png?v=tarjih-padang-v9"
-        alt="Dashboard Masjid Al Ihsan Kapuih"
-        aria-hidden="true"
-      >
-
       <div id="statusDot" class="status-dot" title="Sistem aktif"></div>
     </section>
   </main>
 
-  <script src="./config.js?v=tarjih-padang-v9"></script>
-  <script src="./prayer-times.js?v=tarjih-padang-v9"></script>
-  <script src="./app.js?v=tarjih-padang-v9"></script>
+  <script src="./config.js?v=underlay-final-20260922-v11"></script>
+  <script src="./prayer-times.js?v=underlay-final-20260922-v11"></script>
+  <script src="./app.js?v=underlay-final-20260922-v11"></script>
 </body>
 </html>
