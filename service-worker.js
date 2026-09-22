@@ -1,4 +1,4 @@
-const CACHE="alihsan-underlay-final-20260922-v11";
+const CACHE="alihsan-underlay-final-20260922-v12";
 const FILES=[
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const FILES=[
   "./app.js",
   "./config.js",
   "./prayer-times.js",
-  "./assets/dashboard-underlay-active.jpg"
+  "./assets/dashboard-underlay-active.webp"
 ];
 
 self.addEventListener("install",event=>{
