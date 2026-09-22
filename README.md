@@ -20,7 +20,9 @@ Netlify is not required for the current static TV architecture and is not the ca
 
 ## TV visual architecture
 
-The canonical visual baseline is **Lampiran 2**, stored as `assets/dashboard-master-underlay.png`.
+The **active canonical underlay** is `assets/dashboard-master-underlay.png`.
+
+It has been replaced with the owner-approved image supplied on 22 September 2026. The previous underlay is obsolete and must not be used again.
 
 The master image contains the static design only. These values are always rendered live by HTML/JavaScript:
 
@@ -34,7 +36,7 @@ The master image contains the static design only. These values are always render
 - next-prayer label (`Menuju ...`)
 - prayer countdown
 
-`assets/dashboard-master-overlay.png` is a transparent detail mask derived from the same approved visual. The live-value slots are cut out of that mask so fixed numbers cannot overlap the dynamic values.
+`assets/dashboard-master-overlay.png` remains the transparent detail mask used above the active underlay. The live-value slots are cut out so fixed numbers cannot overlap the dynamic values.
 
 The dashboard uses a fixed 1672×941 internal coordinate system matching the approved master and scales proportionally to the TV viewport, including 1920×1080 output.
 
