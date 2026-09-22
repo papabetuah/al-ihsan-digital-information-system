@@ -1,0 +1,95 @@
+name: Apply final Mufida Digital footer to dashboard masters
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fix-master-footer-mufida.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-master-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pillow
+        run: pip install pillow
+
+      - name: Replace legacy footer signature in all canonical dashboard masters
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+
+          files = [
+              "assets/dashboard-master.png",
+              "assets/dashboard-master-original.png",
+              "assets/dashboard-master-underlay.png",
+              "assets/dashboard-master-overlay.png",
+              "assets/master-dashboard-approved-final.png",
+          ]
+
+          font_candidates = [
+              "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf",
+              "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf",
+          ]
+
+          def get_font(size):
+              for candidate in font_candidates:
+                  if Path(candidate).exists():
+                      return ImageFont.truetype(candidate, size=size)
+              return ImageFont.load_default()
+
+          for filename in files:
+              path = Path(filename)
+              if not path.exists():
+                  continue
+
+              im = Image.open(path).convert("RGBA")
+              w, h = im.size
+              sx, sy = w / 1672.0, h / 941.0
+
+              # Footer-right legacy signature text area only.
+              # Preserve the leaf symbol to the left.
+              x1, y1, x2, y2 = (
+                  round(1490 * sx),
+                  round(858 * sy),
+                  round(1668 * sx),
+                  round(934 * sy),
+              )
+
+              draw = ImageDraw.Draw(im)
+
+              # Match the dark teal footer badge used by the approved visual.
+              draw.rectangle((x1, y1, x2, y2), fill=(0, 42, 46, 255))
+
+              text = "Mufida Digital"
+              font = get_font(max(18, round(28 * sy)))
+              bbox = draw.textbbox((0, 0), text, font=font)
+              tw = bbox[2] - bbox[0]
+              th = bbox[3] - bbox[1]
+              tx = x1 + max(5, (x2 - x1 - tw) // 2)
+              ty = y1 + max(2, (y2 - y1 - th) // 2 - round(2 * sy))
+
+              # Small shadow keeps the brand readable on TV.
+              draw.text((tx + round(1 * sx), ty + round(2 * sy)), text, font=font, fill=(0, 0, 0, 110))
+              draw.text((tx, ty), text, font=font, fill=(245, 250, 248, 255))
+
+              im.save(path, "PNG", optimize=True)
+
+          PY
+
+      - name: Commit corrected master assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/dashboard-master.png \
+                  assets/dashboard-master-original.png \
+                  assets/dashboard-master-underlay.png \
+                  assets/dashboard-master-overlay.png \
+                  assets/master-dashboard-approved-final.png
+          git diff --cached --quiet || git commit -m "Replace legacy footer signature with Mufida Digital [skip ci]"
+          git push
