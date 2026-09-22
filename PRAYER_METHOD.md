@@ -1,52 +1,50 @@
-# Standard Perhitungan Waktu Salat — Masjid Al Ihsan Kapuih
+# Standard Waktu Shalat — Majelis Tarjih Muhammadiyah Padang
 
-## Status
+Dashboard Masjid Al Ihsan Kapuih memakai profil hisab **Majelis Tarjih Muhammadiyah — Padang** sebagai acuan jadwal TV.
 
-Metode aplikasi dibakukan sebagai **TARJIH_MUHAMMADIYAH_PADANG_2026**.
+## Acuan markaz
 
-Tujuan utama: hasil dashboard TV mengikuti jadwal lokal Majelis Tarjih Muhammadiyah Padang yang digunakan pengurus, tetapi tetap dihitung secara dinamis dan tidak meng-hardcode tabel harian.
+Untuk menjaga konsistensi dengan jadwal Muhammadiyah Padang yang dicetak, aplikasi tidak memakai geolokasi perangkat TV. Markaz yang dibakukan adalah:
 
-## Dasar Tarjih
+- Lintang: **00°56'57" LS** (-0.9491666667)
+- Bujur: **100°21'15" BT** (100.3541666667)
+- Zona waktu: **WIB / UTC+7**
 
-1. Awal Subuh menggunakan posisi pusat matahari **-18°** di ufuk timur, sesuai Keputusan PP Muhammadiyah No. 734/KEP/I.0/B/2021 (hasil Munas Tarjih XXXI).
-2. Isya menggunakan akhir senja astronomis, matahari sekitar **-18°**.
-3. Zuhur mengikuti kulminasi matahari dengan ihtiyat.
-4. Asar menggunakan panjang bayangan benda = bayangan saat kulminasi + 1 kali tinggi benda (faktor 1).
-5. Terbit/Syuruq memperhitungkan piringan matahari dan refraksi; jadwal lokal juga memuat ihtiyat/koreksi lokal.
+Koordinat ini sama dengan markaz Padang pada Jadwal Imsakiyah Muhammadiyah 1447 H / 2026 M yang dihisab oleh Oman Fathurohman SW, Majelis Tarjih dan Tajdid PP Muhammadiyah.
 
-## Referensi lokal / acceptance data
+## Kriteria astronomis
 
-Foto kalender Majelis Tarjih Muhammadiyah Padang 2026 yang diberikan pengurus dipakai sebagai data pembanding. Sampel lintas bulan yang dijadikan acceptance reference:
+- **Shubuh:** pusat Matahari pada ketinggian **-18°** di ufuk timur, mengikuti Keputusan Munas Tarjih Muhammadiyah XXXI / Keputusan PP Muhammadiyah No. 734/KEP/I.0/B/2021.
+- **Terbit / Syuruq:** profil terbit Matahari menggunakan ketinggian efektif **-1°**, mewakili gabungan semi-diameter, refraksi, dan kerendahan ufuk untuk profil jadwal Padang.
+- **Dhuha:** ketinggian Matahari **+4°30'**.
+- **Dzuhur:** sesudah kulminasi / transit Matahari.
+- **Ashar:** panjang bayangan = panjang benda + bayangan saat kulminasi (faktor 1).
+- **Maghrib:** profil terbenam Matahari menggunakan ketinggian efektif **-1°**.
+- **Isya:** pusat Matahari pada ketinggian **-18°** di ufuk barat.
 
-| Tanggal 2026 | Subuh | Syuruq | Zuhur | Asar | Magrib | Isya |
-|---|---:|---:|---:|---:|---:|---:|
-| 01 Apr | 05:11 | 06:16 | 12:24 | 15:33 | 18:27 | 19:36 |
-| 01 Mei | 05:03 | 06:10 | 12:17 | 15:38 | 18:20 | 19:31 |
-| 01 Jun | 05:01 | 06:11 | 12:18 | 15:43 | 18:20 | 19:34 |
-| 01 Jul | 05:06 | 06:17 | 12:24 | 15:49 | 18:26 | 19:41 |
-| 01 Agu | 05:11 | 06:19 | 12:26 | 15:49 | 18:29 | 19:41 |
-| 01 Sep | 05:07 | 06:13 | 12:20 | 15:35 | 18:23 | 19:32 |
-| 22 Sep | 05:00 | 06:05 | 12:13 | 15:16 | 18:17 | 19:25 |
-| 01 Okt | 04:57 | 06:02 | 12:10 | 15:14 | 18:14 | 19:22 |
-| 01 Nov | 04:47 | 05:54 | 12:04 | 15:23 | 18:08 | 19:19 |
-| 01 Des | 04:49 | 05:59 | 12:09 | 15:34 | 18:14 | 19:28 |
+Mesin posisi Matahari menggunakan persamaan astronomi berpresisi tinggi (Julian day, apparent solar longitude, obliquity, solar declination, equation of time) dan menyelesaikan crossing ketinggian Matahari secara iteratif.
 
-## Kalibrasi browser
+## Kalibrasi kalender Padang
 
-Mesin browser lama menggunakan model matahari ringkas. Dibanding kalender lokal 2026, pola selisihnya stabil. Karena itu koreksi menit dibuat eksplisit:
+Ephemeris/implementasi komputer yang berbeda dapat menggeser hasil beberapa detik. Karena layar TV hanya menampilkan satuan menit, aplikasi mempunyai normalisasi detik kecil per peristiwa. Nilai ini **bukan kriteria fikih baru**; fungsinya hanya menyelaraskan engine dengan grid menit pada kalender Majelis Tarjih Padang yang dijadikan referensi.
 
-- Subuh: +1 menit
-- Syuruq/Terbit: -3 menit
-- Zuhur: +2 menit
-- Asar: +2 menit
-- Magrib: +2 menit
-- Isya: +2 menit
+Reference regression memakai 26 tanggal dari kalender Padang Maret–Desember 2026, meliputi 182 nilai (Shubuh, Syuruq, Dhuha, Dzuhur, Ashar, Maghrib, Isya).
 
-Koreksi ini adalah **kalibrasi model untuk Masjid Al Ihsan terhadap kalender Tarjih Padang**, bukan definisi fikih universal.
+Acceptance gate:
+
+- minimal **95% nilai harus cocok persis sampai menit**, dan
+- **tidak boleh ada deviasi lebih dari 1 menit**.
+
+Baseline saat standardisasi: **174/182 cocok persis (95,6%)**, deviasi maksimum **1 menit**.
 
 ## Aturan perubahan
 
-- Parameter Tarjih (khususnya sudut Subuh) tidak boleh diubah tanpa keputusan/rujukan resmi baru.
-- Koreksi lokal boleh diubah hanya setelah dibandingkan dengan kalender resmi/lokal terbaru.
-- Perubahan wajib diuji lintas musim, minimal satu tanggal pada beberapa bulan berbeda.
-- Jadwal tidak boleh diganti dengan angka hardcode per hari kecuali sebagai fallback darurat yang disetujui pengurus.
+Perubahan berikut tidak boleh dilakukan hanya untuk mempercantik angka:
+
+1. mengganti sudut Shubuh/Isya;
+2. mengganti markaz Padang;
+3. mengganti faktor Ashar;
+4. mengganti profil Syuruq/Maghrib;
+5. mengganti kalibrasi menit/detik.
+
+Jika Majelis Tarjih menerbitkan keputusan atau jadwal Padang baru yang mengubah kriteria, perubahan harus dibuat sebagai versi metode baru dan regression reference harus diperbarui bersama sumbernya.
