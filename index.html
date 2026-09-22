@@ -6,13 +6,20 @@
   <meta name="theme-color" content="#002f32">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
-  <link rel="stylesheet" href="./styles.css?v=tarjih-padang-v6">
+  <link rel="stylesheet" href="./styles.css?v=tarjih-padang-v7">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
     <section id="stage" class="stage" aria-live="polite">
-      <img class="master master-underlay" src="./assets/dashboard-master-underlay.png?v=tarjih-padang-v6" alt="">
+      <!-- Canonical static baseline: Lampiran 2. It contains no live values. -->
+      <img
+        class="master master-underlay"
+        src="./assets/dashboard-master-underlay.png?v=tarjih-padang-v7"
+        alt=""
+        aria-hidden="true"
+      >
 
+      <!-- All changing values are rendered by app.js. -->
       <div id="liveDate" class="live live-date"></div>
       <div class="live live-clock"><strong id="liveClock"></strong></div>
 
@@ -26,12 +33,20 @@
       <div id="nextPrayer" class="live next-prayer"></div>
       <div id="countdown" class="live countdown"></div>
 
-      <img class="master master-overlay" src="./assets/dashboard-master-overlay.png?v=tarjih-padang-v6" alt="Dashboard Masjid Al Ihsan Kapuih">
+      <!-- Transparent static detail mask. Dynamic slots are cut out, so no fixed numbers can overlap live values. -->
+      <img
+        class="master master-overlay"
+        src="./assets/dashboard-master-overlay.png?v=tarjih-padang-v7"
+        alt="Dashboard Masjid Al Ihsan Kapuih"
+        aria-hidden="true"
+      >
+
       <div id="statusDot" class="status-dot" title="Sistem aktif"></div>
     </section>
   </main>
-  <script src="./config.js?v=tarjih-padang-v6"></script>
-  <script src="./prayer-times.js?v=tarjih-padang-v6"></script>
-  <script src="./app.js?v=tarjih-padang-v6"></script>
+
+  <script src="./config.js?v=tarjih-padang-v7"></script>
+  <script src="./prayer-times.js?v=tarjih-padang-v7"></script>
+  <script src="./app.js?v=tarjih-padang-v7"></script>
 </body>
 </html>
