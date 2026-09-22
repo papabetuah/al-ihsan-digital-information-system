@@ -21,7 +21,7 @@ Core criteria:
 - Dzuhur: solar transit plus calendar normalization
 - Terbit/Maghrib: calibrated sunrise/sunset profile
 
-The implementation is separated into `prayer-times.js` and guarded by a regression test against Majelis Tarjih Padang 2026 printed-calendar samples.
+The implementation is separated into `prayer-times.js` and uses a Tarjih-style ephemeris/transit/hour-angle engine, guarded by a strict regression test against the Majelis Tarjih Padang 2026 printed-calendar samples.
 
 Run:
 
@@ -29,7 +29,7 @@ Run:
 node tests/prayer-regression.mjs
 ```
 
-Acceptance: at least 95% exact-to-minute matches and no reference deviation greater than one minute.
+Acceptance: **100% exact-to-minute matches. Any one-minute deviation fails CI.**
 
 See [PRAYER_METHOD.md](PRAYER_METHOD.md) for the full standardized method and change-control rules.
 
