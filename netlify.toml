@@ -1,9 +1,12 @@
+# Netlify production deploy marker: 2026-09-22
 [build]
 publish="."
+
 [[redirects]]
 from="/debug"
 to="/index.html?debug=1"
 status=200
+
 [[headers]]
 for="/*"
 [headers.values]
