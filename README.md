@@ -6,6 +6,26 @@ Digital signage web app for Masjid Al Ihsan Kapuih, optimized for 16:9 Google/An
 
 `/` — fullscreen TV display.
 
+## TV visual architecture
+
+The canonical visual baseline is **Lampiran 2**, stored as `assets/dashboard-master-underlay.png`.
+
+The master image contains the static design only. These values are always rendered live by HTML/JavaScript:
+
+- date and WIB clock
+- Shubuh
+- Terbit
+- Dzuhur
+- Ashar
+- Maghrib
+- Isya
+- next-prayer label (`Menuju ...`)
+- prayer countdown
+
+`assets/dashboard-master-overlay.png` is a transparent detail mask derived from the same approved visual. The live-value slots are cut out of that mask so fixed numbers cannot overlap the dynamic values.
+
+The dashboard uses a fixed 1672×941 internal coordinate system matching the approved master and scales proportionally to the TV viewport, including 1920×1080 output.
+
 ## Prayer-time standard
 
 The TV dashboard uses the standardized **Majelis Tarjih Muhammadiyah — Padang** calculation profile.
