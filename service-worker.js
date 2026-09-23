@@ -6,7 +6,7 @@ const FILES=[
   "./app.js",
   "./config.js",
   "./prayer-times.js",
-  "./assets/dashboard-underlay-active.jpg"
+  "./assets/dashboard-underlay-active.webp"
 ];
 
 self.addEventListener("install",event=>{
