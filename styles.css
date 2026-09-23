@@ -8,31 +8,51 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
 .master-overlay{z-index:10}
 .live{position:absolute;z-index:5;color:#fff;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 2px 7px rgba(0,0,0,.55);line-height:1;pointer-events:none}
 .live-date{
-  left:1232px;
-  top:10px;
-  width:382px;
-  height:48px;
+  left:1215px;
+  top:6px;
+  width:410px;
+  height:50px;
   background:transparent;
-  font-size:22px;
+  font-size:25px;
   font-weight:700;
-  letter-spacing:.2px;
+  letter-spacing:.35px;
+  transform:scaleX(1.035);
+  transform-origin:center;
 }
 .live-clock{
-  left:1232px;
-  top:60px;
-  width:364px;
-  height:96px;
+  left:1203px;
+  top:57px;
+  width:420px;
+  height:100px;
   background:transparent;
   box-shadow:none;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  padding:0 8px;
 }
-.live-clock strong{
-  font-size:78px;
+.clock-hm{
+  font-size:76px;
   line-height:1;
   font-weight:900;
-  letter-spacing:1px;
+  letter-spacing:.5px;
+}
+.clock-sec{
+  font-size:26px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+  transform:translateY(14px);
+}
+.clock-wib{
+  font-size:26px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.5px;
+  transform:translateY(14px);
 }
 .prayer-time{
-  left:251px;
+  left:242px;
   width:146px;
   height:60px;
   justify-content:flex-end;
@@ -45,22 +65,23 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
 .prayer-shubuh{top:274px}
 .prayer-terbit{top:334px}
 .prayer-dzuhur{top:394px}
-.prayer-ashar{top:454px}
-.prayer-maghrib{top:514px}
-.prayer-isya{top:574px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
 .next-prayer{
-  left:188px;
-  top:639px;
-  width:168px;
-  height:42px;
+  left:208px;
+  top:650px;
+  width:172px;
+  height:45px;
   background:transparent;
   justify-content:flex-start;
   align-items:flex-start;
   padding-left:0;
   font-family:Georgia,"Times New Roman",serif;
-  font-size:24px;
-  font-weight:800;
-  line-height:1;
+  font-size:36px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
 }
 .countdown{
   left:48px;

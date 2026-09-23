@@ -1,7 +1,7 @@
 (()=>{"use strict";
 const C=window.AL_IHSAN_CONFIG,P=window.AL_IHSAN_PRAYER,M=C.prayerMethod;
 const $=id=>document.getElementById(id);
-const E={date:$("liveDate"),clock:$("liveClock"),countdown:$("countdown"),next:$("nextPrayer"),shubuh:$("timeShubuh"),terbit:$("timeTerbit"),dzuhur:$("timeDzuhur"),ashar:$("timeAshar"),maghrib:$("timeMaghrib"),isya:$("timeIsya"),status:$("statusDot")};
+const E={date:$("liveDate"),clockHM:$("clockHourMinute"),clockSec:$("clockSecond"),countdown:$("countdown"),next:$("nextPrayer"),shubuh:$("timeShubuh"),terbit:$("timeTerbit"),dzuhur:$("timeDzuhur"),ashar:$("timeAshar"),maghrib:$("timeMaghrib"),isya:$("timeIsya"),status:$("statusDot")};
 const prayerKeys=["shubuh","terbit","dzuhur","ashar","maghrib","isya"];
 const dateFormatter=new Intl.DateTimeFormat("id-ID",{timeZone:C.timezone,weekday:"long",day:"2-digit",month:"long",year:"numeric"});
 const clockFormatter=new Intl.DateTimeFormat("id-ID",{timeZone:C.timezone,hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});
@@ -31,7 +31,9 @@ function render(){
     const next=P.nextPrayer(now.getTime(),times,ymd,M);
 
     E.date.textContent=dateFormatter.format(now);
-    E.clock.textContent=clockFormatter.format(now).replace(/\./g,":");
+    const clockParts=Object.fromEntries(clockFormatter.formatToParts(now).filter(part=>part.type!=="literal").map(part=>[part.type,part.value]));
+    E.clockHM.textContent=`${clockParts.hour}:${clockParts.minute}`;
+    E.clockSec.textContent=clockParts.second;
 
     for(const key of prayerKeys)E[key].textContent=times[key].time;
 

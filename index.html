@@ -8,20 +8,24 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
-  <link rel="stylesheet" href="./styles.css?v=underlay-final-20260923-v15">
+  <link rel="stylesheet" href="./styles.css?v=underlay-final-20260923-v16">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
     <section id="stage" class="stage" aria-live="polite">
       <img
         class="master master-underlay"
-        src="./assets/dashboard-underlay-active.webp?v=underlay-final-20260923-v15"
+        src="./assets/dashboard-underlay-active.webp?v=underlay-final-20260923-v16"
         alt=""
         aria-hidden="true"
       >
 
       <div id="liveDate" class="live live-date"></div>
-      <div class="live live-clock"><strong id="liveClock"></strong></div>
+      <div class="live live-clock" aria-label="Waktu Indonesia Barat">
+        <strong id="clockHourMinute" class="clock-hm"></strong>
+        <span id="clockSecond" class="clock-sec"></span>
+        <span class="clock-wib">WIB</span>
+      </div>
 
       <div id="timeShubuh" class="live prayer-time prayer-shubuh"></div>
       <div id="timeTerbit" class="live prayer-time prayer-terbit"></div>
@@ -37,8 +41,8 @@
     </section>
   </main>
 
-  <script src="./config.js?v=underlay-final-20260923-v15"></script>
-  <script src="./prayer-times.js?v=underlay-final-20260923-v15"></script>
-  <script src="./app.js?v=underlay-final-20260923-v15"></script>
+  <script src="./config.js?v=underlay-final-20260923-v16"></script>
+  <script src="./prayer-times.js?v=underlay-final-20260923-v16"></script>
+  <script src="./app.js?v=underlay-final-20260923-v16"></script>
 </body>
 </html>
