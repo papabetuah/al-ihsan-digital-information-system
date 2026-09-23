@@ -6,51 +6,71 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
 .master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
 .master-underlay{z-index:1}
 .master-overlay{z-index:10}
-.live{position:absolute;z-index:5;color:#fff;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 2px 7px rgba(0,0,0,.55);line-height:1;pointer-events:none}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Narrow","Trebuchet MS","Segoe UI",Arial,sans-serif;
+}
 .live-date{
   left:1215px;
   top:6px;
   width:410px;
   height:50px;
   background:transparent;
-  font-size:25px;
-  font-weight:700;
+  font-size:38px;
+  font-weight:800;
   letter-spacing:.35px;
-  transform:scaleX(1.035);
-  transform-origin:center;
+  transform:scaleX(1.03);
+  transform-origin:center top;
 }
+
 .live-clock{
-  left:1203px;
-  top:57px;
-  width:420px;
-  height:100px;
+  left:1196px;
+  top:55px;
+  width:427px;
+  height:102px;
   background:transparent;
   box-shadow:none;
   justify-content:center;
-  align-items:center;
-  gap:7px;
-  padding:0 8px;
+  align-items:flex-end;
+  gap:4px;
+  padding:0 10px 8px 10px;
+  font-family:"Arial Narrow","Trebuchet MS","Segoe UI",Arial,sans-serif;
 }
+
 .clock-hm{
-  font-size:76px;
+  font-size:78px;
   line-height:1;
   font-weight:900;
-  letter-spacing:.5px;
+  letter-spacing:.4px;
 }
+
 .clock-sec{
   font-size:26px;
   line-height:1;
   font-weight:900;
   letter-spacing:0;
-  transform:translateY(14px);
+  margin-bottom:5px;
 }
+
 .clock-wib{
-  font-size:26px;
+  font-size:78px;
   line-height:1;
   font-weight:900;
-  letter-spacing:.5px;
-  transform:translateY(14px);
+  letter-spacing:-1px;
+  transform:scaleX(.72);
+  transform-origin:left bottom;
 }
+
 .prayer-time{
   left:242px;
   width:146px;
@@ -62,16 +82,18 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
   font-weight:900;
   letter-spacing:.2px;
 }
+
 .prayer-shubuh{top:274px}
 .prayer-terbit{top:334px}
 .prayer-dzuhur{top:394px}
 .prayer-ashar{top:450px}
 .prayer-maghrib{top:510px}
 .prayer-isya{top:570px}
+
 .next-prayer{
-  left:208px;
+  left:224px;
   top:650px;
-  width:172px;
+  width:132px;
   height:45px;
   background:transparent;
   justify-content:flex-start;
@@ -82,7 +104,10 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;fon
   font-weight:700;
   line-height:.95;
   letter-spacing:-.2px;
+  transform:scaleX(.82);
+  transform-origin:left top;
 }
+
 .countdown{
   left:48px;
   top:706px;
