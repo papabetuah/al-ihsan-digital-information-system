@@ -35,7 +35,7 @@ function render(){
 
     for(const key of prayerKeys)E[key].textContent=times[key].time;
 
-    E.next.textContent=next.label;
+    E.next.textContent=String(next.label||"").replace(/^Menuju\\s+/i,"");
     E.countdown.textContent=P.countdown(next.ts-now.getTime());
     E.status.style.background="#58f1cf";
     document.documentElement.dataset.ready="true";
