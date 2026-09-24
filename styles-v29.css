@@ -1,0 +1,345 @@
+:root{--scale:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;font-family:Arial,Helvetica,sans-serif}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638;isolation:isolate}
+.master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
+.master-underlay{z-index:1}
+.master-overlay{z-index:10}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+.live-date{
+  left:1182px;
+  top:6px;
+  width:463px;
+  height:50px;
+  background:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.05px;
+  transform:scaleX(.76);
+  transform-origin:center top;
+}
+
+.live-clock{
+  left:1188px;
+  top:55px;
+  width:435px;
+  height:102px;
+  display:block;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+
+.clock-hm{
+  position:absolute;
+  left:36px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-sec{
+  position:absolute;
+  left:286px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-wib{
+  position:absolute;
+  left: 328px;
+  bottom:10px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:76px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-1px;
+  transform:scaleX(.55);
+  transform-origin:left bottom;
+}
+
+.prayer-time{
+  left:242px;
+  width:146px;
+  height:60px;
+  justify-content:flex-end;
+  padding-right:8px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:41px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.prayer-shubuh{top:274px}
+.prayer-terbit{top:334px}
+.prayer-dzuhur{top:394px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
+
+.next-prayer{
+  left:258px;
+  top:643px;
+  width:145px;
+  height:45px;
+  background:transparent;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding-left:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
+  transform:scaleX(.74);
+  transform-origin:left top;
+}
+
+.countdown{
+  left:48px;
+  top:706px;
+  width:339px;
+  height:94px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:61px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.status-dot{position:absolute;z-index:11;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* v29 — second circular scene: Donasi.
+   Global date/clock/next-prayer/countdown coordinates stay identical to the approved dashboard. */
+.donation-scene{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .7s ease,visibility .7s ease;
+  pointer-events:none;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.stage.scene-donation .donation-scene{opacity:1;visibility:visible}
+.stage.scene-donation .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-dashboard .donation-scene{opacity:0;visibility:hidden}
+
+.donation-body-bg{
+  position:absolute;
+  left:0;right:0;top:180px;bottom:91px;
+  background:
+    radial-gradient(circle at 76% 42%,rgba(0,118,111,.20),transparent 36%),
+    linear-gradient(105deg,rgba(1,38,40,.96) 0%,rgba(2,67,66,.93) 48%,rgba(0,52,54,.91) 100%);
+  border-top:1px solid rgba(61,229,218,.25);
+  border-bottom:1px solid rgba(61,229,218,.22);
+}
+.donation-body-bg:after{
+  content:"";
+  position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(45deg,rgba(255,215,118,.025) 0 1px,transparent 1px 18px),
+    repeating-linear-gradient(-45deg,rgba(61,229,218,.018) 0 1px,transparent 1px 22px);
+}
+
+.donation-left-ambient{
+  position:absolute;
+  left:0;top:180px;width:395px;height:670px;
+  background:
+    linear-gradient(180deg,rgba(1,70,68,.86),rgba(0,38,41,.97)),
+    radial-gradient(circle at 35% 20%,rgba(255,195,80,.16),transparent 42%);
+  border-right:1px solid rgba(75,230,218,.28);
+}
+.donation-left-ambient:before{
+  content:"";
+  position:absolute;left:23px;top:38px;width:348px;height:360px;
+  border:1px solid rgba(69,226,215,.55);
+  border-radius:22px;
+  box-shadow:inset 0 0 32px rgba(0,0,0,.18),0 0 18px rgba(18,216,199,.08);
+}
+.donation-left-ambient:after{
+  content:"INFAQ TERBAIK • AMAL JARIYAH";
+  position:absolute;left:53px;top:205px;
+  width:288px;text-align:center;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:25px;font-weight:700;letter-spacing:2px;
+  color:rgba(255,231,160,.58);
+}
+
+.donation-qris-panel{
+  position:absolute;
+  left:410px;top:205px;width:455px;height:625px;
+  border:2px solid rgba(238,190,70,.92);
+  border-radius:25px;
+  background:linear-gradient(180deg,rgba(2,66,65,.96),rgba(0,49,52,.96));
+  box-shadow:0 12px 35px rgba(0,0,0,.30),inset 0 0 25px rgba(62,230,214,.10);
+  padding:14px 17px 16px;
+}
+.donation-panel-title{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;font-weight:800;line-height:1.05;text-align:center;
+  text-shadow:0 3px 8px rgba(0,0,0,.5);
+}
+.donation-panel-title span{color:#f4c45d}
+.donation-panel-subtitle{
+  text-align:center;font-size:20px;margin-top:7px;color:#f6f8f7;
+}
+.donation-qris-frame{
+  margin:14px auto 0;
+  width:402px;height:415px;
+  background:#fff;border-radius:18px;
+  border:2px solid #f1c154;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.donation-qris-image{
+  display:block;
+  max-width:96%;
+  max-height:96%;
+  width:auto;height:auto;
+  object-fit:contain;
+  filter:none!important;
+  transform:none!important;
+  image-rendering:auto;
+}
+.donation-note{
+  margin:12px auto 0;
+  width:402px;min-height:80px;
+  border-radius:15px;background:#f7faf8;color:#073f41;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:9px 20px;
+  font-size:18px;font-weight:600;line-height:1.25;
+}
+
+.donation-transfer-panel{
+  position:absolute;
+  left:880px;top:220px;width:742px;height:610px;
+}
+.transfer-title{font-size:46px;text-align:left;margin-left:30px}
+.donation-transfer-panel>.donation-panel-subtitle{
+  text-align:left;margin:10px 0 14px 31px;font-size:21px;
+}
+.bank-card{
+  width:100%;height:118px;margin-bottom:10px;
+  background:#f8faf9;color:#071e20;
+  border-radius:18px;border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+  display:flex;align-items:center;
+}
+.bank-brand{
+  width:235px;text-align:center;border-right:2px solid #27aaa4;
+  font-weight:900;color:#087f7d;line-height:.9;
+}
+.bank-bsi{font-size:56px;letter-spacing:-3px}
+.bank-nagari{font-size:22px;color:#151b20;line-height:.8}
+.bank-nagari strong{font-size:31px}
+.bank-nagari small{font-size:19px;color:#159345}
+.bank-data{flex:1;padding:10px 23px}
+.bank-name{font-size:19px;margin-bottom:1px}
+.bank-number{
+  font-size:40px;font-weight:900;line-height:1.05;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.bank-number-long{font-size:34px}
+.bank-owner{font-size:20px;font-weight:700;margin-top:2px}
+
+.donation-whatsapp{
+  height:96px;border-radius:17px;
+  border:1px solid #20c9c2;
+  background:linear-gradient(90deg,rgba(0,89,86,.95),rgba(0,58,61,.97));
+  display:flex;align-items:center;padding:8px 18px;
+  box-shadow:inset 0 0 22px rgba(33,223,208,.12);
+}
+.wa-icon{
+  width:72px;height:72px;border-radius:50%;
+  background:#27c566;color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:38px;font-weight:900;border:4px solid #fff;margin-right:15px;
+}
+.wa-copy{width:240px;display:flex;flex-direction:column;gap:3px;font-size:16px;line-height:1.1}
+.wa-copy strong{font-size:21px}
+.wa-number{
+  margin-left:auto;font-size:42px;font-weight:900;letter-spacing:1px;
+  font-variant-numeric:tabular-nums;
+}
+.donation-thanks{
+  height:127px;margin-top:16px;border-radius:20px;
+  border:2px solid rgba(229,183,69,.88);
+  background:linear-gradient(90deg,rgba(1,65,65,.98),rgba(0,45,49,.98));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:8px 35px;
+}
+.donation-thanks strong{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:36px;font-style:italic;color:#f6d273;
+}
+.donation-thanks span{font-size:19px;line-height:1.25;margin-top:6px}
+
+.donation-countdown-panel{
+  position:absolute;
+  left:18px;top:585px;width:350px;height:257px;
+  border:2px solid rgba(46,222,210,.65);
+  border-radius:25px;
+  background:linear-gradient(180deg,rgba(0,80,77,.96),rgba(0,44,48,.98));
+  box-shadow:inset 0 0 30px rgba(24,220,202,.12),0 10px 28px rgba(0,0,0,.20);
+}
+.donation-countdown-panel:before{
+  content:"Menuju";
+  position:absolute;left:95px;top:23px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:42px;font-weight:700;
+}
+.donation-countdown-panel:after{
+  content:"Hitungan Mundur Waktu Sholat Berikutnya";
+  position:absolute;left:95px;top:71px;
+  font-size:14px;
+}
+
+.donation-verse{
+  position:absolute;
+  left:1120px;top:145px;width:500px;height:82px;
+  z-index:3;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:5px 18px;
+  background:linear-gradient(180deg,rgba(0,65,67,.98),rgba(0,61,64,.98));
+  color:#fff;font-family:Georgia,"Times New Roman",serif;
+  font-size:15px;font-style:italic;line-height:1.25;
+}
+.donation-verse strong{font-style:normal;margin-top:4px;font-size:16px;color:#f5d67b}
+
+.scene-indicator{
+  position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+  z-index:4;display:flex;gap:8px;
+}
+.scene-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.36)}
+.scene-dot.active{background:#f1bd47}
+
+/* The approved live overlay remains the same size and coordinate system across scenes. */
+.stage.scene-donation .live-date,
+.stage.scene-donation .live-clock,
+.stage.scene-donation .next-prayer,
+.stage.scene-donation .countdown{z-index:6}
