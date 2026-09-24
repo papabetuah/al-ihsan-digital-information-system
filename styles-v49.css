@@ -1,0 +1,328 @@
+:root{--scale:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;font-family:Arial,Helvetica,sans-serif}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638;isolation:isolate}
+.master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
+.master-underlay{z-index:1}
+.master-overlay{z-index:10}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+.live-date{
+  left:1182px;
+  top:6px;
+  width:463px;
+  height:50px;
+  background:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.05px;
+  transform:scaleX(.76);
+  transform-origin:center top;
+}
+
+.live-clock{
+  left:1188px;
+  top:55px;
+  width:435px;
+  height:102px;
+  display:block;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+
+.clock-hm{
+  position:absolute;
+  left:36px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-sec{
+  position:absolute;
+  left:286px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-wib{
+  position:absolute;
+  left: 328px;
+  bottom:10px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:76px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-1px;
+  transform:scaleX(.55);
+  transform-origin:left bottom;
+}
+
+.prayer-time{
+  left:242px;
+  width:146px;
+  height:60px;
+  justify-content:flex-end;
+  padding-right:8px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:41px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.prayer-shubuh{top:274px}
+.prayer-terbit{top:334px}
+.prayer-dzuhur{top:394px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
+
+.next-prayer{
+  left:258px;
+  top:643px;
+  width:145px;
+  height:45px;
+  background:transparent;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding-left:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
+  transform:scaleX(.74);
+  transform-origin:left top;
+}
+
+.countdown{
+  left:48px;
+  top:706px;
+  width:339px;
+  height:94px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:61px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.status-dot{position:absolute;z-index:11;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* v30 — approved donation back layer, exact 1672x941 source. */
+.donation-scene{
+  position:absolute;inset:0;z-index:2;
+  opacity:0;visibility:hidden;
+  transition:opacity .7s ease,visibility .7s ease;
+  pointer-events:none;background:#003638;
+}
+.donation-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;
+  display:block;object-fit:fill;opacity:0;
+  transition:opacity .2s ease;
+  user-select:none;pointer-events:none;
+}
+.donation-underlay.ready{opacity:1}
+.stage.scene-donation .donation-scene{opacity:1;visibility:visible}
+.stage.scene-dashboard .donation-scene{opacity:0;visibility:hidden}
+.stage.scene-donation .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-donation .live-date,
+.stage.scene-donation .live-clock,
+.stage.scene-donation .next-prayer,
+.stage.scene-donation .countdown{z-index:6}
+
+
+/* v48 — DONATION OVERLAY PROFILE ONLY.
+   Dashboard overlay profile and donation back layer are locked and unchanged. */
+
+/* Next prayer name unchanged. */
+.stage.scene-donation .next-prayer{
+  left:242px;
+  top:605px;
+  font-size:40px;
+}
+
+/* Countdown unchanged. */
+.stage.scene-donation .countdown{
+  left:30px;
+  top:676px;
+}
+
+/* Day/date unchanged. */
+.stage.scene-donation .live-date{
+  left:1149px;
+  top:-13px;
+  font-size:21px;
+}
+
+/* Clock container unchanged. */
+.stage.scene-donation .live-clock{
+  left:1160px;
+  top:15px;
+}
+
+/* HH:MM: 1px further left from v47. */
+.stage.scene-donation .clock-hm{
+  left:11px;
+  bottom:6px;
+  font-size:93px;
+}
+
+/* Seconds unchanged. */
+.stage.scene-donation .clock-sec{
+  left:290px;
+  bottom:6px;
+  font-size:40px;
+}
+
+/* WIB unchanged. */
+.stage.scene-donation .clock-wib{
+  left:341px;
+  bottom:15px;
+  font-size:70px;
+}
+
+
+/* v49 — ANNOUNCEMENT SCENE DRAFT.
+   Dashboard profile, donation profile v48 and donation back layer remain locked. */
+.announcement-scene{
+  position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;
+  transition:opacity .55s ease,visibility .55s ease;
+  background:radial-gradient(circle at 18% 18%,rgba(25,134,116,.20),transparent 34%),
+             linear-gradient(135deg,#032c2f 0%,#061e22 55%,#09272a 100%);
+  color:#f7f4df;overflow:hidden
+}
+.announcement-bg-grid{
+  position:absolute;inset:0;opacity:.18;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),transparent 86%)
+}
+.stage.scene-announcement .announcement-scene{opacity:1;visibility:visible}
+.stage:not(.scene-announcement) .announcement-scene{opacity:0;visibility:hidden}
+
+.announcement-brand{
+  position:absolute;left:36px;top:28px;width:1090px;height:92px;
+  display:flex;align-items:center;gap:18px;padding:10px 18px;
+  border:1px solid rgba(233,197,99,.36);border-radius:18px;
+  background:linear-gradient(90deg,rgba(5,61,59,.96),rgba(5,42,44,.82));
+  box-shadow:0 14px 34px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.025)
+}
+.announcement-brand img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.35))}
+.announcement-brand-text{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.announcement-kicker{font-size:15px;font-weight:800;letter-spacing:3.1px;color:#d8bc6d}
+.announcement-brand-title{margin-top:2px;font-family:Georgia,"Times New Roman",serif;font-size:39px;font-weight:800;letter-spacing:.6px;color:#fff9e5;text-shadow:0 2px 6px rgba(0,0,0,.45)}
+.announcement-brand-subtitle{font-size:19px;font-weight:700;color:#9fdbce;letter-spacing:.4px}
+.announcement-cms-state{
+  margin-left:auto;align-self:flex-start;margin-top:7px;padding:7px 11px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);font-size:11px;font-weight:900;letter-spacing:1.2px;
+  color:#b9d7d1;background:rgba(0,0,0,.17)
+}
+.announcement-cms-state.online{color:#c5f2cb;border-color:rgba(105,214,132,.35)}
+.announcement-cms-state.offline{color:#f2d8a3;border-color:rgba(226,177,82,.35)}
+
+.announcement-main-card{
+  position:absolute;left:36px;top:136px;width:1090px;height:720px;padding:40px 44px 38px;
+  border-radius:26px;border:1px solid rgba(224,192,95,.38);
+  background:linear-gradient(145deg,rgba(6,57,57,.97),rgba(5,38,41,.96));
+  box-shadow:0 24px 60px rgba(0,0,0,.31),inset 0 0 0 1px rgba(255,255,255,.03);
+  overflow:hidden
+}
+.announcement-main-card:before{content:"";position:absolute;left:0;top:0;width:8px;height:100%;background:linear-gradient(#d6b35b,#f1d587,#8f6c22)}
+.announcement-priority{
+  display:inline-flex;align-items:center;height:38px;padding:0 18px;border-radius:999px;
+  background:rgba(212,176,81,.15);border:1px solid rgba(225,194,106,.45);
+  font-size:16px;font-weight:900;letter-spacing:1.5px;color:#e8c970
+}
+.announcement-priority.priority-darurat{color:#ffd0c7;border-color:rgba(255,112,83,.6);background:rgba(148,36,27,.24)}
+.announcement-priority.priority-utama{color:#ffe3a0;border-color:rgba(241,194,85,.62);background:rgba(138,100,18,.25)}
+.announcement-title{
+  margin:26px 0 22px;max-width:930px;font-family:Georgia,"Times New Roman",serif;
+  font-size:67px;line-height:1.03;font-weight:800;color:#fffce9;text-wrap:balance;text-shadow:0 3px 10px rgba(0,0,0,.38)
+}
+.announcement-body{
+  max-width:935px;max-height:345px;overflow:hidden;font-size:38px;line-height:1.26;
+  font-weight:650;color:#e8f1ec;white-space:pre-line;text-wrap:pretty
+}
+.announcement-meta{
+  position:absolute;left:44px;right:44px;bottom:48px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  font-size:22px;font-weight:800;color:#b6d9d1
+}
+.announcement-meta span{display:inline-flex;align-items:center;min-height:38px;padding:0 16px;border-radius:12px;border:1px solid rgba(135,202,188,.23);background:rgba(0,0,0,.13)}
+.announcement-image{position:absolute;right:44px;bottom:108px;width:310px;height:220px;object-fit:cover;border-radius:16px;border:1px solid rgba(226,195,105,.45);box-shadow:0 10px 30px rgba(0,0,0,.32)}
+.announcement-main-card.has-image .announcement-body{max-width:600px}
+.announcement-pager{position:absolute;right:28px;top:24px;font-size:14px;font-weight:900;letter-spacing:1.1px;color:#7ca8a1}
+
+.announcement-rail{position:absolute;right:36px;top:28px;width:474px;height:828px}
+.announcement-clock-panel,.announcement-prayer-panel,.announcement-agenda-panel,.announcement-hikmah-panel{
+  position:absolute;left:0;width:100%;border:1px solid rgba(224,192,95,.34);border-radius:20px;
+  background:linear-gradient(145deg,rgba(5,55,56,.96),rgba(5,34,38,.96));
+  box-shadow:0 16px 38px rgba(0,0,0,.24),inset 0 0 0 1px rgba(255,255,255,.024)
+}
+.announcement-clock-panel{top:0;height:160px}
+.announcement-prayer-panel{top:174px;height:150px}
+.announcement-agenda-panel{top:338px;height:302px}
+.announcement-hikmah-panel{top:654px;height:174px}
+.announcement-panel-label{position:absolute;left:20px;top:14px;font-size:12px;font-weight:900;letter-spacing:2px;color:#c7a956}
+.announcement-menuju{position:absolute;left:24px;top:55px;font-family:Georgia,"Times New Roman",serif;font-size:27px;font-weight:700;color:#e4c46d}
+.announcement-panel-header{height:48px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);font-size:15px;font-weight:900;letter-spacing:1.15px;color:#e2c36d}
+.announcement-panel-mini{font-size:10px;color:#7fbcb0;letter-spacing:1px}
+.announcement-agenda-list{padding:10px 14px;height:248px;overflow:hidden}
+.announcement-agenda-item{position:relative;display:grid;grid-template-columns:74px 1fr;gap:10px;min-height:55px;padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.announcement-agenda-item:last-child{border-bottom:0}
+.announcement-agenda-time{font-size:17px;font-weight:900;color:#e8ca72}
+.announcement-agenda-name{font-size:18px;line-height:1.1;font-weight:800;color:#f3f6ef}
+.announcement-agenda-sub{margin-top:4px;font-size:12px;font-weight:700;color:#8fbab2}
+.announcement-agenda-badge{display:inline-block;margin-left:7px;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:900;letter-spacing:.7px;color:#cdf5d3;background:rgba(57,137,75,.25);border:1px solid rgba(97,194,117,.26)}
+.announcement-agenda-empty{height:100%;display:flex;align-items:center;justify-content:center;color:#6f9e97;font-size:16px;font-weight:700;text-align:center}
+.announcement-hikmah-panel .announcement-panel-header{height:42px;font-size:12px}
+.announcement-wisdom{margin:13px 18px 4px;font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.22;font-style:italic;color:#f4f0d7}
+.announcement-wisdom-source{margin:0 18px;font-size:12px;font-weight:900;color:#d0b45e;text-align:right}
+.announcement-footer{
+  position:absolute;left:36px;right:36px;bottom:18px;height:50px;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;border-radius:14px;
+  border:1px solid rgba(224,192,95,.25);background:rgba(2,31,34,.92);
+  font-size:14px;font-weight:800;letter-spacing:.35px;color:#97c5bc
+}
+.announcement-footer div:last-child{color:#d3b961}
+
+/* Announcement live overlay profile — independent from locked Dashboard and Donation profiles. */
+.stage.scene-announcement .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-announcement .live-date,.stage.scene-announcement .live-clock,.stage.scene-announcement .next-prayer,.stage.scene-announcement .countdown{z-index:6}
+.stage.scene-announcement .live-date{
+  left:1190px;top:49px;width:420px;height:28px;font-size:23px;
+  transform:scaleX(.88);transform-origin:center top;color:#cbe6df
+}
+.stage.scene-announcement .live-clock{left:1190px;top:77px;width:420px;height:80px}
+.stage.scene-announcement .clock-hm{left:10px;bottom:6px;font-size:72px}
+.stage.scene-announcement .clock-sec{left:238px;bottom:6px;font-size:30px}
+.stage.scene-announcement .clock-wib{left:282px;bottom:6px;font-size:58px;transform:scaleX(.62)}
+.stage.scene-announcement .next-prayer{
+  left:1248px;top:235px;width:180px;height:38px;font-size:34px;
+  transform:scaleX(.86);transform-origin:left top;color:#fff9e6
+}
+.stage.scene-announcement .countdown{left:1190px;top:274px;width:420px;height:70px;font-size:53px;color:#fff}

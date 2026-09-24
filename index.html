@@ -8,14 +8,14 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
-  <link rel="stylesheet" href="./styles-v48.css?v=underlay-final-20260924-v48-donation-overlay-profile">
+  <link rel="stylesheet" href="./styles-v49.css?v=announcement-v49-draft-20260924">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
     <section id="stage" class="stage" aria-live="polite">
       <img
         class="master master-underlay"
-        src="./assets/dashboard-underlay-active.webp?v=underlay-final-20260924-v48-donation-overlay-profile"
+        src="./assets/dashboard-underlay-active.webp?v=announcement-v49-draft-20260924"
         alt=""
         aria-hidden="true"
       >
@@ -23,6 +23,66 @@
       <section id="donationScene" class="donation-scene" aria-label="Halaman Donasi" aria-hidden="true">
         <img id="donationUnderlay" class="donation-underlay" alt="" aria-hidden="true">
       </section>
+      <section id="announcementScene" class="announcement-scene" aria-label="Halaman Pengumuman" aria-hidden="true">
+        <div class="announcement-bg-grid" aria-hidden="true"></div>
+
+        <div class="announcement-brand">
+          <img src="./assets/logo-masjid-final.png?v=announcement-v49-draft-20260924" alt="" aria-hidden="true">
+          <div class="announcement-brand-text">
+            <div class="announcement-kicker">PUSAT INFORMASI JAMAAH</div>
+            <div class="announcement-brand-title">PENGUMUMAN MASJID</div>
+            <div class="announcement-brand-subtitle">Masjid Al Ihsan Kapuih</div>
+          </div>
+          <div id="announcementCmsState" class="announcement-cms-state">CMS LOKAL</div>
+        </div>
+
+        <section id="announcementMainCard" class="announcement-main-card">
+          <div id="announcementPriority" class="announcement-priority">INFORMASI JAMAAH</div>
+          <h1 id="announcementTitle" class="announcement-title">Pengumuman Masjid Al Ihsan</h1>
+          <div id="announcementBody" class="announcement-body">Informasi kegiatan, kajian, gotong royong, pelayanan jamaah, dan pengumuman penting akan tampil otomatis di halaman ini.</div>
+          <div id="announcementMeta" class="announcement-meta">
+            <span id="announcementTime">Dikelola melalui Google Sheet oleh pengurus</span>
+            <span id="announcementLocation">Masjid Al Ihsan Kapuih</span>
+          </div>
+          <img id="announcementImage" class="announcement-image" alt="" hidden>
+          <div id="announcementPager" class="announcement-pager">1 / 1</div>
+        </section>
+
+        <aside class="announcement-rail" aria-label="Informasi waktu dan agenda">
+          <section class="announcement-clock-panel">
+            <div class="announcement-panel-label">WAKTU SEKARANG</div>
+          </section>
+
+          <section class="announcement-prayer-panel">
+            <div class="announcement-panel-label">MENUJU SHOLAT</div>
+            <div class="announcement-menuju">Menuju</div>
+          </section>
+
+          <section class="announcement-agenda-panel">
+            <div class="announcement-panel-header">
+              <span>AGENDA KEGIATAN</span>
+              <span class="announcement-panel-mini">TERKINI</span>
+            </div>
+            <div id="announcementAgendaList" class="announcement-agenda-list">
+              <div class="announcement-agenda-empty">Belum ada agenda aktif.</div>
+            </div>
+          </section>
+
+          <section class="announcement-hikmah-panel">
+            <div class="announcement-panel-header">
+              <span>PESAN MEMAKMURKAN MASJID</span>
+            </div>
+            <blockquote id="announcementWisdom" class="announcement-wisdom">Memakmurkan masjid merupakan bagian dari amal orang beriman.</blockquote>
+            <div id="announcementWisdomSource" class="announcement-wisdom-source">QS. At-Taubah: 18</div>
+          </section>
+        </aside>
+
+        <footer class="announcement-footer">
+          <div>MASJID AL IHSAN KAPUIH • Informasi jamaah, kajian, pendidikan, sosial &amp; pelayanan umat</div>
+          <div>Mufida Digital</div>
+        </footer>
+      </section>
+
 
       <div id="liveDate" class="live live-date"></div>
       <div class="live live-clock" aria-label="Waktu Indonesia Barat">
@@ -45,8 +105,8 @@
     </section>
   </main>
 
-  <script src="./config-v48.js?v=underlay-final-20260924-v48-donation-overlay-profile"></script>
-  <script src="./prayer-times.js?v=underlay-final-20260924-v48-donation-overlay-profile"></script>
-  <script src="./app-v48.js?v=underlay-final-20260924-v48-donation-overlay-profile"></script>
+  <script src="./config-v49.js?v=announcement-v49-draft-20260924"></script>
+  <script src="./prayer-times.js?v=announcement-v49-draft-20260924"></script>
+  <script src="./app-v49.js?v=announcement-v49-draft-20260924"></script>
 </body>
 </html>
