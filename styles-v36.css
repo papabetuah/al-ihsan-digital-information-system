@@ -1,0 +1,204 @@
+:root{--scale:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;font-family:Arial,Helvetica,sans-serif}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638;isolation:isolate}
+.master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
+.master-underlay{z-index:1}
+.master-overlay{z-index:10}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+.live-date{
+  left:1182px;
+  top:6px;
+  width:463px;
+  height:50px;
+  background:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.05px;
+  transform:scaleX(.76);
+  transform-origin:center top;
+}
+
+.live-clock{
+  left:1188px;
+  top:55px;
+  width:435px;
+  height:102px;
+  display:block;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+
+.clock-hm{
+  position:absolute;
+  left:36px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-sec{
+  position:absolute;
+  left:286px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-wib{
+  position:absolute;
+  left: 328px;
+  bottom:10px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:76px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-1px;
+  transform:scaleX(.55);
+  transform-origin:left bottom;
+}
+
+.prayer-time{
+  left:242px;
+  width:146px;
+  height:60px;
+  justify-content:flex-end;
+  padding-right:8px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:41px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.prayer-shubuh{top:274px}
+.prayer-terbit{top:334px}
+.prayer-dzuhur{top:394px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
+
+.next-prayer{
+  left:258px;
+  top:643px;
+  width:145px;
+  height:45px;
+  background:transparent;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding-left:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
+  transform:scaleX(.74);
+  transform-origin:left top;
+}
+
+.countdown{
+  left:48px;
+  top:706px;
+  width:339px;
+  height:94px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:61px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.status-dot{position:absolute;z-index:11;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* v30 — approved donation back layer, exact 1672x941 source. */
+.donation-scene{
+  position:absolute;inset:0;z-index:2;
+  opacity:0;visibility:hidden;
+  transition:opacity .7s ease,visibility .7s ease;
+  pointer-events:none;background:#003638;
+}
+.donation-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;
+  display:block;object-fit:fill;opacity:0;
+  transition:opacity .2s ease;
+  user-select:none;pointer-events:none;
+}
+.donation-underlay.ready{opacity:1}
+.stage.scene-donation .donation-scene{opacity:1;visibility:visible}
+.stage.scene-dashboard .donation-scene{opacity:0;visibility:hidden}
+.stage.scene-donation .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-donation .live-date,
+.stage.scene-donation .live-clock,
+.stage.scene-donation .next-prayer,
+.stage.scene-donation .countdown{z-index:6}
+
+
+/* v36 — DONATION OVERLAY PROFILE ONLY.
+   Dashboard overlay profile and donation back layer are locked and unchanged. */
+
+/* Next prayer name unchanged. */
+.stage.scene-donation .next-prayer{
+  left:242px;
+  top:605px;
+  font-size:40px;
+}
+
+/* Countdown unchanged. */
+.stage.scene-donation .countdown{
+  left:30px;
+  top:676px;
+}
+
+/* Day/date unchanged. */
+.stage.scene-donation .live-date{
+  left:1149px;
+  top:-6px;
+  font-size:25px;
+}
+
+/* Clock container unchanged. */
+.stage.scene-donation .live-clock{
+  left:1160px;
+  top:15px;
+}
+
+/* HH:MM: +2px font and 10px further left from v35. */
+.stage.scene-donation .clock-hm{
+  left:16px;
+  bottom:7px;
+  font-size:83px;
+}
+
+/* Seconds: +4px font; position unchanged. */
+.stage.scene-donation .clock-sec{
+  left:279px;
+  font-size:40px;
+}
+
+/* WIB: 6px further right from v35. */
+.stage.scene-donation .clock-wib{
+  left:337px;
+  font-size:70px;
+}
