@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<defs>
+  <radialGradient id="bg" cx="45%" cy="38%" r="70%">
+    <stop offset="0" stop-color="#0a7588"/>
+    <stop offset=".62" stop-color="#045365"/>
+    <stop offset="1" stop-color="#012f3c"/>
+  </radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fff6b1"/>
+    <stop offset=".2" stop-color="#ffd85c"/>
+    <stop offset=".5" stop-color="#e5a019"/>
+    <stop offset=".78" stop-color="#ffd96a"/>
+    <stop offset="1" stop-color="#b57408"/>
+  </linearGradient>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#001c24" flood-opacity=".75"/>
+  </filter>
+</defs>
+
+<!-- clean medallion frame: only safe geometry, no off-canvas paths -->
+<circle cx="64" cy="64" r="57" fill="url(#bg)" stroke="url(#gold)" stroke-width="5" filter="url(#shadow)"/>
+<circle cx="64" cy="64" r="49" fill="none" stroke="url(#gold)" stroke-width="2.5"/>
+
+<!-- ornamental cardinal diamonds -->
+<g fill="url(#gold)" filter="url(#shadow)">
+  <path d="M64 5 69 15 79 20 69 25 64 35 59 25 49 20 59 15Z"/>
+  <path d="M64 93 69 103 79 108 69 113 64 123 59 113 49 108 59 103Z"/>
+  <path d="M5 64 15 59 20 49 25 59 35 64 25 69 20 79 15 69Z"/>
+  <path d="M93 64 103 59 108 49 113 59 123 64 113 69 108 79 103 69Z"/>
+</g>
+
+<!-- subtle inner Islamic motif ring -->
+<circle cx="64" cy="64" r="42" fill="none" stroke="#0d7a8c" stroke-width="2" stroke-dasharray="4 5" opacity=".85"/>
+
+<!-- no-cross symbol -->
+<g filter="url(#shadow)" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="64" cy="64" r="33" fill="none" stroke="url(#gold)" stroke-width="7"/>
+  <circle cx="64" cy="43" r="7" fill="url(#gold)"/>
+  <path d="M62 52c-4 5-7 11-8 18l-10 12M66 53c6 5 10 9 15 12M57 69l10 8 7 16"
+        fill="none" stroke="url(#gold)" stroke-width="7"/>
+  <path d="M40 40 88 88" stroke="#fff2a3" stroke-width="8"/>
+  <path d="M40 40 88 88" stroke="url(#gold)" stroke-width="5"/>
+</g>
+</svg>
