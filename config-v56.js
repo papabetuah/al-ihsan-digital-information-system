@@ -30,7 +30,7 @@ window.AL_IHSAN_CONFIG = Object.freeze({
       Ashar: Object.freeze({ active: true, azanMinutes: 5, iqamahMinutes: 10, khutbahMinutes: 0, prayerMinutes: 10, returnScene: "dashboard" }),
       Maghrib: Object.freeze({ active: true, azanMinutes: 5, iqamahMinutes: 5, khutbahMinutes: 0, prayerMinutes: 10, returnScene: "dashboard" }),
       Isya: Object.freeze({ active: true, azanMinutes: 5, iqamahMinutes: 10, khutbahMinutes: 0, prayerMinutes: 10, returnScene: "dashboard" }),
-      Jumat: Object.freeze({ active: true, azanMinutes: 5, iqamahMinutes: 0, khutbahMinutes: 45, prayerMinutes: 10, returnScene: "dashboard" })
+      Jumat: Object.freeze({ active: true, azanMinutes: 5, iqamahMinutes: 0, khutbahMinutes: 30, prayerMinutes: 10, returnScene: "dashboard" })
     }),
     ramadanDefaults: Object.freeze({
       active: false,
