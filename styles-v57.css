@@ -1,0 +1,804 @@
+:root{--scale:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;font-family:Arial,Helvetica,sans-serif}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638;isolation:isolate}
+.master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
+.master-underlay{z-index:1}
+.master-overlay{z-index:10}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+.live-date{
+  left:1182px;
+  top:6px;
+  width:463px;
+  height:50px;
+  background:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.05px;
+  transform:scaleX(.76);
+  transform-origin:center top;
+}
+
+.live-clock{
+  left:1188px;
+  top:55px;
+  width:435px;
+  height:102px;
+  display:block;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+
+.clock-hm{
+  position:absolute;
+  left:36px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-sec{
+  position:absolute;
+  left:286px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-wib{
+  position:absolute;
+  left: 328px;
+  bottom:10px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:76px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-1px;
+  transform:scaleX(.55);
+  transform-origin:left bottom;
+}
+
+.prayer-time{
+  left:242px;
+  width:146px;
+  height:60px;
+  justify-content:flex-end;
+  padding-right:8px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:41px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.prayer-shubuh{top:274px}
+.prayer-terbit{top:334px}
+.prayer-dzuhur{top:394px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
+
+.next-prayer{
+  left:258px;
+  top:643px;
+  width:145px;
+  height:45px;
+  background:transparent;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding-left:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
+  transform:scaleX(.74);
+  transform-origin:left top;
+}
+
+.countdown{
+  left:48px;
+  top:706px;
+  width:339px;
+  height:94px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:61px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.status-dot{position:absolute;z-index:11;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* v30 — approved donation back layer, exact 1672x941 source. */
+.donation-scene{
+  position:absolute;inset:0;z-index:2;
+  opacity:0;visibility:hidden;
+  transition:opacity .7s ease,visibility .7s ease;
+  pointer-events:none;background:#003638;
+}
+.donation-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;
+  display:block;object-fit:fill;opacity:0;
+  transition:opacity .2s ease;
+  user-select:none;pointer-events:none;
+}
+.donation-underlay.ready{opacity:1}
+.stage.scene-donation .donation-scene{opacity:1;visibility:visible}
+.stage.scene-dashboard .donation-scene{opacity:0;visibility:hidden}
+.stage.scene-donation .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-donation .live-date,
+.stage.scene-donation .live-clock,
+.stage.scene-donation .next-prayer,
+.stage.scene-donation .countdown{z-index:6}
+
+
+/* v48 — DONATION OVERLAY PROFILE ONLY.
+   Dashboard overlay profile and donation back layer are locked and unchanged. */
+
+/* Next prayer name unchanged. */
+.stage.scene-donation .next-prayer{
+  left:242px;
+  top:605px;
+  font-size:40px;
+}
+
+/* Countdown unchanged. */
+.stage.scene-donation .countdown{
+  left:30px;
+  top:676px;
+}
+
+/* Day/date unchanged. */
+.stage.scene-donation .live-date{
+  left:1149px;
+  top:-13px;
+  font-size:21px;
+}
+
+/* Clock container unchanged. */
+.stage.scene-donation .live-clock{
+  left:1160px;
+  top:15px;
+}
+
+/* HH:MM: 1px further left from v47. */
+.stage.scene-donation .clock-hm{
+  left:11px;
+  bottom:6px;
+  font-size:93px;
+}
+
+/* Seconds unchanged. */
+.stage.scene-donation .clock-sec{
+  left:290px;
+  bottom:6px;
+  font-size:40px;
+}
+
+/* WIB unchanged. */
+.stage.scene-donation .clock-wib{
+  left:341px;
+  bottom:15px;
+  font-size:70px;
+}
+
+
+/* v51 — FUTURISTIC ANNOUNCEMENT BACK LAYER.
+   Dashboard overlay profile, Donation overlay profile v48 and Donation back layer remain locked. */
+
+.announcement-scene{
+  position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;overflow:hidden;color:#f8f4df;
+  transition:opacity .55s ease,visibility .55s ease;
+  background:
+    linear-gradient(90deg,rgba(0,36,38,.93) 0%,rgba(0,39,41,.88) 54%,rgba(0,31,34,.82) 100%),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat,
+    #042d30;
+}
+.announcement-atmosphere{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 72% 10%,rgba(224,192,91,.16),transparent 24%),
+    radial-gradient(circle at 17% 72%,rgba(0,238,212,.09),transparent 28%),
+    linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.22));
+}
+.announcement-atmosphere:before{
+  content:"";position:absolute;inset:0;opacity:.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 86%);
+}
+.stage.scene-announcement .announcement-scene{opacity:1;visibility:visible}
+.stage:not(.scene-announcement) .announcement-scene{opacity:0;visibility:hidden}
+
+.announcement-brand{
+  position:absolute;left:30px;top:8px;width:1090px;height:126px;display:flex;align-items:center;
+  padding:7px 18px 7px 20px;overflow:visible;
+  border-bottom:2px solid rgba(230,197,96,.72);
+  background:linear-gradient(90deg,rgba(3,55,56,.74),rgba(3,45,48,.22) 80%,transparent);
+  filter:drop-shadow(0 7px 16px rgba(0,0,0,.26));
+}
+.announcement-brand:after{
+  content:"";position:absolute;left:182px;right:8px;bottom:-3px;height:1px;
+  background:linear-gradient(90deg,#d0aa4a,rgba(36,239,215,.78),transparent 88%);
+  box-shadow:0 0 10px rgba(46,242,219,.48);
+}
+.announcement-logo-wrap{
+  flex:0 0 158px;height:116px;display:flex;align-items:center;justify-content:center;
+  overflow:visible;margin-right:20px;
+}
+.announcement-logo-wrap img{
+  display:block;width:150px;height:112px;object-fit:contain;object-position:center;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.36));
+}
+.announcement-brand-text{display:flex;flex-direction:column;justify-content:center;min-width:0;padding-bottom:2px}
+.announcement-kicker{font-size:16px;font-weight:900;letter-spacing:5.6px;color:#f0ca68;text-shadow:0 1px 7px rgba(0,0,0,.5)}
+.announcement-brand-title{
+  margin-top:3px;font-family:Georgia,"Times New Roman",serif;font-size:43px;line-height:1;font-weight:800;
+  letter-spacing:.8px;color:#fffdf0;text-shadow:0 3px 10px rgba(0,0,0,.54)
+}
+.announcement-brand-subtitle{margin-top:3px;font-size:17px;font-weight:800;letter-spacing:.8px;color:#d6eee7}
+.announcement-cms-state{display:none!important}
+
+.announcement-main-card{
+  position:absolute;left:22px;top:145px;width:1110px;height:674px;padding:62px 58px 50px;
+  border-radius:31px;border:2px solid rgba(222,187,76,.82);
+  background:
+    linear-gradient(90deg,rgba(0,49,51,.91),rgba(0,42,45,.74) 58%,rgba(0,45,47,.38)),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat;
+  box-shadow:
+    0 0 0 4px rgba(16,238,217,.10),
+    0 0 18px rgba(40,245,224,.25),
+    0 0 26px rgba(233,193,70,.22),
+    inset 0 0 48px rgba(0,0,0,.34);
+  overflow:hidden;
+}
+.announcement-main-card:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.03),transparent 36%),
+    radial-gradient(circle at 82% 40%,rgba(241,199,82,.10),transparent 28%),
+    linear-gradient(90deg,rgba(0,35,37,.3),transparent 40%);
+}
+.announcement-main-card:after{
+  content:"";position:absolute;left:14px;top:14px;width:160px;height:126px;
+  border-left:2px solid rgba(215,180,70,.52);border-top:2px solid rgba(215,180,70,.52);
+  border-radius:22px 0 0 0;opacity:.72;pointer-events:none;
+}
+.announcement-main-ornament{
+  position:absolute;left:48px;top:42px;width:285px;height:52px;display:flex;align-items:center;gap:8px;
+}
+.announcement-speaker{
+  width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#f5d066;border:2px solid #f0ca68;background:rgba(0,34,36,.75);
+  box-shadow:0 0 16px rgba(239,202,104,.38),0 0 10px rgba(15,239,216,.25);
+  font-size:10px;
+}
+.announcement-speaker:before{content:"📣";font-size:28px;filter:grayscale(1) sepia(1) saturate(2)}
+.announcement-speaker{font-size:0}
+.announcement-line{
+  flex:1;height:2px;background:linear-gradient(90deg,#e2bb52,#27e3d3);
+  box-shadow:0 0 8px rgba(27,228,210,.38);position:relative;
+}
+.announcement-line:after{
+  content:"◆";position:absolute;left:46%;top:-11px;color:#e4bf58;font-size:14px;text-shadow:0 0 8px rgba(224,190,83,.5)
+}
+
+.announcement-priority{
+  position:absolute;left:58px;top:104px;display:none;align-items:center;height:34px;padding:0 16px;
+  border-radius:999px;background:rgba(5,59,59,.78);border:1px solid rgba(43,229,207,.55);
+  color:#f2ce6d;font-size:15px;font-weight:900;letter-spacing:1.6px
+}
+.announcement-main-card.has-content .announcement-priority{display:inline-flex}
+.announcement-priority.priority-darurat{color:#ffd2c7;border-color:rgba(255,110,82,.62);background:rgba(123,28,22,.45)}
+.announcement-priority.priority-utama{color:#ffe6a4;border-color:rgba(239,194,82,.66);background:rgba(111,80,18,.38)}
+.announcement-title{
+  position:relative;margin:92px 0 22px;max-width:930px;
+  font-family:Georgia,"Times New Roman",serif;font-size:67px;line-height:1.03;font-weight:800;
+  color:#fffce9;text-shadow:0 3px 12px rgba(0,0,0,.55);text-wrap:balance;
+}
+.announcement-body{
+  position:relative;max-width:935px;max-height:328px;overflow:hidden;
+  font-size:38px;line-height:1.25;font-weight:650;color:#edf4ef;white-space:pre-line;text-wrap:pretty;
+  text-shadow:0 2px 7px rgba(0,0,0,.42)
+}
+.announcement-meta{
+  position:absolute;left:58px;right:58px;bottom:34px;display:none;gap:12px;align-items:center;flex-wrap:wrap;
+  font-size:19px;font-weight:850;color:#c9e8e0
+}
+.announcement-main-card.has-content .announcement-meta{display:flex}
+.announcement-meta span{
+  display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:12px;
+  border:1px solid rgba(40,225,205,.32);background:rgba(0,26,29,.55)
+}
+.announcement-meta span:empty{display:none}
+.announcement-image{
+  position:absolute;right:42px;bottom:100px;width:314px;height:220px;object-fit:cover;border-radius:16px;
+  border:1px solid rgba(232,197,91,.58);box-shadow:0 10px 30px rgba(0,0,0,.36)
+}
+.announcement-main-card.has-image .announcement-body{max-width:610px}
+.announcement-pager{
+  position:absolute;right:28px;top:24px;font-size:13px;font-weight:900;letter-spacing:1px;color:#b2d9d2
+}
+.announcement-pager:empty{display:none}
+
+.announcement-rail{position:absolute;right:18px;top:8px;width:505px;height:811px}
+.announcement-clock-panel,
+.announcement-prayer-panel,
+.announcement-agenda-panel,
+.announcement-hikmah-panel{
+  position:absolute;left:0;width:100%;overflow:hidden;
+  border:2px solid rgba(58,238,220,.74);border-radius:26px;
+  background:
+    linear-gradient(145deg,rgba(0,58,61,.95),rgba(0,38,42,.93)),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat;
+  box-shadow:
+    0 0 0 3px rgba(232,196,87,.10),
+    0 0 17px rgba(41,241,222,.28),
+    inset 0 0 34px rgba(0,0,0,.28)
+}
+.announcement-clock-panel{top:0;height:158px}
+.announcement-prayer-panel{top:169px;height:154px}
+.announcement-agenda-panel{top:334px;height:315px}
+.announcement-hikmah-panel{top:660px;height:151px;border-color:rgba(227,189,74,.78)}
+
+.announcement-clock-panel:after,
+.announcement-prayer-panel:after,
+.announcement-agenda-panel:after,
+.announcement-hikmah-panel:after{
+  content:"";position:absolute;right:-16px;top:-18px;width:130px;height:130px;border-radius:50%;
+  border:1px solid rgba(224,190,76,.20);box-shadow:inset 0 0 0 14px rgba(42,230,210,.035)
+}
+.announcement-corner-icon{
+  position:absolute;left:22px;top:16px;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#f1ca67;font-size:27px;
+  border:1px solid rgba(236,199,95,.52);background:rgba(0,31,34,.68);
+  box-shadow:0 0 13px rgba(234,197,92,.28)
+}
+.announcement-mosque-icon:before{content:"🕌";font-size:27px}
+.announcement-mosque-icon{font-size:0}
+.announcement-calendar-icon{font-size:24px;font-weight:900}
+
+.announcement-panel-header{
+  height:58px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:16px;font-weight:900;letter-spacing:2px;color:#efca68
+}
+.announcement-panel-header:before{content:"▦";font-size:22px;margin-right:12px;color:#f0c85f}
+.announcement-panel-header span:first-child{margin-right:auto}
+.announcement-panel-mini{font-size:10px;color:#a6d8cf;letter-spacing:1.3px}
+.announcement-agenda-list{padding:10px 15px;height:252px;overflow:hidden}
+.announcement-agenda-item{
+  display:grid;grid-template-columns:82px 1fr;gap:10px;min-height:56px;padding:8px 8px;
+  border:1px solid rgba(54,221,204,.18);border-radius:11px;margin-bottom:7px;background:rgba(0,25,28,.24)
+}
+.announcement-agenda-time{font-size:16px;font-weight:900;color:#e7c45e}
+.announcement-agenda-name{font-size:17px;line-height:1.08;font-weight:850;color:#f2f6ef}
+.announcement-agenda-sub{margin-top:3px;font-size:11px;font-weight:700;color:#95c2ba}
+.announcement-agenda-badge{
+  display:inline-block;margin-left:6px;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:900;
+  letter-spacing:.6px;color:#cdf5d3;background:rgba(57,137,75,.28);border:1px solid rgba(97,194,117,.28)
+}
+.announcement-agenda-empty{display:none}
+
+.announcement-hikmah-panel{display:grid;grid-template-columns:112px 1fr;align-items:center;padding:10px 22px 10px 12px}
+.announcement-quran-icon{
+  width:96px;height:96px;display:flex;align-items:center;justify-content:center;
+  font-size:58px;filter:sepia(1) saturate(1.4) hue-rotate(350deg) brightness(1.1);
+  text-shadow:0 0 12px rgba(232,194,80,.35)
+}
+.announcement-wisdom{
+  margin:0;font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.22;font-style:italic;
+  color:#f5f0d9;max-height:76px;overflow:hidden
+}
+.announcement-wisdom:empty:before{content:"“";font-size:48px;line-height:.7;color:#e8c65e;opacity:.9}
+.announcement-wisdom-source{margin-top:5px;font-size:12px;font-weight:900;color:#e2bc54;text-align:right}
+
+.announcement-footer{
+  position:absolute;left:20px;right:20px;bottom:12px;height:70px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;border-radius:18px;
+  border:1px solid rgba(226,191,79,.72);
+  background:linear-gradient(90deg,rgba(0,38,41,.97),rgba(0,49,52,.91),rgba(0,35,38,.97));
+  box-shadow:0 0 14px rgba(33,228,210,.12),inset 0 0 22px rgba(0,0,0,.2);
+  font-size:14px;font-weight:780;letter-spacing:.4px;color:#d4e8e3
+}
+.announcement-footer strong{font-size:16px;letter-spacing:1.5px;color:#fff8e3}
+.announcement-footer-sep{display:inline-block;width:1px;height:28px;margin:0 20px;background:#d9b74e;vertical-align:middle}
+.announcement-footer div:last-child{font-size:16px;font-weight:900;color:#efca67}
+
+/* Announcement live overlay profile — independent from the locked Dashboard and Donation overlays. */
+.stage.scene-announcement .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-announcement .live-date,
+.stage.scene-announcement .live-clock,
+.stage.scene-announcement .next-prayer,
+.stage.scene-announcement .countdown{z-index:6}
+
+.stage.scene-announcement .live-date{
+  left:1210px;top:39px;width:390px;height:28px;font-size:22px;
+  transform:scaleX(.92);transform-origin:center top;color:#f2f7f4
+}
+.stage.scene-announcement .live-clock{left:1198px;top:66px;width:414px;height:87px}
+.stage.scene-announcement .clock-hm{left:8px;bottom:5px;font-size:75px}
+.stage.scene-announcement .clock-sec{left:240px;bottom:6px;font-size:29px}
+.stage.scene-announcement .clock-wib{left:282px;bottom:5px;font-size:57px;transform:scaleX(.64)}
+
+.stage.scene-announcement .next-prayer{
+  left:1270px;top:232px;width:186px;height:39px;font-size:35px;
+  transform:scaleX(.88);transform-origin:left top;color:#f3ce68
+}
+.stage.scene-announcement .countdown{
+  left:1215px;top:272px;width:392px;height:68px;font-size:54px;color:#fff
+}
+
+
+/* v52 — APPROVED STATIC ANNOUNCEMENT UNDERLAY
+   Dashboard and Donation stay locked. Announcement upper layer remains independently calibratable. */
+.announcement-scene{background:#032f31!important}
+.announcement-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;z-index:0;
+  display:block;object-fit:fill;opacity:0;transition:opacity .2s ease;
+  user-select:none;pointer-events:none
+}
+.announcement-underlay.ready{opacity:1}
+
+/* Decorative elements are already baked into the approved underlay. */
+.stage.scene-announcement .announcement-atmosphere,
+.stage.scene-announcement .announcement-brand,
+.stage.scene-announcement .announcement-footer,
+.stage.scene-announcement .announcement-main-ornament,
+.stage.scene-announcement .announcement-corner-icon,
+.stage.scene-announcement .announcement-quran-icon,
+.stage.scene-announcement .announcement-panel-header{display:none!important}
+
+/* Dynamic main announcement content only. */
+.stage.scene-announcement .announcement-main-card{
+  z-index:2;left:22px;top:145px;width:1110px;height:674px;padding:36px 58px 40px;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;overflow:hidden
+}
+.stage.scene-announcement .announcement-main-card:before,
+.stage.scene-announcement .announcement-main-card:after{display:none!important}
+.stage.scene-announcement .announcement-priority{
+  left:92px;top:104px;background:rgba(0,39,41,.78)
+}
+.stage.scene-announcement .announcement-title{
+  margin:104px 0 20px;max-width:900px;
+  text-shadow:0 3px 11px rgba(0,0,0,.75)
+}
+.stage.scene-announcement .announcement-body{
+  max-width:900px;max-height:310px;text-shadow:0 2px 8px rgba(0,0,0,.72)
+}
+.stage.scene-announcement .announcement-meta{left:58px;right:58px;bottom:38px}
+.stage.scene-announcement .announcement-pager{right:34px;top:26px;color:#f2d16e}
+
+/* Dynamic right-side content only; frames/panels are baked into the underlay. */
+.stage.scene-announcement .announcement-rail{
+  z-index:2;right:18px;top:8px;width:505px;height:811px
+}
+.stage.scene-announcement .announcement-clock-panel,
+.stage.scene-announcement .announcement-prayer-panel,
+.stage.scene-announcement .announcement-agenda-panel,
+.stage.scene-announcement .announcement-hikmah-panel{
+  border:0!important;background:transparent!important;box-shadow:none!important
+}
+.stage.scene-announcement .announcement-clock-panel:after,
+.stage.scene-announcement .announcement-prayer-panel:after,
+.stage.scene-announcement .announcement-agenda-panel:after,
+.stage.scene-announcement .announcement-hikmah-panel:after{display:none!important}
+
+.stage.scene-announcement .announcement-clock-panel{top:80px;height:160px}
+.stage.scene-announcement .announcement-prayer-panel{top:250px;height:150px}
+.stage.scene-announcement .announcement-agenda-panel{top:404px;height:244px}
+.stage.scene-announcement .announcement-hikmah-panel{top:654px;height:164px;display:block;padding:0}
+
+.stage.scene-announcement .announcement-agenda-list{
+  position:absolute;left:16px;right:16px;top:56px;height:180px;padding:0
+}
+.stage.scene-announcement .announcement-agenda-item{
+  grid-template-columns:82px 1fr;min-height:39px;margin-bottom:5px;padding:5px 8px;
+  background:rgba(0,28,30,.38)
+}
+.stage.scene-announcement .announcement-agenda-time{font-size:15px}
+.stage.scene-announcement .announcement-agenda-name{font-size:16px}
+.stage.scene-announcement .announcement-agenda-sub{font-size:10px}
+
+.stage.scene-announcement .announcement-wisdom{
+  position:absolute;left:150px;right:22px;top:31px;margin:0;
+  max-height:86px;font-size:17px
+}
+.stage.scene-announcement .announcement-wisdom-source{
+  position:absolute;right:24px;bottom:20px;margin:0;font-size:12px
+}
+
+/* Announcement-specific live overlay baseline; calibration will continue from here. */
+.stage.scene-announcement .live-date{
+  left:1210px;top:104px;width:390px;height:28px;font-size:22px;
+  transform:scaleX(.92);transform-origin:center top;color:#f8faf7
+}
+.stage.scene-announcement .live-clock{left:1194px;top:134px;width:414px;height:94px}
+.stage.scene-announcement .clock-hm{left:8px;bottom:5px;font-size:76px}
+.stage.scene-announcement .clock-sec{left:242px;bottom:7px;font-size:29px}
+.stage.scene-announcement .clock-wib{left:286px;bottom:5px;font-size:57px;transform:scaleX(.64)}
+
+.stage.scene-announcement .next-prayer{
+  left:1268px;top:286px;width:190px;height:40px;font-size:35px;
+  transform:scaleX(.88);transform-origin:left top;color:#f1cf69
+}
+.stage.scene-announcement .countdown{
+  left:1215px;top:326px;width:392px;height:68px;font-size:54px;color:#fff
+}
+
+
+/* v53 — PRAYER MODE PRIORITY LAYER.
+   Dashboard, Announcement and Donation layouts remain independently locked. */
+.prayer-scene{
+  position:absolute;inset:0;z-index:20;display:none;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 36%,rgba(26,150,128,.28),transparent 34%),
+    linear-gradient(145deg,#042f31 0%,#021d20 62%,#052b2d 100%);
+  color:#fff
+}
+.stage.scene-prayer .prayer-scene{display:block}
+.stage.scene-prayer .master-underlay,
+.stage.scene-prayer .donation-scene,
+.stage.scene-prayer .announcement-scene,
+.stage.scene-prayer .live,
+.stage.scene-prayer .prayer-time{visibility:hidden!important;opacity:0!important}
+.prayer-scene-glow{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,transparent,rgba(228,192,88,.08),transparent),
+    radial-gradient(circle at 50% 100%,rgba(21,222,197,.12),transparent 40%);
+}
+.prayer-scene-card{
+  position:absolute;left:150px;right:150px;top:120px;bottom:135px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border:2px solid rgba(231,197,91,.65);border-radius:38px;
+  background:linear-gradient(145deg,rgba(5,61,61,.88),rgba(2,35,38,.94));
+  box-shadow:0 0 0 5px rgba(26,227,205,.07),0 0 40px rgba(30,235,211,.16),inset 0 0 70px rgba(0,0,0,.28)
+}
+.prayer-mode-eyebrow{
+  margin-bottom:18px;font-size:22px;font-weight:900;letter-spacing:6px;color:#e8c65e
+}
+.prayer-mode-title{
+  max-width:1250px;font-family:Georgia,"Times New Roman",serif;font-size:74px;line-height:1.04;
+  font-weight:800;color:#fffbea;text-shadow:0 4px 16px rgba(0,0,0,.5)
+}
+.prayer-mode-prayer{
+  margin-top:22px;font-size:38px;font-weight:900;letter-spacing:1px;color:#8ee7d8
+}
+.prayer-mode-countdown{
+  margin-top:24px;font-family:"Arial Black","Arial Narrow",Arial,sans-serif;
+  font-size:112px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;color:#fff;
+  text-shadow:0 0 26px rgba(54,239,218,.22)
+}
+.prayer-mode-message{
+  max-width:1120px;margin-top:30px;font-size:28px;line-height:1.35;font-weight:700;color:#dbe9e5
+}
+.prayer-scene-footer{
+  position:absolute;left:0;right:0;bottom:42px;text-align:center;
+  font-size:17px;font-weight:850;letter-spacing:2px;color:#d8bc67
+}
+
+
+/* v56 — DUAL MASEHI / HIJRI DATE WITH SEPARATOR.
+   Outer date-box geometry remains locked. Composition is tuned for TV readability. */
+.live-date{
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:0;
+  overflow:hidden;
+  padding:2px 10px;
+}
+.live-date::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:9%;
+  right:9%;
+  top:50%;
+  height:1px;
+  transform:translateY(-50%);
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(239,209,118,.82) 18%,
+    rgba(76,229,213,.74) 50%,
+    rgba(239,209,118,.82) 82%,
+    transparent 100%
+  );
+  box-shadow:0 0 6px rgba(239,209,118,.28);
+  opacity:.92;
+  pointer-events:none;
+}
+.date-gregorian,.date-hijri{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex:0 0 50%;
+  width:100%;
+  height:50%;
+  min-height:0;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  white-space:nowrap;
+  line-height:1;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:700;
+}
+.date-gregorian{
+  padding:0 8px 2px;
+  font-size:54%;
+  color:#f7fbf8;
+  letter-spacing:.1px;
+}
+.date-hijri{
+  padding:2px 8px 0;
+  font-size:47%;
+  color:#efd176;
+  text-shadow:0 2px 7px rgba(0,0,0,.62);
+}
+
+/* Donation: preserve the approved compact date area, with the same separator. */
+.stage.scene-donation .live-date{padding:2px 8px}
+.stage.scene-donation .date-gregorian{font-size:61%}
+.stage.scene-donation .date-hijri{font-size:54%}
+
+/* Announcement: preserve the calibrated date box, with the same separator. */
+.stage.scene-announcement .live-date{padding:2px 8px}
+.stage.scene-announcement .date-gregorian{font-size:58%}
+.stage.scene-announcement .date-hijri{font-size:51%}
+
+
+/* v57 — PRAYER MODE FOR TV / YODECK */
+.prayer-scene{
+  background:
+    linear-gradient(180deg,rgba(0,18,25,.18),rgba(0,16,22,.58)),
+    linear-gradient(135deg,#022d36 0%,#003b43 46%,#01252f 100%)!important;
+  color:#fff;
+}
+.prayer-scene:before{
+  content:"";position:absolute;inset:0;z-index:0;opacity:.40;
+  background:
+    linear-gradient(180deg,rgba(1,34,39,.25),rgba(0,16,21,.82)),
+    url("./assets/masjid-hero-clean-final.jpg") center bottom/cover no-repeat;
+  filter:saturate(.82) brightness(.72);
+}
+.prayer-scene:after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 24%,rgba(24,228,203,.13),transparent 31%),
+    radial-gradient(circle at 50% 65%,rgba(231,193,74,.10),transparent 38%);
+}
+.prayer-scene-glow{z-index:2;opacity:.75}
+.prayer-brand{
+  position:absolute;z-index:26;left:48px;top:34px;width:330px;height:128px;
+  display:flex;align-items:center;gap:18px;
+}
+.prayer-official-logo{
+  width:118px;height:118px;object-fit:contain;display:block;
+  filter:drop-shadow(0 5px 13px rgba(0,0,0,.50));
+}
+.prayer-brand-copy{display:flex;flex-direction:column;justify-content:center;text-shadow:0 3px 8px rgba(0,0,0,.55)}
+.prayer-brand-copy strong{
+  font-family:Georgia,"Times New Roman",serif;font-size:29px;line-height:.91;letter-spacing:.4px;color:#f6d372
+}
+.prayer-brand-copy span{margin-top:7px;font-size:17px;font-weight:900;letter-spacing:3.8px;color:#f8f1d8}
+.prayer-scene-card{
+  z-index:22;left:230px;right:230px;top:90px;bottom:150px;
+  padding:82px 80px 54px;
+  border:3px solid rgba(235,195,72,.88);
+  border-radius:46% 46% 38px 38px / 28% 28% 38px 38px;
+  background:
+    radial-gradient(circle at 50% 15%,rgba(32,229,208,.11),transparent 31%),
+    linear-gradient(155deg,rgba(0,58,65,.90),rgba(0,34,43,.96));
+  box-shadow:0 0 0 5px rgba(25,219,203,.08),0 0 30px rgba(43,233,215,.20),0 0 54px rgba(234,193,68,.13),inset 0 0 82px rgba(0,0,0,.34);
+}
+.prayer-scene-card:before{
+  content:"";position:absolute;left:50%;top:-4px;width:78px;height:78px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  border-left:3px solid rgba(235,195,72,.92);border-top:3px solid rgba(235,195,72,.92);
+  background:#02323a;
+}
+.prayer-mode-eyebrow{display:none!important}
+.prayer-mode-countdown{
+  margin:0 auto 28px;padding:10px 34px 12px;min-width:300px;
+  border:2px solid rgba(237,199,82,.88);border-radius:28px;
+  background:linear-gradient(180deg,rgba(0,34,41,.84),rgba(0,24,31,.94));
+  box-shadow:0 0 22px rgba(234,196,79,.18),inset 0 0 26px rgba(38,224,209,.07);
+  font-size:82px;line-height:1;font-weight:900;color:#fff2bd;text-shadow:0 3px 11px rgba(0,0,0,.66);
+}
+.prayer-mode-title{
+  margin:0;max-width:1180px;font-family:"Arial Black","Arial Narrow",Arial,sans-serif;
+  font-size:67px;line-height:1.02;font-weight:900;letter-spacing:.4px;color:#fff2c1;text-shadow:0 4px 13px rgba(0,0,0,.58);
+}
+.prayer-mode-prayer{
+  min-width:310px;margin-top:21px;padding:10px 32px;border-radius:999px;
+  background:linear-gradient(180deg,#f5d77c,#d9a943);color:#082733;
+  font-size:29px;line-height:1;font-weight:950;letter-spacing:1.4px;box-shadow:0 5px 16px rgba(0,0,0,.23);
+}
+.prayer-mode-message{max-width:1050px;margin-top:22px;font-size:20px;line-height:1.25;font-weight:750;color:#cce3df}
+.prayer-dua-card{
+  width:100%;max-width:1050px;margin-top:22px;padding:22px 30px 20px;
+  border:2px solid rgba(234,197,88,.84);border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,249,224,.98),rgba(246,235,198,.98));
+  color:#092b35;box-shadow:0 12px 28px rgba(0,0,0,.26);
+}
+.prayer-dua-arabic{
+  font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;
+  font-size:35px;line-height:1.65;font-weight:700;text-align:center;color:#062936;
+}
+.prayer-dua-row{
+  display:grid;grid-template-columns:100px 1fr;gap:10px;margin-top:9px;
+  font-size:16px;line-height:1.28;text-align:left;color:#173945;
+}
+.prayer-dua-row b{
+  display:flex;align-items:flex-start;justify-content:center;padding:5px 8px;border-radius:9px;
+  background:#e8bd55;color:#14303a;font-size:15px;
+}
+.prayer-dua-meaning{font-size:15px}
+.prayer-advice-bar{
+  position:absolute;z-index:27;left:75px;right:75px;bottom:35px;height:92px;
+  display:grid;grid-template-columns:repeat(3,1fr);align-items:center;
+  border:2px solid rgba(235,196,73,.92);border-radius:28px;
+  background:linear-gradient(90deg,rgba(0,39,47,.98),rgba(0,55,61,.98),rgba(0,39,47,.98));
+  box-shadow:0 0 24px rgba(0,0,0,.32),inset 0 0 27px rgba(31,222,206,.05);
+}
+.prayer-advice-item{
+  height:58px;padding:0 28px;display:flex;align-items:center;justify-content:center;gap:15px;
+  border-right:1px solid rgba(235,196,73,.32);text-align:center;
+  font-size:18px;line-height:1.18;font-weight:850;color:#f7f2df;
+}
+.prayer-advice-item:last-child{border-right:0}
+.prayer-advice-dot{
+  flex:0 0 17px;width:17px;height:17px;border-radius:50%;
+  border:3px solid #eac75c;box-shadow:0 0 12px rgba(234,199,92,.25);
+}
+.prayer-scene-footer{display:none!important}
+.stage.scene-prayer .live-date,
+.stage.scene-prayer .live-clock{
+  visibility:visible!important;opacity:1!important;z-index:30!important;
+}
+.stage.scene-prayer .live-clock{left:1260px;top:28px;width:360px;height:76px;transform:none}
+.stage.scene-prayer .clock-hm{left:18px;bottom:8px;font-size:60px}
+.stage.scene-prayer .clock-sec{left:204px;bottom:9px;font-size:24px}
+.stage.scene-prayer .clock-wib{left:241px;bottom:10px;font-size:42px;transform:scaleX(.68)}
+.stage.scene-prayer .live-date{
+  left:1250px;top:105px;width:375px;height:64px;padding:2px 8px;
+  transform:none;font-size:29px;border-top:1px solid rgba(235,196,73,.28);
+}
+.stage.scene-prayer .date-gregorian{font-size:53%}
+.stage.scene-prayer .date-hijri{font-size:48%}
+.prayer-scene[data-phase="dua"] .prayer-scene-card{padding-top:58px}
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{font-size:60px;margin-bottom:12px;padding:7px 28px 9px}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{font-size:42px}
+.prayer-scene[data-phase="dua"] .prayer-mode-prayer{font-size:21px;margin-top:10px;padding:8px 24px}
+.prayer-scene[data-phase="dua"] .prayer-mode-message{display:none}
+.prayer-scene[data-phase="khutbah"] .prayer-mode-title{font-size:62px}
+.prayer-scene[data-phase="prayer"] .prayer-mode-countdown{color:#d7fff7;border-color:rgba(57,224,207,.84)}

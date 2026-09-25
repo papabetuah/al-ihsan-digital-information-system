@@ -8,7 +8,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
-  <link rel="stylesheet" href="./styles-v56.css?v=khgt-hijri-v56-20260925">
+  <link rel="stylesheet" href="./styles-v57.css?v=prayer-v57-20260925">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
@@ -88,14 +88,34 @@
 
       <section id="prayerScene" class="prayer-scene" aria-label="Mode Sholat" aria-hidden="true">
         <div class="prayer-scene-glow" aria-hidden="true"></div>
-        <div class="prayer-scene-card">
-          <div id="prayerModeEyebrow" class="prayer-mode-eyebrow">MODE SHOLAT</div>
-          <div id="prayerModeTitle" class="prayer-mode-title">Azan sedang dikumandangkan</div>
-          <div id="prayerModePrayer" class="prayer-mode-prayer">Subuh</div>
-          <div id="prayerModeCountdown" class="prayer-mode-countdown">05:00</div>
-          <div id="prayerModeMessage" class="prayer-mode-message">Mohon menjaga ketenangan dan bersiap untuk sholat berjamaah.</div>
+
+        <div class="prayer-brand">
+          <img class="prayer-official-logo" src="./assets/logo-masjid-official-v57.webp?v=prayer-v57-20260925" alt="Logo Masjid Al Ihsan">
+          <div class="prayer-brand-copy">
+            <strong>MASJID<br>AL IHSAN</strong>
+            <span>KAPUIH</span>
+          </div>
         </div>
-        <div class="prayer-scene-footer">MASJID AL IHSAN KAPUIH • Rotasi informasi dihentikan sementara</div>
+
+        <div class="prayer-scene-card">
+          <div id="prayerModeCountdown" class="prayer-mode-countdown">05:00</div>
+          <div id="prayerModeTitle" class="prayer-mode-title">AZAN</div>
+          <div id="prayerModePrayer" class="prayer-mode-prayer">SUBUH</div>
+
+          <div id="prayerDuaCard" class="prayer-dua-card" hidden>
+            <div class="prayer-dua-arabic" dir="rtl" lang="ar">اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ</div>
+            <div class="prayer-dua-row"><b>Latin:</b><span>Allahumma rabba hadzihid-da'watit-tammah, wash-shalatil qa'imah, ati Muhammadanil-wasilata wal-fadhilah, wab'ats-hu maqaman mahmudanilladzi wa'adtah.</span></div>
+            <div class="prayer-dua-row prayer-dua-meaning"><b>Artinya:</b><span>Ya Allah, Tuhan pemilik seruan yang sempurna ini dan sholat yang akan didirikan, berilah Nabi Muhammad wasilah dan keutamaan, serta bangkitkan beliau pada kedudukan terpuji yang telah Engkau janjikan.</span></div>
+          </div>
+
+          <div id="prayerModeMessage" class="prayer-mode-message"></div>
+        </div>
+
+        <div class="prayer-advice-bar" aria-label="Pengingat adab jamaah">
+          <div class="prayer-advice-item"><span class="prayer-advice-dot"></span><span id="prayerAdvice1">Jaga ketenangan masjid</span></div>
+          <div class="prayer-advice-item"><span class="prayer-advice-dot"></span><span id="prayerAdvice2">Orang tua dampingi anak-anak</span></div>
+          <div class="prayer-advice-item"><span class="prayer-advice-dot"></span><span id="prayerAdvice3">Senyapkan ponsel</span></div>
+        </div>
       </section>
 
       <div id="liveDate" class="live live-date" aria-label="Tanggal Masehi dan Hijriah">
@@ -122,9 +142,9 @@
     </section>
   </main>
 
-  <script src="./config-v56.js?v=khgt-hijri-v56-20260925"></script>
-  <script src="./prayer-times.js?v=khgt-hijri-v56-20260925"></script>
-  <script src="./khgt-calendar-v56.js?v=khgt-hijri-v56-20260925"></script>
-  <script src="./app-v56.js?v=khgt-hijri-v56-20260925"></script>
+  <script src="./config-v57.js?v=prayer-v57-20260925"></script>
+  <script src="./prayer-times.js?v=prayer-v57-20260925"></script>
+  <script src="./khgt-calendar-v56.js?v=prayer-v57-20260925"></script>
+  <script src="./app-v57.js?v=prayer-v57-20260925"></script>
 </body>
 </html>
