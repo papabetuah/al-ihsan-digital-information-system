@@ -24,6 +24,9 @@ const clonePrayerDefaults=()=>Object.fromEntries(Object.entries(C.prayerMode?.de
 let prayerSettings=clonePrayerDefaults();
 let ramadanSettings={...(C.prayerMode?.ramadanDefaults||{})};
 let prayerModeActive=false,prayerModeSignature="";
+const previewQuery=new URLSearchParams(location.search);
+const prayerPreviewEnabled=previewQuery.get("scene")==="prayer";
+let prayerPreviewEndMs=0;
 
 function fit(){
   const width=C.stage?.width||1672,height=C.stage?.height||941;
@@ -338,7 +341,35 @@ function renderPrayerMode(state,now){
   E.prayerMessage.textContent=state.message;
 }
 
+function getPrayerPreviewState(now){
+  if(!prayerPreviewEnabled)return null;
+  const prayerName=normalizeSheetPrayerName(previewQuery.get("sholat"))||"Maghrib";
+  let phase=String(previewQuery.get("phase")||"iqamah").trim().toLowerCase();
+  if(prayerName==="Jumat"&&phase==="iqamah")phase="khutbah";
+  if(!["azan","iqamah","khutbah","prayer"].includes(phase))phase=prayerName==="Jumat"?"khutbah":"iqamah";
+  if(prayerName!=="Jumat"&&phase==="khutbah")phase="iqamah";
+  const cfg=prayerSettings[prayerName]||{};
+  const duration=
+    phase==="azan"?minutesValue(cfg.azanMinutes,5):
+    phase==="khutbah"?minutesValue(cfg.khutbahMinutes,30):
+    phase==="prayer"?minutesValue(cfg.prayerMinutes,10):
+    minutesValue(cfg.iqamahMinutes,10);
+  if(!prayerPreviewEndMs||now.getTime()>=prayerPreviewEndMs){
+    prayerPreviewEndMs=now.getTime()+Math.max(1,duration)*60000;
+  }
+  return phaseState(phase,prayerName,now.getTime()-1000,prayerPreviewEndMs);
+}
+
 function updatePrayerMode(now,times){
+  const previewState=getPrayerPreviewState(now);
+  if(previewState){
+    prayerModeActive=true;
+    prayerModeSignature=`preview:${previewState.phase}:${previewState.prayerName}`;
+    clearTimeout(sceneTimerId);
+    if(currentScene!=="prayer")setScene("prayer");
+    renderPrayerMode(previewState,now);
+    return;
+  }
   const state=getPrayerModeState(now,times);
   if(state){
     prayerModeActive=true;
@@ -506,7 +537,7 @@ function scheduleNextTick(){
 function init(){
   fit();loadDonationUnderlay();loadAnnouncementUnderlay();
   const params=new URLSearchParams(location.search),forced=params.get("scene");
-  setScene(["dashboard","donation","announcement"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
+  setScene(["dashboard","donation","announcement","prayer"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
   render();renderAnnouncement();renderAgenda();renderWisdom();
   scheduleNextTick();scheduleSceneRotation();
   Promise.allSettled([loadCms(),loadPrayerConfig()]).finally(scheduleCmsRefresh);
