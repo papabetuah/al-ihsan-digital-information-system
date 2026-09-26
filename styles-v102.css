@@ -1,0 +1,3111 @@
+:root{--scale:1}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#001719;font-family:Arial,Helvetica,sans-serif}
+#viewport{position:relative;width:100vw;height:100vh;overflow:hidden;background:#001719}
+.stage{position:absolute;left:50%;top:50%;width:1672px;height:941px;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;overflow:hidden;background:#003638;isolation:isolate}
+.master{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:fill;user-select:none;pointer-events:none}
+.master-underlay{z-index:1}
+.master-overlay{z-index:10}
+.live{
+  position:absolute;
+  z-index:5;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 7px rgba(0,0,0,.55);
+  line-height:1;
+  pointer-events:none;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+.live-date{
+  left:1182px;
+  top:6px;
+  width:463px;
+  height:50px;
+  background:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:.05px;
+  transform:scaleX(.76);
+  transform-origin:center top;
+}
+
+.live-clock{
+  left:1188px;
+  top:55px;
+  width:435px;
+  height:102px;
+  display:block;
+  background:transparent;
+  box-shadow:none;
+  padding:0;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+}
+
+.clock-hm{
+  position:absolute;
+  left:36px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:82px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-sec{
+  position:absolute;
+  left:286px;
+  bottom:10px;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.clock-wib{
+  position:absolute;
+  left: 328px;
+  bottom:10px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:76px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-1px;
+  transform:scaleX(.55);
+  transform-origin:left bottom;
+}
+
+.prayer-time{
+  left:242px;
+  width:146px;
+  height:60px;
+  justify-content:flex-end;
+  padding-right:8px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:41px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.prayer-shubuh{top:274px}
+.prayer-terbit{top:334px}
+.prayer-dzuhur{top:394px}
+.prayer-ashar{top:450px}
+.prayer-maghrib{top:510px}
+.prayer-isya{top:570px}
+
+.next-prayer{
+  left:258px;
+  top:643px;
+  width:145px;
+  height:45px;
+  background:transparent;
+  justify-content:flex-start;
+  align-items:flex-start;
+  padding-left:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:43px;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.2px;
+  transform:scaleX(.74);
+  transform-origin:left top;
+}
+
+.countdown{
+  left:48px;
+  top:706px;
+  width:339px;
+  height:94px;
+  background:transparent;
+  font-family:"Arial Black","Arial Narrow",Arial,Helvetica,sans-serif;
+  font-size:61px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.status-dot{position:absolute;z-index:11;right:10px;bottom:10px;width:7px;height:7px;border-radius:50%;background:#58f1cf;box-shadow:0 0 8px rgba(88,241,207,.7);opacity:.28}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* v30 — approved donation back layer, exact 1672x941 source. */
+.donation-scene{
+  position:absolute;inset:0;z-index:2;
+  opacity:0;visibility:hidden;
+  transition:opacity .7s ease,visibility .7s ease;
+  pointer-events:none;background:#003638;
+}
+.donation-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;
+  display:block;object-fit:fill;opacity:0;
+  transition:opacity .2s ease;
+  user-select:none;pointer-events:none;
+}
+.donation-underlay.ready{opacity:1}
+.stage.scene-donation .donation-scene{opacity:1;visibility:visible}
+.stage.scene-dashboard .donation-scene{opacity:0;visibility:hidden}
+.stage.scene-donation .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-donation .live-date,
+.stage.scene-donation .live-clock,
+.stage.scene-donation .next-prayer,
+.stage.scene-donation .countdown{z-index:6}
+
+
+/* v48 — DONATION OVERLAY PROFILE ONLY.
+   Dashboard overlay profile and donation back layer are locked and unchanged. */
+
+/* Next prayer name unchanged. */
+.stage.scene-donation .next-prayer{
+  left:242px;
+  top:605px;
+  font-size:40px;
+}
+
+/* Countdown unchanged. */
+.stage.scene-donation .countdown{
+  left:30px;
+  top:676px;
+}
+
+/* Day/date unchanged. */
+.stage.scene-donation .live-date{
+  left:1149px;
+  top:-13px;
+  font-size:21px;
+}
+
+/* Clock container unchanged. */
+.stage.scene-donation .live-clock{
+  left:1160px;
+  top:15px;
+}
+
+/* HH:MM: 1px further left from v47. */
+.stage.scene-donation .clock-hm{
+  left:11px;
+  bottom:6px;
+  font-size:93px;
+}
+
+/* Seconds unchanged. */
+.stage.scene-donation .clock-sec{
+  left:290px;
+  bottom:6px;
+  font-size:40px;
+}
+
+/* WIB unchanged. */
+.stage.scene-donation .clock-wib{
+  left:341px;
+  bottom:15px;
+  font-size:70px;
+}
+
+
+/* v51 — FUTURISTIC ANNOUNCEMENT BACK LAYER.
+   Dashboard overlay profile, Donation overlay profile v48 and Donation back layer remain locked. */
+
+.announcement-scene{
+  position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;overflow:hidden;color:#f8f4df;
+  transition:opacity .55s ease,visibility .55s ease;
+  background:
+    linear-gradient(90deg,rgba(0,36,38,.93) 0%,rgba(0,39,41,.88) 54%,rgba(0,31,34,.82) 100%),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat,
+    #042d30;
+}
+.announcement-atmosphere{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 72% 10%,rgba(224,192,91,.16),transparent 24%),
+    radial-gradient(circle at 17% 72%,rgba(0,238,212,.09),transparent 28%),
+    linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.22));
+}
+.announcement-atmosphere:before{
+  content:"";position:absolute;inset:0;opacity:.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 86%);
+}
+.stage.scene-announcement .announcement-scene{opacity:1;visibility:visible}
+.stage:not(.scene-announcement) .announcement-scene{opacity:0;visibility:hidden}
+
+.announcement-brand{
+  position:absolute;left:30px;top:8px;width:1090px;height:126px;display:flex;align-items:center;
+  padding:7px 18px 7px 20px;overflow:visible;
+  border-bottom:2px solid rgba(230,197,96,.72);
+  background:linear-gradient(90deg,rgba(3,55,56,.74),rgba(3,45,48,.22) 80%,transparent);
+  filter:drop-shadow(0 7px 16px rgba(0,0,0,.26));
+}
+.announcement-brand:after{
+  content:"";position:absolute;left:182px;right:8px;bottom:-3px;height:1px;
+  background:linear-gradient(90deg,#d0aa4a,rgba(36,239,215,.78),transparent 88%);
+  box-shadow:0 0 10px rgba(46,242,219,.48);
+}
+.announcement-logo-wrap{
+  flex:0 0 158px;height:116px;display:flex;align-items:center;justify-content:center;
+  overflow:visible;margin-right:20px;
+}
+.announcement-logo-wrap img{
+  display:block;width:150px;height:112px;object-fit:contain;object-position:center;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.36));
+}
+.announcement-brand-text{display:flex;flex-direction:column;justify-content:center;min-width:0;padding-bottom:2px}
+.announcement-kicker{font-size:16px;font-weight:900;letter-spacing:5.6px;color:#f0ca68;text-shadow:0 1px 7px rgba(0,0,0,.5)}
+.announcement-brand-title{
+  margin-top:3px;font-family:Georgia,"Times New Roman",serif;font-size:43px;line-height:1;font-weight:800;
+  letter-spacing:.8px;color:#fffdf0;text-shadow:0 3px 10px rgba(0,0,0,.54)
+}
+.announcement-brand-subtitle{margin-top:3px;font-size:17px;font-weight:800;letter-spacing:.8px;color:#d6eee7}
+.announcement-cms-state{display:none!important}
+
+.announcement-main-card{
+  position:absolute;left:22px;top:145px;width:1110px;height:674px;padding:62px 58px 50px;
+  border-radius:31px;border:2px solid rgba(222,187,76,.82);
+  background:
+    linear-gradient(90deg,rgba(0,49,51,.91),rgba(0,42,45,.74) 58%,rgba(0,45,47,.38)),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat;
+  box-shadow:
+    0 0 0 4px rgba(16,238,217,.10),
+    0 0 18px rgba(40,245,224,.25),
+    0 0 26px rgba(233,193,70,.22),
+    inset 0 0 48px rgba(0,0,0,.34);
+  overflow:hidden;
+}
+.announcement-main-card:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.03),transparent 36%),
+    radial-gradient(circle at 82% 40%,rgba(241,199,82,.10),transparent 28%),
+    linear-gradient(90deg,rgba(0,35,37,.3),transparent 40%);
+}
+.announcement-main-card:after{
+  content:"";position:absolute;left:14px;top:14px;width:160px;height:126px;
+  border-left:2px solid rgba(215,180,70,.52);border-top:2px solid rgba(215,180,70,.52);
+  border-radius:22px 0 0 0;opacity:.72;pointer-events:none;
+}
+.announcement-main-ornament{
+  position:absolute;left:48px;top:42px;width:285px;height:52px;display:flex;align-items:center;gap:8px;
+}
+.announcement-speaker{
+  width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#f5d066;border:2px solid #f0ca68;background:rgba(0,34,36,.75);
+  box-shadow:0 0 16px rgba(239,202,104,.38),0 0 10px rgba(15,239,216,.25);
+  font-size:10px;
+}
+.announcement-speaker:before{content:"📣";font-size:28px;filter:grayscale(1) sepia(1) saturate(2)}
+.announcement-speaker{font-size:0}
+.announcement-line{
+  flex:1;height:2px;background:linear-gradient(90deg,#e2bb52,#27e3d3);
+  box-shadow:0 0 8px rgba(27,228,210,.38);position:relative;
+}
+.announcement-line:after{
+  content:"◆";position:absolute;left:46%;top:-11px;color:#e4bf58;font-size:14px;text-shadow:0 0 8px rgba(224,190,83,.5)
+}
+
+.announcement-priority{
+  position:absolute;left:58px;top:104px;display:none;align-items:center;height:34px;padding:0 16px;
+  border-radius:999px;background:rgba(5,59,59,.78);border:1px solid rgba(43,229,207,.55);
+  color:#f2ce6d;font-size:15px;font-weight:900;letter-spacing:1.6px
+}
+.announcement-main-card.has-content .announcement-priority{display:inline-flex}
+.announcement-priority.priority-darurat{color:#ffd2c7;border-color:rgba(255,110,82,.62);background:rgba(123,28,22,.45)}
+.announcement-priority.priority-utama{color:#ffe6a4;border-color:rgba(239,194,82,.66);background:rgba(111,80,18,.38)}
+.announcement-title{
+  position:relative;margin:92px 0 22px;max-width:930px;
+  font-family:Georgia,"Times New Roman",serif;font-size:67px;line-height:1.03;font-weight:800;
+  color:#fffce9;text-shadow:0 3px 12px rgba(0,0,0,.55);text-wrap:balance;
+}
+.announcement-body{
+  position:relative;max-width:935px;max-height:328px;overflow:hidden;
+  font-size:38px;line-height:1.25;font-weight:650;color:#edf4ef;white-space:pre-line;text-wrap:pretty;
+  text-shadow:0 2px 7px rgba(0,0,0,.42)
+}
+.announcement-meta{
+  position:absolute;left:58px;right:58px;bottom:34px;display:none;gap:12px;align-items:center;flex-wrap:wrap;
+  font-size:19px;font-weight:850;color:#c9e8e0
+}
+.announcement-main-card.has-content .announcement-meta{display:flex}
+.announcement-meta span{
+  display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:12px;
+  border:1px solid rgba(40,225,205,.32);background:rgba(0,26,29,.55)
+}
+.announcement-meta span:empty{display:none}
+.announcement-image{
+  position:absolute;right:42px;bottom:100px;width:314px;height:220px;object-fit:cover;border-radius:16px;
+  border:1px solid rgba(232,197,91,.58);box-shadow:0 10px 30px rgba(0,0,0,.36)
+}
+.announcement-main-card.has-image .announcement-body{max-width:610px}
+.announcement-pager{
+  position:absolute;right:28px;top:24px;font-size:13px;font-weight:900;letter-spacing:1px;color:#b2d9d2
+}
+.announcement-pager:empty{display:none}
+
+.announcement-rail{position:absolute;right:18px;top:8px;width:505px;height:811px}
+.announcement-clock-panel,
+.announcement-prayer-panel,
+.announcement-agenda-panel,
+.announcement-hikmah-panel{
+  position:absolute;left:0;width:100%;overflow:hidden;
+  border:2px solid rgba(58,238,220,.74);border-radius:26px;
+  background:
+    linear-gradient(145deg,rgba(0,58,61,.95),rgba(0,38,42,.93)),
+    url("./assets/masjid-hero-clean-final.jpg") center/cover no-repeat;
+  box-shadow:
+    0 0 0 3px rgba(232,196,87,.10),
+    0 0 17px rgba(41,241,222,.28),
+    inset 0 0 34px rgba(0,0,0,.28)
+}
+.announcement-clock-panel{top:0;height:158px}
+.announcement-prayer-panel{top:169px;height:154px}
+.announcement-agenda-panel{top:334px;height:315px}
+.announcement-hikmah-panel{top:660px;height:151px;border-color:rgba(227,189,74,.78)}
+
+.announcement-clock-panel:after,
+.announcement-prayer-panel:after,
+.announcement-agenda-panel:after,
+.announcement-hikmah-panel:after{
+  content:"";position:absolute;right:-16px;top:-18px;width:130px;height:130px;border-radius:50%;
+  border:1px solid rgba(224,190,76,.20);box-shadow:inset 0 0 0 14px rgba(42,230,210,.035)
+}
+.announcement-corner-icon{
+  position:absolute;left:22px;top:16px;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#f1ca67;font-size:27px;
+  border:1px solid rgba(236,199,95,.52);background:rgba(0,31,34,.68);
+  box-shadow:0 0 13px rgba(234,197,92,.28)
+}
+.announcement-mosque-icon:before{content:"🕌";font-size:27px}
+.announcement-mosque-icon{font-size:0}
+.announcement-calendar-icon{font-size:24px;font-weight:900}
+
+.announcement-panel-header{
+  height:58px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:16px;font-weight:900;letter-spacing:2px;color:#efca68
+}
+.announcement-panel-header:before{content:"▦";font-size:22px;margin-right:12px;color:#f0c85f}
+.announcement-panel-header span:first-child{margin-right:auto}
+.announcement-panel-mini{font-size:10px;color:#a6d8cf;letter-spacing:1.3px}
+.announcement-agenda-list{padding:10px 15px;height:252px;overflow:hidden}
+.announcement-agenda-item{
+  display:grid;grid-template-columns:82px 1fr;gap:10px;min-height:56px;padding:8px 8px;
+  border:1px solid rgba(54,221,204,.18);border-radius:11px;margin-bottom:7px;background:rgba(0,25,28,.24)
+}
+.announcement-agenda-time{font-size:16px;font-weight:900;color:#e7c45e}
+.announcement-agenda-name{font-size:17px;line-height:1.08;font-weight:850;color:#f2f6ef}
+.announcement-agenda-sub{margin-top:3px;font-size:11px;font-weight:700;color:#95c2ba}
+.announcement-agenda-badge{
+  display:inline-block;margin-left:6px;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:900;
+  letter-spacing:.6px;color:#cdf5d3;background:rgba(57,137,75,.28);border:1px solid rgba(97,194,117,.28)
+}
+.announcement-agenda-empty{display:none}
+
+.announcement-hikmah-panel{display:grid;grid-template-columns:112px 1fr;align-items:center;padding:10px 22px 10px 12px}
+.announcement-quran-icon{
+  width:96px;height:96px;display:flex;align-items:center;justify-content:center;
+  font-size:58px;filter:sepia(1) saturate(1.4) hue-rotate(350deg) brightness(1.1);
+  text-shadow:0 0 12px rgba(232,194,80,.35)
+}
+.announcement-wisdom{
+  margin:0;font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.22;font-style:italic;
+  color:#f5f0d9;max-height:76px;overflow:hidden
+}
+.announcement-wisdom:empty:before{content:"“";font-size:48px;line-height:.7;color:#e8c65e;opacity:.9}
+.announcement-wisdom-source{margin-top:5px;font-size:12px;font-weight:900;color:#e2bc54;text-align:right}
+
+.announcement-footer{
+  position:absolute;left:20px;right:20px;bottom:12px;height:70px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;border-radius:18px;
+  border:1px solid rgba(226,191,79,.72);
+  background:linear-gradient(90deg,rgba(0,38,41,.97),rgba(0,49,52,.91),rgba(0,35,38,.97));
+  box-shadow:0 0 14px rgba(33,228,210,.12),inset 0 0 22px rgba(0,0,0,.2);
+  font-size:14px;font-weight:780;letter-spacing:.4px;color:#d4e8e3
+}
+.announcement-footer strong{font-size:16px;letter-spacing:1.5px;color:#fff8e3}
+.announcement-footer-sep{display:inline-block;width:1px;height:28px;margin:0 20px;background:#d9b74e;vertical-align:middle}
+.announcement-footer div:last-child{font-size:16px;font-weight:900;color:#efca67}
+
+/* Announcement live overlay profile — independent from the locked Dashboard and Donation overlays. */
+.stage.scene-announcement .prayer-time{opacity:0;visibility:hidden}
+.stage.scene-announcement .live-date,
+.stage.scene-announcement .live-clock,
+.stage.scene-announcement .next-prayer,
+.stage.scene-announcement .countdown{z-index:6}
+
+.stage.scene-announcement .live-date{
+  left:1210px;top:39px;width:390px;height:28px;font-size:22px;
+  transform:scaleX(.92);transform-origin:center top;color:#f2f7f4
+}
+.stage.scene-announcement .live-clock{left:1198px;top:66px;width:414px;height:87px}
+.stage.scene-announcement .clock-hm{left:8px;bottom:5px;font-size:75px}
+.stage.scene-announcement .clock-sec{left:240px;bottom:6px;font-size:29px}
+.stage.scene-announcement .clock-wib{left:282px;bottom:5px;font-size:57px;transform:scaleX(.64)}
+
+.stage.scene-announcement .next-prayer{
+  left:1270px;top:232px;width:186px;height:39px;font-size:35px;
+  transform:scaleX(.88);transform-origin:left top;color:#f3ce68
+}
+.stage.scene-announcement .countdown{
+  left:1215px;top:272px;width:392px;height:68px;font-size:54px;color:#fff
+}
+
+
+/* v52 — APPROVED STATIC ANNOUNCEMENT UNDERLAY
+   Dashboard and Donation stay locked. Announcement upper layer remains independently calibratable. */
+.announcement-scene{background:#032f31!important}
+.announcement-underlay{
+  position:absolute;inset:0;width:1672px;height:941px;z-index:0;
+  display:block;object-fit:fill;opacity:0;transition:opacity .2s ease;
+  user-select:none;pointer-events:none
+}
+.announcement-underlay.ready{opacity:1}
+
+/* Decorative elements are already baked into the approved underlay. */
+.stage.scene-announcement .announcement-atmosphere,
+.stage.scene-announcement .announcement-brand,
+.stage.scene-announcement .announcement-footer,
+.stage.scene-announcement .announcement-main-ornament,
+.stage.scene-announcement .announcement-corner-icon,
+.stage.scene-announcement .announcement-quran-icon,
+.stage.scene-announcement .announcement-panel-header{display:none!important}
+
+/* Dynamic main announcement content only. */
+.stage.scene-announcement .announcement-main-card{
+  z-index:2;left:22px;top:145px;width:1110px;height:674px;padding:36px 58px 40px;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;overflow:hidden
+}
+.stage.scene-announcement .announcement-main-card:before,
+.stage.scene-announcement .announcement-main-card:after{display:none!important}
+.stage.scene-announcement .announcement-priority{
+  left:92px;top:104px;background:rgba(0,39,41,.78)
+}
+.stage.scene-announcement .announcement-title{
+  margin:104px 0 20px;max-width:900px;
+  text-shadow:0 3px 11px rgba(0,0,0,.75)
+}
+.stage.scene-announcement .announcement-body{
+  max-width:900px;max-height:310px;text-shadow:0 2px 8px rgba(0,0,0,.72)
+}
+.stage.scene-announcement .announcement-meta{left:58px;right:58px;bottom:38px}
+.stage.scene-announcement .announcement-pager{right:34px;top:26px;color:#f2d16e}
+
+/* Dynamic right-side content only; frames/panels are baked into the underlay. */
+.stage.scene-announcement .announcement-rail{
+  z-index:2;right:18px;top:8px;width:505px;height:811px
+}
+.stage.scene-announcement .announcement-clock-panel,
+.stage.scene-announcement .announcement-prayer-panel,
+.stage.scene-announcement .announcement-agenda-panel,
+.stage.scene-announcement .announcement-hikmah-panel{
+  border:0!important;background:transparent!important;box-shadow:none!important
+}
+.stage.scene-announcement .announcement-clock-panel:after,
+.stage.scene-announcement .announcement-prayer-panel:after,
+.stage.scene-announcement .announcement-agenda-panel:after,
+.stage.scene-announcement .announcement-hikmah-panel:after{display:none!important}
+
+.stage.scene-announcement .announcement-clock-panel{top:80px;height:160px}
+.stage.scene-announcement .announcement-prayer-panel{top:250px;height:150px}
+.stage.scene-announcement .announcement-agenda-panel{top:404px;height:244px}
+.stage.scene-announcement .announcement-hikmah-panel{top:654px;height:164px;display:block;padding:0}
+
+.stage.scene-announcement .announcement-agenda-list{
+  position:absolute;left:16px;right:16px;top:56px;height:180px;padding:0
+}
+.stage.scene-announcement .announcement-agenda-item{
+  grid-template-columns:82px 1fr;min-height:39px;margin-bottom:5px;padding:5px 8px;
+  background:rgba(0,28,30,.38)
+}
+.stage.scene-announcement .announcement-agenda-time{font-size:15px}
+.stage.scene-announcement .announcement-agenda-name{font-size:16px}
+.stage.scene-announcement .announcement-agenda-sub{font-size:10px}
+
+.stage.scene-announcement .announcement-wisdom{
+  position:absolute;left:150px;right:22px;top:31px;margin:0;
+  max-height:86px;font-size:17px
+}
+.stage.scene-announcement .announcement-wisdom-source{
+  position:absolute;right:24px;bottom:20px;margin:0;font-size:12px
+}
+
+/* Announcement-specific live overlay baseline; calibration will continue from here. */
+.stage.scene-announcement .live-date{
+  left:1210px;top:104px;width:390px;height:28px;font-size:22px;
+  transform:scaleX(.92);transform-origin:center top;color:#f8faf7
+}
+.stage.scene-announcement .live-clock{left:1194px;top:134px;width:414px;height:94px}
+.stage.scene-announcement .clock-hm{left:8px;bottom:5px;font-size:76px}
+.stage.scene-announcement .clock-sec{left:242px;bottom:7px;font-size:29px}
+.stage.scene-announcement .clock-wib{left:286px;bottom:5px;font-size:57px;transform:scaleX(.64)}
+
+.stage.scene-announcement .next-prayer{
+  left:1268px;top:286px;width:190px;height:40px;font-size:35px;
+  transform:scaleX(.88);transform-origin:left top;color:#f1cf69
+}
+.stage.scene-announcement .countdown{
+  left:1215px;top:326px;width:392px;height:68px;font-size:54px;color:#fff
+}
+
+
+/* v53 — PRAYER MODE PRIORITY LAYER.
+   Dashboard, Announcement and Donation layouts remain independently locked. */
+.prayer-scene{
+  position:absolute;inset:0;z-index:20;display:none;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 36%,rgba(26,150,128,.28),transparent 34%),
+    linear-gradient(145deg,#042f31 0%,#021d20 62%,#052b2d 100%);
+  color:#fff
+}
+.stage.scene-prayer .prayer-scene{display:block}
+.stage.scene-prayer .master-underlay,
+.stage.scene-prayer .donation-scene,
+.stage.scene-prayer .announcement-scene,
+.stage.scene-prayer .live,
+.stage.scene-prayer .prayer-time{visibility:hidden!important;opacity:0!important}
+.prayer-scene-glow{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,transparent,rgba(228,192,88,.08),transparent),
+    radial-gradient(circle at 50% 100%,rgba(21,222,197,.12),transparent 40%);
+}
+.prayer-scene-card{
+  position:absolute;left:150px;right:150px;top:120px;bottom:135px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border:2px solid rgba(231,197,91,.65);border-radius:38px;
+  background:linear-gradient(145deg,rgba(5,61,61,.88),rgba(2,35,38,.94));
+  box-shadow:0 0 0 5px rgba(26,227,205,.07),0 0 40px rgba(30,235,211,.16),inset 0 0 70px rgba(0,0,0,.28)
+}
+.prayer-mode-eyebrow{
+  margin-bottom:18px;font-size:22px;font-weight:900;letter-spacing:6px;color:#e8c65e
+}
+.prayer-mode-title{
+  max-width:1250px;font-family:Georgia,"Times New Roman",serif;font-size:74px;line-height:1.04;
+  font-weight:800;color:#fffbea;text-shadow:0 4px 16px rgba(0,0,0,.5)
+}
+.prayer-mode-prayer{
+  margin-top:22px;font-size:38px;font-weight:900;letter-spacing:1px;color:#8ee7d8
+}
+.prayer-mode-countdown{
+  margin-top:24px;font-family:"Arial Black","Arial Narrow",Arial,sans-serif;
+  font-size:112px;line-height:1;font-weight:900;font-variant-numeric:tabular-nums;color:#fff;
+  text-shadow:0 0 26px rgba(54,239,218,.22)
+}
+.prayer-mode-message{
+  max-width:1120px;margin-top:30px;font-size:28px;line-height:1.35;font-weight:700;color:#dbe9e5
+}
+.prayer-scene-footer{
+  position:absolute;left:0;right:0;bottom:42px;text-align:center;
+  font-size:17px;font-weight:850;letter-spacing:2px;color:#d8bc67
+}
+
+
+/* v56 — DUAL MASEHI / HIJRI DATE WITH SEPARATOR.
+   Outer date-box geometry remains locked. Composition is tuned for TV readability. */
+.live-date{
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:0;
+  overflow:hidden;
+  padding:2px 10px;
+}
+.live-date::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:9%;
+  right:9%;
+  top:50%;
+  height:1px;
+  transform:translateY(-50%);
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(239,209,118,.82) 18%,
+    rgba(76,229,213,.74) 50%,
+    rgba(239,209,118,.82) 82%,
+    transparent 100%
+  );
+  box-shadow:0 0 6px rgba(239,209,118,.28);
+  opacity:.92;
+  pointer-events:none;
+}
+.date-gregorian,.date-hijri{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex:0 0 50%;
+  width:100%;
+  height:50%;
+  min-height:0;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  white-space:nowrap;
+  line-height:1;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:700;
+}
+.date-gregorian{
+  padding:0 8px 2px;
+  font-size:54%;
+  color:#f7fbf8;
+  letter-spacing:.1px;
+}
+.date-hijri{
+  padding:2px 8px 0;
+  font-size:47%;
+  color:#efd176;
+  text-shadow:0 2px 7px rgba(0,0,0,.62);
+}
+
+/* Donation: preserve the approved compact date area, with the same separator. */
+.stage.scene-donation .live-date{padding:2px 8px}
+.stage.scene-donation .date-gregorian{font-size:61%}
+.stage.scene-donation .date-hijri{font-size:54%}
+
+/* Announcement: preserve the calibrated date box, with the same separator. */
+.stage.scene-announcement .live-date{padding:2px 8px}
+.stage.scene-announcement .date-gregorian{font-size:58%}
+.stage.scene-announcement .date-hijri{font-size:51%}
+
+
+/* v57 — PRAYER MODE FOR TV / YODECK */
+.prayer-scene{
+  background:
+    linear-gradient(180deg,rgba(0,18,25,.18),rgba(0,16,22,.58)),
+    linear-gradient(135deg,#022d36 0%,#003b43 46%,#01252f 100%)!important;
+  color:#fff;
+}
+.prayer-scene:before{
+  content:"";position:absolute;inset:0;z-index:0;opacity:.40;
+  background:
+    linear-gradient(180deg,rgba(1,34,39,.25),rgba(0,16,21,.82)),
+    url("./assets/masjid-hero-clean-final.jpg") center bottom/cover no-repeat;
+  filter:saturate(.82) brightness(.72);
+}
+.prayer-scene:after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 24%,rgba(24,228,203,.13),transparent 31%),
+    radial-gradient(circle at 50% 65%,rgba(231,193,74,.10),transparent 38%);
+}
+.prayer-scene-glow{z-index:2;opacity:.75}
+.prayer-brand{
+  position:absolute;z-index:26;left:48px;top:34px;width:330px;height:128px;
+  display:flex;align-items:center;gap:18px;
+}
+.prayer-official-logo{
+  width:118px;height:118px;object-fit:contain;display:block;
+  filter:drop-shadow(0 5px 13px rgba(0,0,0,.50));
+}
+.prayer-brand-copy{display:flex;flex-direction:column;justify-content:center;text-shadow:0 3px 8px rgba(0,0,0,.55)}
+.prayer-brand-copy strong{
+  font-family:Georgia,"Times New Roman",serif;font-size:29px;line-height:.91;letter-spacing:.4px;color:#f6d372
+}
+.prayer-brand-copy span{margin-top:7px;font-size:17px;font-weight:900;letter-spacing:3.8px;color:#f8f1d8}
+.prayer-scene-card{
+  z-index:22;left:230px;right:230px;top:90px;bottom:150px;
+  padding:82px 80px 54px;
+  border:3px solid rgba(235,195,72,.88);
+  border-radius:46% 46% 38px 38px / 28% 28% 38px 38px;
+  background:
+    radial-gradient(circle at 50% 15%,rgba(32,229,208,.11),transparent 31%),
+    linear-gradient(155deg,rgba(0,58,65,.90),rgba(0,34,43,.96));
+  box-shadow:0 0 0 5px rgba(25,219,203,.08),0 0 30px rgba(43,233,215,.20),0 0 54px rgba(234,193,68,.13),inset 0 0 82px rgba(0,0,0,.34);
+}
+.prayer-scene-card:before{
+  content:"";position:absolute;left:50%;top:-4px;width:78px;height:78px;
+  transform:translate(-50%,-50%) rotate(45deg);
+  border-left:3px solid rgba(235,195,72,.92);border-top:3px solid rgba(235,195,72,.92);
+  background:#02323a;
+}
+.prayer-mode-eyebrow{display:none!important}
+.prayer-mode-countdown{
+  margin:0 auto 28px;padding:10px 34px 12px;min-width:300px;
+  border:2px solid rgba(237,199,82,.88);border-radius:28px;
+  background:linear-gradient(180deg,rgba(0,34,41,.84),rgba(0,24,31,.94));
+  box-shadow:0 0 22px rgba(234,196,79,.18),inset 0 0 26px rgba(38,224,209,.07);
+  font-size:82px;line-height:1;font-weight:900;color:#fff2bd;text-shadow:0 3px 11px rgba(0,0,0,.66);
+}
+.prayer-mode-title{
+  margin:0;max-width:1180px;font-family:"Arial Black","Arial Narrow",Arial,sans-serif;
+  font-size:67px;line-height:1.02;font-weight:900;letter-spacing:.4px;color:#fff2c1;text-shadow:0 4px 13px rgba(0,0,0,.58);
+}
+.prayer-mode-prayer{
+  min-width:310px;margin-top:21px;padding:10px 32px;border-radius:999px;
+  background:linear-gradient(180deg,#f5d77c,#d9a943);color:#082733;
+  font-size:29px;line-height:1;font-weight:950;letter-spacing:1.4px;box-shadow:0 5px 16px rgba(0,0,0,.23);
+}
+.prayer-mode-message{max-width:1050px;margin-top:22px;font-size:20px;line-height:1.25;font-weight:750;color:#cce3df}
+.prayer-dua-card{
+  width:100%;max-width:1050px;margin-top:22px;padding:22px 30px 20px;
+  border:2px solid rgba(234,197,88,.84);border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,249,224,.98),rgba(246,235,198,.98));
+  color:#092b35;box-shadow:0 12px 28px rgba(0,0,0,.26);
+}
+.prayer-dua-arabic{
+  font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;
+  font-size:35px;line-height:1.65;font-weight:700;text-align:center;color:#062936;
+}
+.prayer-dua-row{
+  display:grid;grid-template-columns:100px 1fr;gap:10px;margin-top:9px;
+  font-size:16px;line-height:1.28;text-align:left;color:#173945;
+}
+.prayer-dua-row b{
+  display:flex;align-items:flex-start;justify-content:center;padding:5px 8px;border-radius:9px;
+  background:#e8bd55;color:#14303a;font-size:15px;
+}
+.prayer-dua-meaning{font-size:15px}
+.prayer-advice-bar{
+  position:absolute;z-index:27;left:75px;right:75px;bottom:35px;height:92px;
+  display:grid;grid-template-columns:repeat(3,1fr);align-items:center;
+  border:2px solid rgba(235,196,73,.92);border-radius:28px;
+  background:linear-gradient(90deg,rgba(0,39,47,.98),rgba(0,55,61,.98),rgba(0,39,47,.98));
+  box-shadow:0 0 24px rgba(0,0,0,.32),inset 0 0 27px rgba(31,222,206,.05);
+}
+.prayer-advice-item{
+  height:58px;padding:0 28px;display:flex;align-items:center;justify-content:center;gap:15px;
+  border-right:1px solid rgba(235,196,73,.32);text-align:center;
+  font-size:18px;line-height:1.18;font-weight:850;color:#f7f2df;
+}
+.prayer-advice-item:last-child{border-right:0}
+.prayer-advice-dot{
+  flex:0 0 17px;width:17px;height:17px;border-radius:50%;
+  border:3px solid #eac75c;box-shadow:0 0 12px rgba(234,199,92,.25);
+}
+.prayer-scene-footer{display:none!important}
+.stage.scene-prayer .live-date,
+.stage.scene-prayer .live-clock{
+  visibility:visible!important;opacity:1!important;z-index:30!important;
+}
+.stage.scene-prayer .live-clock{left:1260px;top:28px;width:360px;height:76px;transform:none}
+.stage.scene-prayer .clock-hm{left:18px;bottom:8px;font-size:60px}
+.stage.scene-prayer .clock-sec{left:204px;bottom:9px;font-size:24px}
+.stage.scene-prayer .clock-wib{left:241px;bottom:10px;font-size:42px;transform:scaleX(.68)}
+.stage.scene-prayer .live-date{
+  left:1250px;top:105px;width:375px;height:64px;padding:2px 8px;
+  transform:none;font-size:29px;border-top:1px solid rgba(235,196,73,.28);
+}
+.stage.scene-prayer .date-gregorian{font-size:53%}
+.stage.scene-prayer .date-hijri{font-size:48%}
+.prayer-scene[data-phase="dua"] .prayer-scene-card{padding-top:58px}
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{font-size:60px;margin-bottom:12px;padding:7px 28px 9px}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{font-size:42px}
+.prayer-scene[data-phase="dua"] .prayer-mode-prayer{font-size:21px;margin-top:10px;padding:8px 24px}
+.prayer-scene[data-phase="dua"] .prayer-mode-message{display:none}
+.prayer-scene[data-phase="khutbah"] .prayer-mode-title{font-size:62px}
+.prayer-scene[data-phase="prayer"] .prayer-mode-countdown{color:#d7fff7;border-color:rgba(57,224,207,.84)}
+
+
+/* v58 — APPROVED PRAYER BACK LAYER / DYNAMIC UPPER LAYER
+   Back layer is structurally fixed across Azan, Doa, Iqamah, Khutbah, and Sholat.
+   Only the upper layer content changes by program state. */
+
+.stage.scene-prayer .prayer-scene{
+  display:block;
+  background:#022b31!important;
+  overflow:hidden;
+}
+
+/* ---------- FIXED BACK LAYER ---------- */
+.stage.scene-prayer .prayer-backlayer{
+  position:absolute;inset:0;z-index:20;overflow:hidden;pointer-events:none;
+}
+.stage.scene-prayer .prayer-back-photo{
+  position:absolute;inset:0;
+  background:url("./assets/masjid-hero-clean-final.jpg") center 43%/cover no-repeat;
+  filter:saturate(.78) brightness(.62) contrast(1.05);
+  transform:scale(1.025);
+}
+.stage.scene-prayer .prayer-back-tint{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(0,92,91,.18),transparent 35%),
+    linear-gradient(90deg,rgba(0,35,39,.72) 0%,rgba(0,40,44,.34) 20%,rgba(0,38,42,.30) 80%,rgba(0,28,34,.76) 100%),
+    linear-gradient(180deg,rgba(0,25,31,.26),rgba(0,20,27,.72));
+}
+.stage.scene-prayer .prayer-back-tint:after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:245px;
+  background:
+    radial-gradient(ellipse at 50% 100%,rgba(7,102,89,.45),transparent 63%),
+    linear-gradient(180deg,transparent,rgba(0,17,23,.80));
+}
+.stage.scene-prayer .prayer-backlayer:after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(45deg,rgba(237,199,82,.025) 0 1px,transparent 1px 26px),
+    repeating-linear-gradient(-45deg,rgba(68,224,208,.018) 0 1px,transparent 1px 26px);
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.50),transparent 62%);
+}
+
+/* Gold corner geometry, matching the approved teal/gold reference. */
+.stage.scene-prayer .prayer-corner{
+  position:absolute;width:165px;height:165px;opacity:.70;
+  background:
+    linear-gradient(90deg,#ddb957 0 3px,transparent 3px),
+    linear-gradient(#ddb957 0 3px,transparent 3px);
+}
+.stage.scene-prayer .prayer-corner:after{
+  content:"";position:absolute;inset:22px;
+  border:1px solid rgba(52,224,205,.32);transform:rotate(45deg);
+}
+.stage.scene-prayer .prayer-corner-tl{left:0;top:0}
+.stage.scene-prayer .prayer-corner-tr{right:0;top:0;transform:scaleX(-1)}
+.stage.scene-prayer .prayer-corner-bl{left:0;bottom:0;transform:scaleY(-1)}
+.stage.scene-prayer .prayer-corner-br{right:0;bottom:0;transform:scale(-1)}
+
+/* Official logo + name stay fixed in the top-left. */
+.stage.scene-prayer .prayer-brand{
+  position:absolute;z-index:4;left:47px;top:31px;width:380px;height:142px;
+  display:flex;align-items:center;gap:17px;
+}
+.stage.scene-prayer .prayer-official-logo{
+  width:126px;height:126px;object-fit:contain;display:block;
+  filter:drop-shadow(0 5px 12px rgba(0,0,0,.62));
+}
+.stage.scene-prayer .prayer-brand-copy strong{
+  display:block;font-family:Georgia,"Times New Roman",serif;
+  font-size:31px;line-height:.93;font-weight:800;letter-spacing:.5px;color:#f2ce6e;
+  text-shadow:0 3px 8px rgba(0,0,0,.70);
+}
+.stage.scene-prayer .prayer-brand-copy span{
+  display:block;margin-top:8px;font-size:17px;font-weight:900;letter-spacing:4.5px;color:#fff4d5;
+  text-shadow:0 2px 7px rgba(0,0,0,.70);
+}
+
+/* Fixed ornate arch; this is the master prayer back layer frame. */
+.stage.scene-prayer .prayer-arch-frame{
+  position:absolute;z-index:3;left:275px;right:275px;top:92px;bottom:151px;
+  border:3px solid rgba(235,194,71,.96);
+  border-radius:46% 46% 34px 34px / 27% 27% 34px 34px;
+  background:
+    radial-gradient(circle at 50% 12%,rgba(41,220,203,.11),transparent 26%),
+    linear-gradient(180deg,rgba(0,62,66,.80),rgba(0,38,44,.91));
+  box-shadow:
+    0 0 0 4px rgba(36,214,198,.07),
+    0 0 24px rgba(238,196,68,.22),
+    0 0 40px rgba(37,219,202,.13),
+    inset 0 0 65px rgba(0,0,0,.30);
+}
+.stage.scene-prayer .prayer-arch-frame:before,
+.stage.scene-prayer .prayer-arch-frame:after{
+  content:"";position:absolute;top:92px;width:3px;height:170px;
+  background:linear-gradient(#e4bc54,rgba(68,223,208,.32),transparent);
+  opacity:.64;
+}
+.stage.scene-prayer .prayer-arch-frame:before{left:-24px}
+.stage.scene-prayer .prayer-arch-frame:after{right:-24px}
+.stage.scene-prayer .prayer-arch-crest{
+  position:absolute;left:50%;top:-32px;width:92px;height:92px;transform:translateX(-50%) rotate(45deg);
+  border-left:3px solid #e8c45f;border-top:3px solid #e8c45f;
+  background:#05363c;box-shadow:-7px -7px 18px rgba(230,194,79,.13);
+}
+.stage.scene-prayer .prayer-arch-line{
+  position:absolute;left:24%;right:24%;bottom:44px;height:2px;
+  background:linear-gradient(90deg,transparent,#e8c45c 25%,#48dcca 50%,#e8c45c 75%,transparent);
+  opacity:.66;
+}
+
+/* Fixed lantern silhouettes. */
+.stage.scene-prayer .prayer-lantern{
+  position:absolute;z-index:4;top:180px;width:58px;height:148px;
+  border:2px solid rgba(231,191,73,.88);border-radius:18px 18px 26px 26px;
+  background:linear-gradient(180deg,rgba(238,199,89,.15),rgba(13,63,64,.76));
+  box-shadow:0 0 22px rgba(238,190,60,.22),inset 0 0 28px rgba(247,210,102,.10);
+}
+.stage.scene-prayer .prayer-lantern:before{
+  content:"";position:absolute;left:50%;top:-45px;width:2px;height:45px;background:#d6ad48;
+}
+.stage.scene-prayer .prayer-lantern:after{
+  content:"";position:absolute;left:10px;right:10px;top:42px;height:55px;
+  border:1px solid rgba(246,216,120,.80);border-radius:8px;
+  background:radial-gradient(circle,#ffe8a0 0 7%,rgba(249,201,73,.20) 28%,transparent 72%);
+}
+.stage.scene-prayer .prayer-lantern-left{left:122px}
+.stage.scene-prayer .prayer-lantern-right{right:122px}
+
+/* Bottom bar frame is fixed; text is supplied by upper layer. */
+.stage.scene-prayer .prayer-advice-frame{
+  position:absolute;z-index:3;left:78px;right:78px;bottom:31px;height:95px;
+  border:2px solid rgba(234,194,73,.95);border-radius:27px;
+  background:linear-gradient(90deg,rgba(0,39,45,.96),rgba(0,57,61,.97),rgba(0,39,45,.96));
+  box-shadow:0 0 25px rgba(0,0,0,.34),inset 0 0 30px rgba(47,222,205,.05);
+}
+
+/* ---------- DYNAMIC UPPER LAYER ---------- */
+.stage.scene-prayer .prayer-upperlayer{
+  position:absolute;inset:0;z-index:25;pointer-events:none;
+}
+.stage.scene-prayer .prayer-scene-card{
+  position:absolute;left:335px;right:335px;top:210px;bottom:210px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:32px 44px;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+.stage.scene-prayer .prayer-scene-card:before{display:none!important}
+
+.stage.scene-prayer .prayer-mode-countdown{
+  margin:0 0 22px;padding:11px 38px 12px;min-width:350px;
+  border:2px solid rgba(237,199,83,.94);border-radius:24px;
+  background:linear-gradient(180deg,rgba(0,34,40,.90),rgba(0,22,28,.94));
+  box-shadow:0 0 22px rgba(235,197,79,.17),inset 0 0 22px rgba(42,215,201,.07);
+  font-size:78px;line-height:1;font-weight:950;color:#fff1bc;
+}
+.stage.scene-prayer .prayer-mode-title{
+  margin:0;max-width:920px;
+  font-family:"Arial Black","Arial Narrow",Arial,sans-serif;
+  font-size:66px;line-height:1.02;font-weight:950;letter-spacing:.4px;color:#fff0bc;
+  text-shadow:0 4px 13px rgba(0,0,0,.62);
+}
+.stage.scene-prayer .prayer-mode-prayer{
+  min-width:300px;margin-top:18px;padding:10px 34px;border-radius:999px;
+  background:linear-gradient(180deg,#f3d376,#dba943);
+  color:#082a32;font-size:28px;line-height:1;font-weight:950;letter-spacing:1.2px;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.stage.scene-prayer .prayer-mode-message{
+  max-width:900px;margin-top:20px;font-size:20px;line-height:1.27;font-weight:750;color:#d8ebe6;
+  text-shadow:0 2px 5px rgba(0,0,0,.54);
+}
+
+/* Advice copy floats over the permanent bottom frame. */
+.stage.scene-prayer .prayer-advice-bar{
+  position:absolute;z-index:28;left:78px;right:78px;bottom:31px;height:95px;
+  display:grid;grid-template-columns:repeat(3,1fr);align-items:center;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+}
+.stage.scene-prayer .prayer-advice-item{
+  height:58px;padding:0 29px;display:flex;align-items:center;justify-content:center;gap:14px;
+  border-right:1px solid rgba(233,195,77,.31);text-align:center;
+  font-size:18px;line-height:1.17;font-weight:850;color:#fff5dc;
+}
+.stage.scene-prayer .prayer-advice-item:last-child{border-right:0}
+.stage.scene-prayer .prayer-advice-icon{
+  font-size:13px;color:#e8c258;text-shadow:0 0 8px rgba(235,196,70,.55);
+}
+
+/* Date/time placement is fixed in prayer back-layer geometry, while values remain live. */
+.stage.scene-prayer .live-clock{
+  visibility:visible!important;opacity:1!important;z-index:31!important;
+  left:1244px;top:23px;width:388px;height:85px;transform:none;
+  border-bottom:1px solid rgba(232,193,76,.45);
+}
+.stage.scene-prayer .clock-hm{left:10px;bottom:9px;font-size:64px}
+.stage.scene-prayer .clock-sec{left:211px;bottom:10px;font-size:25px}
+.stage.scene-prayer .clock-wib{left:248px;bottom:11px;font-size:43px;transform:scaleX(.69)}
+.stage.scene-prayer .live-date{
+  visibility:visible!important;opacity:1!important;z-index:31!important;
+  left:1235px;top:111px;width:405px;height:66px;padding:2px 8px;
+  transform:none;font-size:29px;border:0;
+}
+.stage.scene-prayer .live-date::after{
+  left:15%;right:15%;background:linear-gradient(90deg,transparent,#e6c35f 26%,#4edccb 50%,#e6c35f 74%,transparent);
+}
+.stage.scene-prayer .date-gregorian{font-size:54%}
+.stage.scene-prayer .date-hijri{font-size:49%}
+
+/* Doa after azan: 3-minute upper layer, countdown remains part of Iqamah/Khutbah duration. */
+.stage.scene-prayer .prayer-dua-card{
+  width:100%;max-width:920px;margin-top:16px;padding:20px 28px 18px;
+  border:2px solid rgba(234,197,88,.92);border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,250,229,.98),rgba(247,237,204,.98));
+  color:#0b2e36;box-shadow:0 12px 27px rgba(0,0,0,.28);
+}
+.stage.scene-prayer .prayer-dua-arabic{
+  font-family:"Traditional Arabic","Noto Naskh Arabic","Amiri",serif;
+  font-size:34px;line-height:1.55;font-weight:700;text-align:center;color:#072f39;
+}
+.stage.scene-prayer .prayer-dua-row{
+  display:grid;grid-template-columns:92px 1fr;gap:10px;margin-top:8px;
+  font-size:15px;line-height:1.25;text-align:left;color:#173840;
+}
+.stage.scene-prayer .prayer-dua-row b{
+  display:flex;align-items:flex-start;justify-content:center;padding:5px 7px;border-radius:8px;
+  background:#e3b94f;color:#13323b;font-size:14px;
+}
+.stage.scene-prayer .prayer-dua-meaning{font-size:14px}
+
+.stage.scene-prayer .prayer-scene[data-phase="dua"] .prayer-scene-card,
+.stage.scene-prayer .prayer-scene[data-phase="dua"]{}
+
+/* Phase-specific upper-layer tuning only; back layer never changes. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{top:158px;bottom:155px;padding:18px 34px}
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{font-size:54px;margin-bottom:9px;padding:7px 26px 8px;min-width:275px}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{font-size:40px}
+.prayer-scene[data-phase="dua"] .prayer-mode-prayer{font-size:20px;margin-top:8px;padding:7px 24px;min-width:220px}
+.prayer-scene[data-phase="dua"] .prayer-mode-message{display:none}
+.prayer-scene[data-phase="khutbah"] .prayer-mode-title{font-size:60px}
+.prayer-scene[data-phase="prayer"] .prayer-mode-countdown{color:#ddfff8;border-color:rgba(63,224,207,.92)}
+
+/* Keep dashboard prayer-time fields hidden while prayer layer owns the screen. */
+.stage.scene-prayer .prayer-time,
+.stage.scene-prayer .next-prayer,
+.stage.scene-prayer > .countdown{visibility:hidden!important;opacity:0!important}
+
+
+/* v59 — APPROVED PRAYER BACK LAYER
+   Exact approved 1672×941 reference image is the fixed lower layer.
+   All prayer phases share this same back layer. Only upper-layer content changes. */
+
+.stage.scene-prayer .prayer-scene{
+  background:#031d28!important;
+}
+
+/* THE APPROVED STATIC BACK LAYER */
+.stage.scene-prayer .prayer-backlayer{
+  position:absolute!important;
+  inset:0!important;
+  z-index:20!important;
+  display:block!important;
+  background:
+    url("./assets/prayer-backlayer-approved-v59.webp?v=approved-prayer-backlayer-v59-20260925")
+    0 0 / 1672px 941px no-repeat!important;
+}
+
+/* Disable the former CSS-generated theme completely.
+   The image already contains the official logo, mosque skyline, mihrab/frame,
+   lamps, gold ornaments, top-right frame and three-column lower frame. */
+.stage.scene-prayer .prayer-back-photo,
+.stage.scene-prayer .prayer-back-tint,
+.stage.scene-prayer .prayer-corner,
+.stage.scene-prayer .prayer-lantern,
+.stage.scene-prayer .prayer-brand,
+.stage.scene-prayer .prayer-arch-frame,
+.stage.scene-prayer .prayer-advice-frame,
+.stage.scene-prayer .prayer-backlayer:before,
+.stage.scene-prayer .prayer-backlayer:after{
+  display:none!important;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* ---------- DYNAMIC UPPER LAYER ---------- */
+.stage.scene-prayer .prayer-upperlayer{
+  position:absolute!important;
+  inset:0!important;
+  z-index:25!important;
+  pointer-events:none!important;
+}
+
+.stage.scene-prayer .prayer-scene-card{
+  position:absolute!important;
+  left:380px!important;
+  right:380px!important;
+  top:155px!important;
+  bottom:185px!important;
+  padding:26px 30px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.stage.scene-prayer .prayer-scene-card:before,
+.stage.scene-prayer .prayer-scene-card:after{
+  display:none!important;
+}
+
+/* Countdown occupies the ornamental upper part of the mihrab. */
+.stage.scene-prayer .prayer-mode-countdown{
+  margin:0 0 15px!important;
+  min-width:310px!important;
+  padding:9px 30px 11px!important;
+  border:2px solid rgba(239,193,58,.98)!important;
+  border-radius:26px!important;
+  background:linear-gradient(180deg,rgba(1,38,54,.96),rgba(0,23,36,.96))!important;
+  box-shadow:
+    0 0 18px rgba(237,190,48,.20),
+    inset 0 0 20px rgba(0,207,220,.08)!important;
+  color:#fff0b0!important;
+  font-size:73px!important;
+  line-height:1!important;
+  font-weight:950!important;
+  text-shadow:0 3px 9px rgba(0,0,0,.72)!important;
+}
+
+/* Phase title + prayer name. */
+.stage.scene-prayer .prayer-mode-title{
+  margin:0!important;
+  max-width:870px!important;
+  font-family:"Arial Black","Arial Narrow",Arial,sans-serif!important;
+  font-size:66px!important;
+  line-height:1.02!important;
+  font-weight:950!important;
+  color:#ffefb1!important;
+  text-shadow:0 4px 12px rgba(0,0,0,.72)!important;
+}
+.stage.scene-prayer .prayer-mode-prayer{
+  margin-top:14px!important;
+  min-width:285px!important;
+  padding:9px 34px!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,#f6d36b,#dca63b)!important;
+  box-shadow:0 5px 14px rgba(0,0,0,.26)!important;
+  color:#082738!important;
+  font-size:27px!important;
+  line-height:1!important;
+  font-weight:950!important;
+  letter-spacing:1.2px!important;
+}
+
+/* Advice is now only in the approved lower bar, not duplicated in the centre. */
+.stage.scene-prayer .prayer-mode-message{
+  display:none!important;
+}
+
+/* Three reminder columns align to the baked lower frame. */
+.stage.scene-prayer .prayer-advice-bar{
+  position:absolute!important;
+  z-index:28!important;
+  left:49px!important;
+  right:49px!important;
+  bottom:36px!important;
+  height:116px!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,1fr)!important;
+  align-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.stage.scene-prayer .prayer-advice-item{
+  height:79px!important;
+  padding:0 45px 0 105px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  text-align:center!important;
+  color:#fff2d3!important;
+  font-size:18px!important;
+  line-height:1.17!important;
+  font-weight:850!important;
+  text-shadow:0 2px 6px rgba(0,0,0,.74)!important;
+}
+.stage.scene-prayer .prayer-advice-icon{
+  display:none!important;
+}
+
+/* Live clock + Masehi/Hijri date use the baked top-right ornamental frame. */
+.stage.scene-prayer .live-clock{
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:31!important;
+  left:1206px!important;
+  top:48px!important;
+  width:350px!important;
+  height:55px!important;
+  transform:none!important;
+  border:0!important;
+}
+.stage.scene-prayer .clock-hm{
+  left:39px!important;
+  bottom:1px!important;
+  font-size:48px!important;
+}
+.stage.scene-prayer .clock-sec{
+  left:188px!important;
+  bottom:3px!important;
+  font-size:18px!important;
+}
+.stage.scene-prayer .clock-wib{
+  left:215px!important;
+  bottom:3px!important;
+  font-size:30px!important;
+  transform:scaleX(.73)!important;
+}
+
+.stage.scene-prayer .live-date{
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:31!important;
+  left:1210px!important;
+  top:105px!important;
+  width:342px!important;
+  height:48px!important;
+  padding:0 10px!important;
+  transform:none!important;
+  border:0!important;
+  background:transparent!important;
+  font-size:24px!important;
+}
+.stage.scene-prayer .live-date::after{
+  left:18%!important;
+  right:18%!important;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(232,197,84,.92) 30%,
+    rgba(62,218,209,.70) 50%,
+    rgba(232,197,84,.92) 70%,
+    transparent
+  )!important;
+  opacity:.75!important;
+}
+.stage.scene-prayer .date-gregorian{font-size:52%!important}
+.stage.scene-prayer .date-hijri{font-size:46%!important}
+
+/* DOA AFTER AZAN — still upper layer only.
+   Its countdown continues to use the Iqamah/Khutbah duration. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  left:380px!important;
+  right:380px!important;
+  top:142px!important;
+  bottom:157px!important;
+  padding:12px 20px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  min-width:225px!important;
+  margin-bottom:6px!important;
+  padding:5px 20px 7px!important;
+  font-size:44px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  font-size:39px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-prayer{
+  display:none!important;
+}
+.stage.scene-prayer .prayer-dua-card{
+  width:100%!important;
+  max-width:865px!important;
+  margin-top:12px!important;
+  padding:17px 23px 15px!important;
+  border:2px solid rgba(235,195,69,.96)!important;
+  border-radius:18px!important;
+  background:linear-gradient(
+    180deg,
+    rgba(255,250,229,.99),
+    rgba(247,236,199,.99)
+  )!important;
+  color:#092e3a!important;
+  box-shadow:0 10px 25px rgba(0,0,0,.30)!important;
+}
+.stage.scene-prayer .prayer-dua-arabic{
+  font-family:"Traditional Arabic","Noto Naskh Arabic","Amiri",serif!important;
+  font-size:31px!important;
+  line-height:1.48!important;
+  font-weight:700!important;
+  color:#082e39!important;
+}
+.stage.scene-prayer .prayer-dua-row{
+  display:grid!important;
+  grid-template-columns:84px 1fr!important;
+  gap:9px!important;
+  margin-top:7px!important;
+  font-size:14px!important;
+  line-height:1.22!important;
+}
+.stage.scene-prayer .prayer-dua-row b{
+  padding:4px 6px!important;
+  border-radius:8px!important;
+  background:#e3b647!important;
+  color:#12323c!important;
+  font-size:13px!important;
+}
+.stage.scene-prayer .prayer-dua-meaning{
+  font-size:13px!important;
+}
+
+/* Other phases reuse exactly the same back layer. */
+.prayer-scene[data-phase="khutbah"] .prayer-mode-title{
+  font-size:57px!important;
+}
+.prayer-scene[data-phase="prayer"] .prayer-mode-countdown{
+  color:#e5fff8!important;
+  border-color:rgba(52,222,208,.94)!important;
+}
+
+/* Dashboard-only prayer fields stay off during prayer mode. */
+.stage.scene-prayer .prayer-time,
+.stage.scene-prayer .next-prayer,
+.stage.scene-prayer > .countdown{
+  visibility:hidden!important;
+  opacity:0!important;
+}
+
+
+/* v60 — GLOBAL PRAYER MODE ALIGNMENT
+   Applies to ALL prayer phases: Azan, Doa, Iqamah, Khutbah, Sholat, Ramadan sermon/Tarawih. */
+
+/* Clock: requested +15px right, +5px down from v59. */
+.stage.scene-prayer .live-clock{
+  left:1217px!important;
+  top:51px!important;
+}
+
+/* Bottom reminder/advice layout: precise 3-column alignment on the fixed baked underlay. */
+.stage.scene-prayer .prayer-advice-bar{
+  left:58px!important;
+  right:58px!important;
+  bottom:37px!important;
+  height:113px!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:center!important;
+  column-gap:0!important;
+}
+
+/* Each advice cell uses a fixed icon lane + flexible text lane.
+   This prevents the text from drifting between phases. */
+.stage.scene-prayer .prayer-advice-item{
+  position:relative!important;
+  height:84px!important;
+  box-sizing:border-box!important;
+  display:grid!important;
+  grid-template-columns:92px minmax(0,1fr)!important;
+  gap:14px!important;
+  align-items:center!important;
+  justify-items:stretch!important;
+  padding:0 30px!important;
+  border-right:1px solid rgba(235,196,73,.34)!important;
+  color:#fff5d8!important;
+  font-size:18px!important;
+  line-height:1.18!important;
+  font-weight:850!important;
+  text-align:left!important;
+  text-shadow:0 2px 6px rgba(0,0,0,.72)!important;
+}
+.stage.scene-prayer .prayer-advice-item:last-child{
+  border-right:0!important;
+}
+
+/* Official mosque logo placed inside each baked circular medallion.
+   Same lower layer and same icon positioning for every prayer phase. */
+.stage.scene-prayer .prayer-advice-icon{
+  display:block!important;
+  justify-self:center!important;
+  align-self:center!important;
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  border-radius:50%!important;
+  font-size:0!important;
+  color:transparent!important;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(0,56,67,.82) 0 58%,rgba(0,35,48,.28) 59% 100%),
+    url("./assets/logo-masjid-official-v58.png?v=prayer-layout-v60-20260925") center/46px 46px no-repeat!important;
+  box-shadow:
+    0 0 0 2px rgba(235,196,73,.88),
+    0 0 13px rgba(235,196,73,.23),
+    inset 0 0 12px rgba(42,218,202,.09)!important;
+}
+
+/* Text stays visually centered within the usable text area of each bottom box. */
+.stage.scene-prayer .prayer-advice-item > span:last-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  min-height:54px!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+/* Fine optical corrections for the three baked cells. */
+.stage.scene-prayer .prayer-advice-item:nth-child(1){padding-left:34px!important;padding-right:28px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2){padding-left:28px!important;padding-right:28px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3){padding-left:28px!important;padding-right:34px!important}
+
+/* Keep identical bottom geometry during the large Doa card and every other prayer phase. */
+.prayer-scene[data-phase="azan"] .prayer-advice-bar,
+.prayer-scene[data-phase="dua"] .prayer-advice-bar,
+.prayer-scene[data-phase="iqamah"] .prayer-advice-bar,
+.prayer-scene[data-phase="khutbah"] .prayer-advice-bar,
+.prayer-scene[data-phase="prayer"] .prayer-advice-bar,
+.prayer-scene[data-phase="ramadanSermon"] .prayer-advice-bar,
+.prayer-scene[data-phase="tarawih"] .prayer-advice-bar{
+  left:58px!important;
+  right:58px!important;
+  bottom:37px!important;
+  height:113px!important;
+}
+
+
+/* v61 — PRECISE CLOCK + THREE DISTINCT ADVICE ILLUSTRATIONS
+   Global for every prayer phase using the same fixed back layer. */
+
+/* Requested from v60: +12px right, +3px down. */
+.stage.scene-prayer .live-clock{
+  left:1229px!important;
+  top:54px!important;
+}
+
+/* Calibrated against the baked separators in the approved 1672×941 back layer:
+   x=588 and x=1077. */
+.stage.scene-prayer .prayer-advice-bar{
+  left:58px!important;
+  right:58px!important;
+  bottom:37px!important;
+  height:113px!important;
+  display:grid!important;
+  grid-template-columns:530px 489px minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+.stage.scene-prayer .prayer-advice-item{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  background:transparent!important;
+  color:#fff5d8!important;
+  font-size:18px!important;
+  line-height:1.18!important;
+  font-weight:850!important;
+  text-align:center!important;
+  text-shadow:0 2px 6px rgba(0,0,0,.72)!important;
+}
+
+/* Use the ornamental circles already present in the back layer.
+   Only the inner illustration is overlaid, so no duplicate border appears. */
+.stage.scene-prayer .prayer-advice-icon{
+  display:block!important;
+  position:absolute!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:66px!important;
+  height:66px!important;
+  min-width:66px!important;
+  border:0!important;
+  border-radius:0!important;
+  background-color:transparent!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:64px 64px!important;
+  box-shadow:none!important;
+  font-size:0!important;
+  color:transparent!important;
+}
+
+/* Exact optical centres of the three baked medallions. */
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{
+  left:66px!important;
+  background-image:url("./assets/advice-quiet-v61.svg?v=prayer-advice-icons-v61-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{
+  left:45px!important;
+  background-image:url("./assets/advice-parent-child-v61.svg?v=prayer-advice-icons-v61-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{
+  left:43px!important;
+  background-image:url("./assets/advice-silent-phone-v61.svg?v=prayer-advice-icons-v61-20260925")!important;
+}
+
+/* Text zones calibrated independently so the copy sits visually centred
+   between its medallion and the next baked separator. */
+.stage.scene-prayer .prayer-advice-item:nth-child(1){
+  padding:0 34px 0 166px!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(2){
+  padding:0 30px 0 145px!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(3){
+  padding:0 42px 0 143px!important;
+}
+.stage.scene-prayer .prayer-advice-item > span:last-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-height:58px!important;
+  padding:0!important;
+  margin:0!important;
+  text-align:center!important;
+}
+
+/* Keep this geometry identical for ALL prayer modes. */
+.prayer-scene[data-phase="azan"] .prayer-advice-bar,
+.prayer-scene[data-phase="dua"] .prayer-advice-bar,
+.prayer-scene[data-phase="iqamah"] .prayer-advice-bar,
+.prayer-scene[data-phase="khutbah"] .prayer-advice-bar,
+.prayer-scene[data-phase="prayer"] .prayer-advice-bar,
+.prayer-scene[data-phase="ramadanSermon"] .prayer-advice-bar,
+.prayer-scene[data-phase="tarawih"] .prayer-advice-bar{
+  left:58px!important;
+  right:58px!important;
+  bottom:37px!important;
+  height:113px!important;
+  grid-template-columns:530px 489px minmax(0,1fr)!important;
+}
+
+
+/* v62 — APPROVED ADVICE ARTWORKS
+   Replaces the temporary line icons with the three approved teal/gold illustrations. */
+.stage.scene-prayer .prayer-advice-icon{
+  width:80px!important;
+  height:80px!important;
+  min-width:80px!important;
+  background-size:80px 80px!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.38))!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{
+  left:57px!important;
+  background-image:url("./assets/advice-mosque-quiet-main-v62.webp?v=approved-advice-art-v62-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{
+  left:36px!important;
+  background-image:url("./assets/advice-parent-child-main-v62.webp?v=approved-advice-art-v62-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{
+  left:34px!important;
+  background-image:url("./assets/advice-silent-phone-main-v62.webp?v=approved-advice-art-v62-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1){padding-left:166px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2){padding-left:145px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3){padding-left:143px!important}
+
+
+/* v63 — FINAL ADVICE CALIBRATION
+   Correct PNG assets replace the faulty right icon asset. */
+
+/* All three approved illustrations: +5px size, +3px right, +3px up. */
+.stage.scene-prayer .prayer-advice-icon{
+  width:85px!important;
+  height:85px!important;
+  min-width:85px!important;
+  top:calc(50% - 3px)!important;
+  background-size:85px 85px!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.42))!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{
+  left:60px!important;
+  background-image:url("./assets/advice-mosque-quiet-main-v63.png?v=prayer-advice-calibration-v63-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{
+  left:39px!important;
+  background-image:url("./assets/advice-parent-child-main-v63.png?v=prayer-advice-calibration-v63-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{
+  left:37px!important;
+  background-image:url("./assets/advice-silent-phone-main-v63.png?v=prayer-advice-calibration-v63-20260925")!important;
+}
+
+/* Reminder copy: +10px font size, two lines, and 10px upward optical shift. */
+.stage.scene-prayer .prayer-advice-item{
+  font-size:28px!important;
+  line-height:1.02!important;
+}
+.stage.scene-prayer .prayer-advice-item > span:last-child{
+  position:relative!important;
+  top:-10px!important;
+  width:170px!important;
+  max-width:170px!important;
+  min-height:62px!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  text-align:center!important;
+  justify-content:center!important;
+  align-items:center!important;
+}
+
+/* Give the middle message slightly more room while preserving a two-line TV layout. */
+.stage.scene-prayer .prayer-advice-item:nth-child(2) > span:last-child{
+  width:205px!important;
+  max-width:205px!important;
+}
+
+
+/* v64 — DYNAMIC PRAYER ADVICE ICONS + TEXT FIT
+   Every reminder now receives a semantically correct illustration. */
+
+/* Requested: enlarge icons another 10px and shift 3px right. */
+.stage.scene-prayer .prayer-advice-icon{
+  width:95px!important;
+  height:95px!important;
+  min-width:95px!important;
+  top:calc(50% - 3px)!important;
+  background-size:95px 95px!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.44))!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{left:63px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{left:42px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{left:40px!important}
+
+/* Disable old position-bound images. The icon is now chosen from data-icon. */
+.stage.scene-prayer .prayer-advice-item .prayer-advice-icon{background-image:none!important}
+
+.stage.scene-prayer .prayer-advice-item[data-icon="quiet"] .prayer-advice-icon{
+  background-image:url("./assets/advice-mosque-quiet-main-v63.png?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="parent"] .prayer-advice-icon{
+  background-image:url("./assets/advice-parent-child-main-v63.png?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="phone"] .prayer-advice-icon{
+  background-image:url("./assets/advice-silent-phone-main-v63.png?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="dua"] .prayer-advice-icon{
+  background-image:url("./assets/advice-dua-together-v64.svg?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="frontsaf"] .prayer-advice-icon{
+  background-image:url("./assets/advice-front-saf-v64.svg?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="saf"] .prayer-advice-icon{
+  background-image:url("./assets/advice-saf-lines-v64.svg?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="listen"] .prayer-advice-icon{
+  background-image:url("./assets/advice-listen-v64.svg?v=prayer-advice-dynamic-v64-20260925")!important;
+}
+/* Use the whole available text lane instead of the narrow v63 fixed width.
+   This keeps normal reminders at 2 lines and long reminders at max 3 lines. */
+.stage.scene-prayer .prayer-advice-item{
+  font-size:28px!important;
+  line-height:1.04!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1){padding-left:174px!important;padding-right:24px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2){padding-left:153px!important;padding-right:24px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3){padding-left:151px!important;padding-right:30px!important}
+
+.stage.scene-prayer .prayer-advice-item > span:last-child{
+  position:relative!important;
+  top:-8px!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:3!important;
+  overflow:hidden!important;
+  width:100%!important;
+  max-width:none!important;
+  min-height:0!important;
+  max-height:88px!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  text-align:center!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+/* Slightly tighter long advice while preserving readability on TV. */
+.stage.scene-prayer .prayer-advice-item:nth-child(2) > span:last-child{font-size:27px!important}
+
+
+/* v65 — APPROVED UNIFIED ADVICE EMBLEMS
+   Standardized teal/gold medallion artwork across prayer advice. */
+
+/* Global calibration requested: +5px size, 4px left, 8px up from v64. */
+.stage.scene-prayer .prayer-advice-icon{
+  width:100px!important;
+  height:100px!important;
+  min-width:100px!important;
+  top:calc(50% - 11px)!important;
+  background-size:100px 100px!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.46))!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{left:59px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{left:38px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{left:36px!important}
+
+/* Approved standard artwork. */
+.stage.scene-prayer .prayer-advice-item[data-icon="frontsaf"] .prayer-advice-icon{
+  background-image:url("./assets/advice-frontsaf-standard-v65.webp?v=prayer-advice-standard-v65-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="saf"] .prayer-advice-icon{
+  background-image:url("./assets/advice-saf-standard-v65.webp?v=prayer-advice-standard-v65-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="dua"] .prayer-advice-icon{
+  background-image:url("./assets/advice-dua-standard-v65.webp?v=prayer-advice-standard-v65-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="waiting"] .prayer-advice-icon{
+  background-image:url("./assets/advice-waiting-standard-v65.webp?v=prayer-advice-standard-v65-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="quiet"] .prayer-advice-icon{
+  background-image:url("./assets/advice-quiet-standard-v65.webp?v=prayer-advice-standard-v65-20260925")!important;
+}
+
+/* Previously approved parent/child and silent-phone illustrations remain the reference for those meanings. */
+.stage.scene-prayer .prayer-advice-item[data-icon="parent"] .prayer-advice-icon{
+  background-image:url("./assets/advice-parent-child-main-v63.png?v=prayer-advice-standard-v65-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="phone"] .prayer-advice-icon{
+  background-image:url("./assets/advice-silent-phone-main-v63.png?v=prayer-advice-standard-v65-20260925")!important;
+}
+
+
+/* v66 — ICON POSITION TUNING + FIXED QUIET/WAITING ARTWORKS
+   Global adjustment requested: +2px size, 2px left, 2px up from v65. */
+.stage.scene-prayer .prayer-advice-icon{
+  width:102px!important;
+  height:102px!important;
+  min-width:102px!important;
+  top:calc(50% - 13px)!important;
+  background-size:102px 102px!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.46))!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{left:57px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{left:36px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{left:34px!important}
+
+/* Replace the two faulty v65 binary assets with stable vector artwork. */
+.stage.scene-prayer .prayer-advice-item[data-icon="quiet"] .prayer-advice-icon{
+  background-image:url("./assets/advice-quiet-standard-v66.svg?v=prayer-advice-fix-v66-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="waiting"] .prayer-advice-icon{
+  background-image:url("./assets/advice-waiting-standard-v66.svg?v=prayer-advice-fix-v66-20260925")!important;
+}
+
+
+/* v67 — APPROVED QUIET + WAITING ARTWORKS
+   Apply the approved mosque-silent emblem and waiting-for-iqamah emblem.
+   Global icon position: 3px up, 3px left from v66. */
+.stage.scene-prayer .prayer-advice-icon{
+  top:calc(50% - 16px)!important;
+}
+.stage.scene-prayer .prayer-advice-item:nth-child(1) .prayer-advice-icon{left:54px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(2) .prayer-advice-icon{left:33px!important}
+.stage.scene-prayer .prayer-advice-item:nth-child(3) .prayer-advice-icon{left:31px!important}
+
+.stage.scene-prayer .prayer-advice-item[data-icon="quiet"] .prayer-advice-icon{
+  background-image:url("./assets/advice-quiet-approved-v67.webp?v=prayer-advice-approved-v67-20260925")!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="waiting"] .prayer-advice-icon{
+  background-image:url("./assets/advice-waiting-approved-v67.webp?v=prayer-advice-approved-v67-20260925")!important;
+}
+
+
+/* v68 — PRAYER ADVICE TEXT POSITION
+   Requested: move all reminder text 40px left and 10px up. */
+.stage.scene-prayer .prayer-advice-item > span:last-child{
+  left:-40px!important;
+  top:-18px!important;
+}
+
+
+/* v69 — DOA AFTER AZAN LAYOUT UPGRADE
+   Lift the full dua content block, enlarge the dua panel, and increase typography. */
+
+/* Move countdown + title + dua panel upward as one coherent upper-layer group. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-105px)!important;
+}
+
+/* Give the top elements a little more visual separation after moving upward. */
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  margin-bottom:10px!important;
+  min-width:245px!important;
+  padding:7px 24px 9px!important;
+  font-size:48px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  font-size:44px!important;
+  line-height:1.02!important;
+  margin-bottom:4px!important;
+}
+
+/* Larger prayer panel: more vertical breathing room and fuller typography. */
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:900px!important;
+  min-height:300px!important;
+  margin-top:14px!important;
+  padding:24px 28px 22px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:38px!important;
+  line-height:1.55!important;
+  font-weight:700!important;
+  margin:0 0 13px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  grid-template-columns:96px 1fr!important;
+  gap:12px!important;
+  margin-top:10px!important;
+  font-size:18px!important;
+  line-height:1.30!important;
+  text-align:left!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  padding:7px 8px!important;
+  font-size:16px!important;
+  line-height:1.15!important;
+  align-self:start!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:17px!important;
+  line-height:1.30!important;
+}
+
+/* The explanatory line is redundant on this teaching screen and consumes useful space. */
+.prayer-scene[data-phase="dua"] .prayer-mode-message{
+  display:none!important;
+}
+
+/* Ensure the complete teaching reminder is visible without ellipsis. */
+.prayer-scene[data-phase="dua"] .prayer-advice-item:nth-child(2) > span:last-child{
+  font-size:23px!important;
+  line-height:1.04!important;
+  max-height:82px!important;
+  -webkit-line-clamp:3!important;
+}
+
+
+/* v70 — DOA AFTER AZAN TYPOGRAPHY + VERTICAL POSITION
+   Requested: move countdown/title/dua card 30px down from v69,
+   retain min-height 300px, enlarge Arabic/Latin/meaning fonts,
+   and increase internal spacing for TV readability. */
+
+/* v69 was -105px; moving 30px down gives -75px. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-75px)!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:940px!important;
+  min-height:300px!important;
+  margin-top:18px!important;
+  padding:30px 34px 28px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:50px!important;
+  line-height:1.50!important;
+  font-weight:700!important;
+  margin:0 0 18px!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  grid-template-columns:118px 1fr!important;
+  gap:16px!important;
+  margin-top:14px!important;
+  font-size:30px!important;
+  line-height:1.28!important;
+  text-align:left!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  padding:9px 10px!important;
+  font-size:22px!important;
+  line-height:1.15!important;
+  align-self:start!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:25px!important;
+  line-height:1.30!important;
+}
+
+
+/* v71 — DOA AFTER AZAN REFINEMENT
+   Move the dua content group 50px lower from v70,
+   reduce typography to the requested TV-readable scale,
+   and resize the panel so the available area is filled without excessive empty space. */
+
+/* v70 = -75px. Move another 50px downward -> -25px. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-25px)!important;
+}
+
+/* Panel resized to fit the content more tightly while retaining comfortable breathing room. */
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:940px!important;
+  min-height:260px!important;
+  height:auto!important;
+  margin-top:14px!important;
+  padding:20px 30px 18px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+
+/* Requested typography. */
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:35px!important;
+  line-height:1.42!important;
+  font-weight:700!important;
+  margin:0 0 10px!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  grid-template-columns:110px 1fr!important;
+  gap:14px!important;
+  margin-top:8px!important;
+  font-size:25px!important;
+  line-height:1.24!important;
+  text-align:left!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  padding:7px 9px!important;
+  font-size:18px!important;
+  line-height:1.12!important;
+  align-self:start!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:15px!important;
+  line-height:1.28!important;
+}
+
+/* Keep countdown/title proportions balanced after moving the whole group downward. */
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  margin-bottom:8px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  margin-bottom:2px!important;
+}
+
+
+/* v72 — DOA AFTER AZAN FINAL SPACING/TYPOGRAPHY
+   Requested: move the dua content group 60px upward from v71,
+   restore min-height 300px, enlarge Arabic and meaning text,
+   while keeping spacing compact and readable. */
+
+/* v71 = -25px. Move 60px upward -> -85px. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-85px)!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:940px!important;
+  min-height:300px!important;
+  height:auto!important;
+  margin-top:12px!important;
+  padding:18px 28px 16px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:40px!important;
+  line-height:1.38!important;
+  font-weight:700!important;
+  margin:0 0 9px!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  grid-template-columns:110px 1fr!important;
+  gap:12px!important;
+  margin-top:7px!important;
+  font-size:25px!important;
+  line-height:1.22!important;
+  text-align:left!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  padding:6px 8px!important;
+  font-size:18px!important;
+  line-height:1.10!important;
+  align-self:start!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:25px!important;
+  line-height:1.22!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  margin-bottom:7px!important;
+}
+
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  margin-bottom:1px!important;
+}
+
+
+/* v73 — DOA AFTER AZAN: LOWER BLOCK, TALLER CARD, NO LABELS
+   Requested: move full dua group 30px down from v72,
+   increase vertical card space by 40px,
+   hide the "Latin:" and "Artinya:" labels,
+   and separate Arabic / Latin / meaning by spacing only. */
+
+/* v72 = -85px. Move 30px downward -> -55px. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-55px)!important;
+}
+
+/* Add 40px of vertical room (300 -> 340) and loosen padding slightly. */
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:950px!important;
+  min-height:340px!important;
+  height:auto!important;
+  margin-top:14px!important;
+  padding:24px 30px 22px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+
+/* Arabic */
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:45px!important;
+  line-height:1.40!important;
+  font-weight:700!important;
+  margin:0 0 16px!important;
+}
+
+/* Remove visible "Latin:" / "Artinya:" labels. */
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  display:none!important;
+}
+
+/* Latin becomes a clean full-width block. */
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  display:block!important;
+  grid-template-columns:none!important;
+  width:100%!important;
+  gap:0!important;
+  margin-top:14px!important;
+  padding:0!important;
+  font-size:31px!important;
+  line-height:1.28!important;
+  text-align:left!important;
+}
+
+/* Meaning uses spacing—not a label—to make the sections visually distinct. */
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:31px!important;
+  line-height:1.28!important;
+  margin-top:20px!important;
+  padding-top:0!important;
+}
+
+/* Keep countdown/title spacing comfortable after the downward shift. */
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  margin-bottom:9px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  margin-bottom:3px!important;
+}
+
+
+/* v74 — DOA AFTER AZAN: LOWER 30PX, 300PX CARD, BALANCED SPACING
+   Requested: move the full dua block 30px down from v73,
+   reduce card height to 300px,
+   keep Arabic/Latin/meaning separated by spacing,
+   and resize Latin/meaning text for a cleaner fit. */
+
+/* v73 = -55px. Move 30px downward -> -25px. */
+.prayer-scene[data-phase="dua"] .prayer-scene-card{
+  transform:translateY(-25px)!important;
+}
+
+/* Reduce vertical card size while preserving comfortable internal room. */
+.prayer-scene[data-phase="dua"] .prayer-dua-card{
+  width:100%!important;
+  max-width:950px!important;
+  min-height:300px!important;
+  height:auto!important;
+  margin-top:14px!important;
+  padding:22px 30px 20px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+}
+
+/* Arabic remains prominent. */
+.prayer-scene[data-phase="dua"] .prayer-dua-arabic{
+  font-size:45px!important;
+  line-height:1.38!important;
+  font-weight:700!important;
+  margin:0 0 14px!important;
+}
+
+/* Latin remains label-free and full width. */
+.prayer-scene[data-phase="dua"] .prayer-dua-row{
+  display:block!important;
+  width:100%!important;
+  margin-top:12px!important;
+  padding:0!important;
+  font-size:25px!important;
+  line-height:1.26!important;
+  text-align:left!important;
+}
+
+/* Meaning remains visually distinct through spacing only. */
+.prayer-scene[data-phase="dua"] .prayer-dua-meaning{
+  font-size:25px!important;
+  line-height:1.26!important;
+  margin-top:18px!important;
+  padding-top:0!important;
+}
+
+/* Keep labels hidden. */
+.prayer-scene[data-phase="dua"] .prayer-dua-row b{
+  display:none!important;
+}
+
+/* Slightly loosen the spacing around countdown/title without wasting vertical space. */
+.prayer-scene[data-phase="dua"] .prayer-mode-countdown{
+  margin-bottom:9px!important;
+}
+.prayer-scene[data-phase="dua"] .prayer-mode-title{
+  margin-bottom:3px!important;
+}
+
+
+
+
+/* Apply the approved teal/gold medallions. */
+.stage.scene-prayer .prayer-advice-item[data-icon="listen"] .prayer-advice-icon{
+  background-image:url("./assets/advice-listen-approved-v77.webp?v=advice-v77-20260925")!important;
+}
+/* Front-saf reminders in column 1: move text right so it never overlaps the medallion. */
+.stage.scene-prayer .prayer-advice-item[data-icon="frontsaf"] > span:last-child{
+  left:12px!important;
+  font-size:25px!important;
+  line-height:1.04!important;
+  text-wrap:balance!important;
+}
+
+
+.stage.scene-prayer .prayer-advice-item[data-icon="listen"] > span:last-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  -webkit-line-clamp:unset!important;
+  max-height:none!important;
+  overflow:visible!important;
+  font-size:24px!important;
+  line-height:1.06!important;
+  text-wrap:balance!important;
+}
+
+
+
+.stage.scene-prayer .prayer-advice-item[data-icon="listen"] .prayer-advice-icon{
+  background-image:url("./assets/advice-listen-approved-v78.webp?v=advice-v78-20260925")!important;
+}
+
+
+
+
+
+
+
+
+
+
+/* v86 — VERIFIED NO-CROSS MASTER
+   The binary itself is verified before deployment. A new path avoids all old CDN/browser cache. */
+.stage.scene-prayer .prayer-advice-item[data-icon="nocross"] .prayer-advice-icon{
+  display:block!important;
+  position:absolute!important;
+  width:102px!important;
+  height:102px!important;
+  min-width:102px!important;
+  z-index:6!important;
+  opacity:1!important;
+  visibility:visible!important;
+  overflow:visible!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent url("./assets/advice-no-cross-only-v86.png?v=verified-20260925-2241") center center / 102px 102px no-repeat!important;
+}
+.stage.scene-prayer .prayer-advice-item[data-icon="nocross"] > span:last-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  -webkit-line-clamp:unset!important;
+  max-height:none!important;
+  overflow:visible!important;
+  font-size:24px!important;
+  line-height:1.06!important;
+  text-wrap:balance!important;
+}
+
+
+/* v87 — PRAYER COPY + RAMADAN SPEAKER
+   Azan is 3 minutes. Longer titles are intentionally line-broken and centered.
+   Ramadan speaker is fed from Google Sheet "Mode Ramadan" / "Nama Penceramah". */
+.stage.scene-prayer .prayer-mode-title{
+  white-space:pre-line!important;
+}
+.prayer-ramadan-speaker[hidden]{
+  display:none!important;
+}
+.stage.scene-prayer .prayer-ramadan-speaker{
+  margin-top:13px!important;
+  width:min(760px,100%)!important;
+  text-align:center!important;
+  color:#fff0bc!important;
+  text-shadow:0 3px 9px rgba(0,0,0,.68)!important;
+}
+.stage.scene-prayer .prayer-ramadan-speaker-label{
+  font-size:22px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:.3px!important;
+}
+.stage.scene-prayer .prayer-ramadan-speaker-name{
+  margin-top:7px!important;
+  font-family:"Arial Black","Arial Narrow",Arial,sans-serif!important;
+  font-size:31px!important;
+  line-height:1.05!important;
+  font-weight:950!important;
+  overflow-wrap:anywhere!important;
+}
+
+/* SAATNYA AZAN DIKUMANDANGKAN — stable two-line composition. */
+.stage.scene-prayer .prayer-scene[data-phase="azan"] .prayer-scene-card{
+  transform:translateY(-7px)!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="azan"] .prayer-mode-countdown{
+  margin-bottom:17px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="azan"] .prayer-mode-title{
+  max-width:900px!important;
+  font-size:48px!important;
+  line-height:.98!important;
+  letter-spacing:.15px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="azan"] .prayer-mode-prayer{
+  margin-top:16px!important;
+}
+
+/* SAATNYA SHOLAT BERLANGSUNG — preserve hierarchy and center alignment. */
+.stage.scene-prayer .prayer-scene[data-phase="prayer"] .prayer-scene-card{
+  transform:translateY(-9px)!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="prayer"] .prayer-mode-countdown{
+  margin-bottom:17px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="prayer"] .prayer-mode-title{
+  max-width:920px!important;
+  font-size:57px!important;
+  line-height:.98!important;
+  letter-spacing:.1px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="prayer"] .prayer-mode-prayer{
+  margin-top:16px!important;
+}
+
+/* CERAMAH RAMADAN + Oleh + Nama Penceramah + subtitle pill. */
+.stage.scene-prayer .prayer-scene[data-phase="ramadanSermon"] .prayer-scene-card{
+  transform:translateY(-24px)!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="ramadanSermon"] .prayer-mode-countdown{
+  margin-bottom:15px!important;
+  font-size:70px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="ramadanSermon"] .prayer-mode-title{
+  max-width:930px!important;
+  font-size:58px!important;
+  line-height:1!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="ramadanSermon"] .prayer-mode-prayer{
+  margin-top:15px!important;
+  min-width:520px!important;
+  font-size:25px!important;
+  padding:9px 30px!important;
+}
+.stage.scene-prayer .prayer-scene[data-phase="ramadanSermon"] .prayer-mode-message{
+  display:none!important;
+}
+
+
+/* v91 — ZIKIR SETELAH SHOLAT / OPEN LAYOUT
+   Uses the approved prayer back layer and the existing calibrated clock/date.
+   No extra logo, no duplicate clock, no content boxes. Labels + Arabic remain. */
+.zikir-scene{
+  display:none;
+  position:absolute;
+  inset:0;
+  width:1672px;
+  height:941px;
+  overflow:hidden;
+  color:#fff5cf;
+  z-index:80;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.stage.scene-zikir .zikir-scene{display:block!important}
+.zikir-bg{
+  position:absolute;inset:0;
+  background:url("./assets/prayer-backlayer-approved-v59.webp?v=zikir-v91-20260926") center/cover no-repeat;
+  transform:scale(1.003);
+}
+.zikir-overlay{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(0,70,79,.06),rgba(0,24,34,.17) 64%,rgba(0,15,22,.30)),
+    linear-gradient(180deg,rgba(0,19,31,.04),rgba(0,15,23,.09));
+}
+
+/* Reuse exactly the same live clock/date placement already approved in prayer mode. */
+.stage.scene-zikir .live-clock{
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:91!important;
+  left:1229px!important;
+  top:54px!important;
+  width:350px!important;
+  height:55px!important;
+  transform:none!important;
+  border:0!important;
+}
+.stage.scene-zikir .clock-hm{
+  left:39px!important;
+  bottom:1px!important;
+  font-size:48px!important;
+}
+.stage.scene-zikir .clock-sec{
+  left:188px!important;
+  bottom:3px!important;
+  font-size:18px!important;
+}
+.stage.scene-zikir .clock-wib{
+  left:215px!important;
+  bottom:3px!important;
+  font-size:30px!important;
+  transform:scaleX(.73)!important;
+}
+.stage.scene-zikir .live-date{
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:91!important;
+  left:1210px!important;
+  top:105px!important;
+  width:342px!important;
+  height:48px!important;
+  padding:0 10px!important;
+  transform:none!important;
+  border:0!important;
+  background:transparent!important;
+  font-size:24px!important;
+}
+.stage.scene-zikir .live-date::after{
+  left:18%!important;
+  right:18%!important;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(232,197,84,.92) 30%,
+    rgba(62,218,209,.70) 50%,
+    rgba(232,197,84,.92) 70%,
+    transparent
+  )!important;
+  opacity:.75!important;
+}
+.stage.scene-zikir .date-gregorian{font-size:52%!important}
+.stage.scene-zikir .date-hijri{font-size:46%!important}
+
+.zikir-header{
+  position:absolute;
+  left:390px;
+  right:390px;
+  top:46px;
+  z-index:84;
+  text-align:center;
+}
+.zikir-header h1{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:50px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.8px;
+  color:#ffe79a;
+  text-shadow:0 4px 13px rgba(0,0,0,.72),0 0 14px rgba(239,189,48,.18);
+}
+.zikir-step-nav{
+  margin:24px auto 0;
+  width:620px;
+  height:48px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.zikir-step-tab{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid rgba(123,178,184,.62);
+  border-radius:14px;
+  background:rgba(0,31,42,.72);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:24px;
+  font-weight:900;
+  color:#6c8c92;
+}
+.zikir-scene[data-step="1"] .zikir-step-tab[data-step-tab="1"],
+.zikir-scene[data-step="2"] .zikir-step-tab[data-step-tab="2"],
+.zikir-scene[data-step="3"] .zikir-step-tab[data-step-tab="3"]{
+  color:#092835;
+  border-color:#ffd76d;
+  background:linear-gradient(180deg,#ffe78f,#dfa737);
+  box-shadow:0 0 16px rgba(245,196,61,.36);
+}
+.zikir-step-countdown{
+  margin:7px auto 0;
+  width:max-content;
+  min-width:145px;
+  padding:3px 12px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.1px;
+  color:#f7d576;
+  text-shadow:0 2px 6px rgba(0,0,0,.75);
+}
+
+.zikir-step-panel{
+  display:none;
+  position:absolute;
+  left:318px;
+  right:318px;
+  top:230px;
+  bottom:116px;
+  z-index:84;
+}
+.zikir-scene[data-step="1"] .zikir-step-panel[data-zikir-step="1"],
+.zikir-scene[data-step="2"] .zikir-step-panel[data-zikir-step="2"],
+.zikir-scene[data-step="3"] .zikir-step-panel[data-zikir-step="3"]{display:block}
+
+/* There are no content boxes. */
+.zikir-card{
+  position:relative;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.zikir-label{
+  position:relative;
+  top:auto;
+  left:auto;
+  transform:none;
+  width:max-content;
+  min-width:0;
+  max-width:100%;
+  margin:0 auto 10px;
+  padding:0 58px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  line-height:1.15;
+  font-weight:900;
+  text-align:center;
+  color:#f6ce67;
+  white-space:nowrap;
+  text-shadow:0 3px 8px rgba(0,0,0,.72);
+}
+.zikir-label::before,
+.zikir-label::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:42px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#e8b844);
+}
+.zikir-label::before{left:4px}
+.zikir-label::after{right:4px;transform:scaleX(-1)}
+.zikir-arabic{
+  color:#fff;
+  font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic","Scheherazade New",serif;
+  font-weight:600;
+  text-align:center;
+  text-shadow:0 3px 7px rgba(0,0,0,.78);
+}
+.zikir-arabic-xl{font-size:61px;line-height:1.42}
+.zikir-arabic-lg{font-size:39px;line-height:1.58}
+.zikir-arabic-md{font-size:31px;line-height:1.64}
+.zikir-arabic-sm{font-size:28px;line-height:1.58}
+.zikir-count{
+  position:static;
+  width:auto;
+  height:auto;
+  margin:3px auto 0;
+  transform:none;
+  border:0;
+  border-radius:0;
+  display:block;
+  background:transparent;
+  color:#f4c95d;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:26px;
+  font-weight:900;
+  text-align:center;
+  box-shadow:none;
+  text-shadow:0 3px 7px rgba(0,0,0,.72);
+}
+
+/* STEP 1 — three open groups inside the central mihrab. */
+.zikir-step-one{display:none}
+.zikir-step-one .zikir-istighfar{
+  min-height:145px;
+  padding:0 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-step-one .zikir-antas-salam{
+  min-height:175px;
+  margin-top:24px;
+  padding:0 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-step-one .zikir-tahlil-doa{
+  min-height:245px;
+  margin-top:22px;
+  padding:0 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-tahlil-doa .zikir-arabic{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* STEP 2 */
+.zikir-step-two{
+  left:280px;
+  right:280px;
+  top:232px;
+}
+.zikir-tasbih-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.zikir-tasbih-card{
+  min-height:165px;
+  padding:0 12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-tasbih-card .zikir-label{
+  font-size:20px;
+  padding-left:30px;
+  padding-right:30px;
+}
+.zikir-tasbih-card .zikir-label::before,
+.zikir-tasbih-card .zikir-label::after{width:20px}
+.zikir-tasbih-card .zikir-arabic{
+  transform:none;
+  font-size:45px;
+}
+.zikir-perfect{
+  min-height:118px;
+  margin-top:22px;
+  padding:0 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-ayat-kursi{
+  min-height:285px;
+  margin-top:20px;
+  padding:0 18px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-arabic-ayat{
+  font-size:27px;
+  line-height:1.68;
+}
+
+/* STEP 3 */
+.zikir-step-three{
+  left:258px;
+  right:258px;
+  top:230px;
+}
+.zikir-surah-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.zikir-surah-card{
+  min-height:320px;
+  padding:0 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+.zikir-surah-card .zikir-label{
+  font-size:20px;
+  padding-left:30px;
+  padding-right:30px;
+}
+.zikir-surah-card .zikir-label::before,
+.zikir-surah-card .zikir-label::after{width:20px}
+.zikir-arabic-surah{
+  font-size:27px;
+  line-height:1.78;
+}
+.zikir-muadz{
+  min-height:120px;
+  margin-top:18px;
+  padding:0 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-pray-card{
+  min-height:90px;
+  margin-top:18px;
+  padding:0 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.zikir-arabic-pray{font-size:35px;line-height:1.3}
+.zikir-closing-only{display:none}
+.zikir-scene.is-closing .zikir-step3-main{display:none!important}
+.zikir-scene.is-closing .zikir-closing-only{
+  display:flex!important;
+  position:absolute;
+  left:150px;
+  right:150px;
+  top:160px;
+  bottom:135px;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+.zikir-scene.is-closing .zikir-closing-only .zikir-label{
+  min-width:0;
+  font-size:28px;
+}
+.zikir-arabic-closing{font-size:61px;line-height:1.45}
+
+/* Zikir owns the display, but keeps the pre-existing clock/date visible. */
+.stage.scene-zikir .dashboard-scene,
+.stage.scene-zikir .donation-scene,
+.stage.scene-zikir .announcement-scene,
+.stage.scene-zikir .prayer-scene{display:none!important}
+.stage.scene-zikir > .prayer-time,
+.stage.scene-zikir > .next-prayer,
+.stage.scene-zikir > .countdown,
+.stage.scene-zikir .status-dot{
+  visibility:hidden!important;
+  opacity:0!important;
+}
+
+
+/* v92 — ZIKIR UPPER-COMPACT ALIGNMENT
+   Keep all zikir content inside the upper mihrab area, safely above the baked bottom reminder frame. */
+.stage.scene-zikir .zikir-step-panel{
+  top:210px!important;
+  bottom:155px!important;
+}
+
+/* STEP 1: compact vertical rhythm; content now ends well above the lower baked panel. */
+.stage.scene-zikir .zikir-step-one .zikir-istighfar{
+  min-height:118px!important;
+  padding:0 38px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-antas-salam{
+  min-height:138px!important;
+  margin-top:14px!important;
+  padding:0 24px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-tahlil-doa{
+  min-height:188px!important;
+  margin-top:14px!important;
+  padding:0 8px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-label{
+  margin-bottom:5px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-xl{
+  font-size:58px!important;
+  line-height:1.28!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-lg{
+  font-size:37px!important;
+  line-height:1.42!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-md{
+  font-size:29px!important;
+  line-height:1.45!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-tahlil-doa .zikir-arabic{
+  gap:5px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-count{
+  margin-top:0!important;
+  font-size:24px!important;
+}
+
+/* Keep Steps 2–3 slightly higher as well so every zikir screen stays in the same safe upper zone. */
+.stage.scene-zikir .zikir-step-two,
+.stage.scene-zikir .zikir-step-three{
+  top:212px!important;
+  bottom:150px!important;
+}
+
+
+/* v93 — APPROVED ZIKIR ADVICE ILLUSTRATIONS
+   Exact illustrations selected by the user:
+   1) Dzikir bersama: five jamaah under a hanging lantern.
+   2) Bimbing anak-anak berzikir: adult with two children and open Qur'an.
+   3) Jaga ketenangan: mosque with muted-speaker symbol.
+   Assets are stored as dedicated canonical WebP files. */
+.stage.scene-zikir .zikir-advice-bar{
+  position:absolute!important;
+  left:58px!important;
+  right:58px!important;
+  bottom:37px!important;
+  height:113px!important;
+  z-index:89!important;
+  display:grid!important;
+  grid-template-columns:530px 489px minmax(0,1fr)!important;
+  align-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  pointer-events:none!important;
+}
+.stage.scene-zikir .zikir-advice-item{
+  position:relative!important;
+  height:92px!important;
+  display:grid!important;
+  grid-template-columns:112px minmax(0,1fr)!important;
+  column-gap:14px!important;
+  align-items:center!important;
+  box-sizing:border-box!important;
+  padding:0 28px!important;
+  color:#fff2d3!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:24px!important;
+  line-height:1.08!important;
+  font-weight:900!important;
+  text-align:left!important;
+  text-shadow:0 2px 6px rgba(0,0,0,.80)!important;
+}
+.stage.scene-zikir .zikir-advice-item:nth-child(1){
+  padding-left:30px!important;
+  padding-right:26px!important;
+}
+.stage.scene-zikir .zikir-advice-item:nth-child(2){
+  padding-left:24px!important;
+  padding-right:24px!important;
+}
+.stage.scene-zikir .zikir-advice-item:nth-child(3){
+  padding-left:24px!important;
+  padding-right:30px!important;
+}
+.stage.scene-zikir .zikir-advice-icon{
+  display:block!important;
+  justify-self:center!important;
+  width:82px!important;
+  height:82px!important;
+  object-fit:contain!important;
+  opacity:1!important;
+  visibility:visible!important;
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.42))!important;
+}
+.stage.scene-zikir .zikir-advice-item > span{
+  display:flex!important;
+  align-items:center!important;
+  min-height:60px!important;
+  padding:0!important;
+  margin:0!important;
+}
+.stage.scene-zikir .zikir-advice-item:nth-child(2) > span{
+  max-width:300px!important;
+}
+
+
+/* v94 — ZIKIR ADVICE ICON MICRO-ADJUSTMENT
+   Applies to all zikir steps because the same advice bar persists across Step 1/2/3.
+   Requested: +5px size, +3px right, -5px up. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:87px!important;
+  height:87px!important;
+  transform:translate(3px,-5px)!important;
+}
+.stage.scene-zikir .zikir-advice-item{
+  grid-template-columns:117px minmax(0,1fr)!important;
+}
+
+
+/* v95 — ZIKIR ADVICE FINAL ALIGNMENT
+   Applies identically to Step 1, Step 2, Step 3. */
+.stage.scene-zikir .zikir-advice-item{
+  grid-template-columns:120px minmax(0,1fr)!important;
+  transform:translateY(-6px)!important;
+}
+.stage.scene-zikir .zikir-advice-icon{
+  width:90px!important;
+  height:90px!important;
+  transform:translateX(3px)!important;
+}
+
+
+/* v96 — ZIKIR ADVICE LOGO SIZE/POSITION
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 90px -> 92px and move 8px upward from the v95 position. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:92px!important;
+  height:92px!important;
+  transform:translate(3px,-8px)!important;
+}
+
+
+/* v97 — ZIKIR ADVICE LOGO SIZE
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 92px -> 95px. Position remains unchanged from v96. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:95px!important;
+  height:95px!important;
+}
+
+
+/* v98 — ZIKIR ADVICE LOGO SIZE/POSITION
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 95px -> 98px; move 2px further upward. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:98px!important;
+  height:98px!important;
+  transform:translate(3px,-10px)!important;
+}
+
+
+/* v99 — ZIKIR ADVICE LOGO SIZE/POSITION
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 98px -> 100px; move 5px further upward. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:100px!important;
+  height:100px!important;
+  transform:translate(3px,-15px)!important;
+}
+
+
+/* v100 — ZIKIR ADVICE LOGO SIZE/POSITION
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 100px -> 102px; move 1px further upward. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:102px!important;
+  height:102px!important;
+  transform:translate(3px,-16px)!important;
+}
+
+
+/* v101 — ZIKIR ADVICE LOGO + TEXT
+   Applies to Step 1, Step 2, Step 3.
+   Icon: 102px -> 104px.
+   Text: +4px font size and 6px upward. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:104px!important;
+  height:104px!important;
+  transform:translate(3px,-16px)!important;
+}
+.stage.scene-zikir .zikir-advice-item > span{
+  font-size:28px!important;
+  transform:translateY(-6px)!important;
+}
+
+
+/* v102 — ZIKIR MEANINGS + ADVICE FINAL MICRO-ALIGNMENT
+   Advice: icon +1px upward; label +6px upward and +2px larger.
+   Zikir: Indonesian meanings only, no Latin transliteration.
+   Each step is compacted independently to stay inside the approved upper safe area. */
+.stage.scene-zikir .zikir-advice-icon{
+  width:104px!important;
+  height:104px!important;
+  transform:translate(3px,-17px)!important;
+}
+.stage.scene-zikir .zikir-advice-item > span{
+  font-size:30px!important;
+  transform:translateY(-12px)!important;
+  line-height:1.04!important;
+}
+
+.stage.scene-zikir .zikir-meaning{
+  width:100%;
+  box-sizing:border-box;
+  margin-top:5px;
+  padding:0 10px;
+  color:rgba(255,242,211,.91);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.24;
+  font-weight:600;
+  text-align:center;
+  letter-spacing:.05px;
+  text-shadow:0 1px 4px rgba(0,0,0,.72);
+}
+.stage.scene-zikir .zikir-meaning-lines{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* STEP 1 */
+.stage.scene-zikir .zikir-step-one .zikir-istighfar{min-height:126px!important}
+.stage.scene-zikir .zikir-step-one .zikir-antas-salam{
+  min-height:154px!important;
+  margin-top:10px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-tahlil-doa{
+  min-height:240px!important;
+  margin-top:10px!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-xl{font-size:56px!important}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-lg{
+  font-size:35px!important;
+  line-height:1.34!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-arabic-md{
+  font-size:27px!important;
+  line-height:1.34!important;
+}
+.stage.scene-zikir .zikir-step-one .zikir-meaning{
+  font-size:17px!important;
+  line-height:1.20!important;
+}
+
+/* STEP 2 */
+.stage.scene-zikir .zikir-step-two{
+  top:205px!important;
+  bottom:151px!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-tasbih-grid{gap:18px!important}
+.stage.scene-zikir .zikir-step-two .zikir-tasbih-card{min-height:142px!important}
+.stage.scene-zikir .zikir-step-two .zikir-tasbih-card .zikir-arabic{font-size:41px!important}
+.stage.scene-zikir .zikir-step-two .zikir-tasbih-card .zikir-meaning{
+  font-size:16px!important;
+  margin-top:2px!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-perfect{
+  min-height:116px!important;
+  margin-top:12px!important;
+  padding:0 20px!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-perfect .zikir-arabic{
+  font-size:27px!important;
+  line-height:1.28!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-perfect .zikir-meaning{
+  font-size:15.5px!important;
+  line-height:1.17!important;
+  margin-top:3px!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-ayat-kursi{
+  min-height:338px!important;
+  margin-top:12px!important;
+  padding:0 14px!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-arabic-ayat{
+  font-size:24px!important;
+  line-height:1.47!important;
+}
+.stage.scene-zikir .zikir-step-two .zikir-meaning-ayat{
+  margin-top:6px!important;
+  padding:0 5px!important;
+  font-size:15.5px!important;
+  line-height:1.18!important;
+}
+
+/* STEP 3 */
+.stage.scene-zikir .zikir-step-three{
+  top:205px!important;
+  bottom:151px!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-surah-grid{gap:18px!important}
+.stage.scene-zikir .zikir-step-three .zikir-surah-card{
+  min-height:342px!important;
+  padding:0 8px!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-arabic-surah{
+  font-size:24px!important;
+  line-height:1.52!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-meaning-surah{
+  margin-top:7px!important;
+  padding:0 4px!important;
+  font-size:15.5px!important;
+  line-height:1.20!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-muadz{
+  min-height:105px!important;
+  margin-top:10px!important;
+  padding:0 22px!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-muadz .zikir-arabic-lg{
+  font-size:31px!important;
+  line-height:1.28!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-muadz .zikir-meaning{
+  font-size:16px!important;
+  margin-top:3px!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-pray-card{
+  min-height:82px!important;
+  margin-top:8px!important;
+  padding:0 22px!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-arabic-pray{
+  font-size:31px!important;
+  line-height:1.22!important;
+}
+.stage.scene-zikir .zikir-step-three .zikir-pray-card .zikir-meaning{
+  font-size:16px!important;
+  margin-top:2px!important;
+}
+.stage.scene-zikir .zikir-meaning-closing{
+  margin-top:12px!important;
+  font-size:21px!important;
+  line-height:1.25!important;
+}
