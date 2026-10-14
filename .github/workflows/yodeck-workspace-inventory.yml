@@ -25,3 +25,5 @@ jobs:
           name: yodeck-workspace-inventory
           path: yodeck-workspace/
           retention-days: 3
+
+# refresh-full-role
