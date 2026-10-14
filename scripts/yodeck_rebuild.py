@@ -127,7 +127,6 @@ def ensure_audio(key,name,drive_id):
                 "media_origin":{"type":"audio","source":"local","format":None},
                 "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
                 "default_duration":60,
-                "tags":["pra-azan","al-ihsan"],
                 "workspace":WORKSPACE,
             }
             obj=request("POST","/media",payload)
@@ -158,7 +157,6 @@ if not dashboard:
             "media_origin":{"type":"webpage","source":"url","format":None},
             "description":"Dashboard utama Masjid Al Ihsan Kapuih",
             "default_duration":86400,
-            "tags":["dashboard","al-ihsan"],
             "arguments":{"play_from_url":DASHBOARD_URL},
             "workspace":WORKSPACE,
         })
