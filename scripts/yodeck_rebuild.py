@@ -107,24 +107,38 @@ report={"created_media":[],"existing_media":[],"failed_media":[],"created_playli
 
 existing_media={x["name"]:x for x in list_all("/media")}
 
+def upload_audio_bytes(obj,drive_id):
+    source_url=f"https://drive.usercontent.google.com/download?id={drive_id}&export=download&confirm=t"
+    with urllib.request.urlopen(urllib.request.Request(source_url,headers={"User-Agent":"Mozilla/5.0"}),timeout=120) as r:
+        blob=r.read()
+    upload=request("GET",f"/media/{obj['id']}/upload")
+    upload_url=upload["upload_url"]
+    put=urllib.request.Request(upload_url,data=blob,headers={"Content-Type":"audio/mpeg"},method="PUT")
+    with urllib.request.urlopen(put,timeout=120) as r:
+        r.read()
+    request("PUT",f"/media/{obj['id']}/upload/complete",{"upload_url":upload_url})
+
 def ensure_audio(key,name,drive_id):
-    if name in existing_media:
-        report["existing_media"].append(name)
-        return existing_media[name]
-    url=f"https://drive.usercontent.google.com/download?id={drive_id}&export=download&confirm=t"
-    payload={
-        "name":name,
-        "media_origin":{"type":"audio","source":"url","format":None},
-        "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
-        "default_duration":60,
-        "tags":["pra-azan","al-ihsan"],
-        "arguments":{"download_from_url":url},
-        "workspace":WORKSPACE,
-    }
+    obj=existing_media.get(name)
     try:
-        obj=request("POST","/media",payload)
-        existing_media[name]=obj
-        report["created_media"].append(name)
+        if not obj:
+            payload={
+                "name":name,
+                "media_origin":{"type":"audio","source":"local","format":None},
+                "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
+                "default_duration":60,
+                "tags":["pra-azan","al-ihsan"],
+                "workspace":WORKSPACE,
+            }
+            obj=request("POST","/media",payload)
+            existing_media[name]=obj
+            report["created_media"].append(name)
+        else:
+            report["existing_media"].append(name)
+        if not obj.get("last_uploaded"):
+            upload_audio_bytes(obj,drive_id)
+            obj=request("GET",f"/media/{obj['id']}")
+            existing_media[name]=obj
         return obj
     except Exception as e:
         report["failed_media"].append({"name":name,"error":str(e)})
@@ -138,29 +152,20 @@ for key,(name,gid) in TILAWAH.items():
 dashboard_name="Dashboard Masjid Al Ihsan Kapuih"
 dashboard=existing_media.get(dashboard_name)
 if not dashboard:
-    variants=[
-        {"url":DASHBOARD_URL},
-        {"webpage_url":DASHBOARD_URL},
-        {"download_from_url":DASHBOARD_URL},
-    ]
-    for args in variants:
-        try:
-            dashboard=request("POST","/media",{
-                "name":dashboard_name,
-                "media_origin":{"type":"webpage","source":"url","format":None},
-                "description":"Dashboard utama Masjid Al Ihsan Kapuih",
-                "default_duration":86400,
-                "tags":["dashboard","al-ihsan"],
-                "arguments":args,
-                "workspace":WORKSPACE,
-            })
-            existing_media[dashboard_name]=dashboard
-            report["created_media"].append(dashboard_name)
-            break
-        except Exception as e:
-            last_web_error=str(e)
-    if not dashboard:
-        report["failed_media"].append({"name":dashboard_name,"error":last_web_error})
+    try:
+        dashboard=request("POST","/media",{
+            "name":dashboard_name,
+            "media_origin":{"type":"webpage","source":"url","format":None},
+            "description":"Dashboard utama Masjid Al Ihsan Kapuih",
+            "default_duration":86400,
+            "tags":["dashboard","al-ihsan"],
+            "arguments":{"play_from_url":DASHBOARD_URL},
+            "workspace":WORKSPACE,
+        })
+        existing_media[dashboard_name]=dashboard
+        report["created_media"].append(dashboard_name)
+    except Exception as e:
+        report["failed_media"].append({"name":dashboard_name,"error":str(e)})
 else:
     report["existing_media"].append(dashboard_name)
 
