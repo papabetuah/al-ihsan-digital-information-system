@@ -25,3 +25,4 @@ jobs:
           name: yodeck-inventory
           path: yodeck-inventory/
           retention-days: 3
+# refresh-after-yodeck-role-update
