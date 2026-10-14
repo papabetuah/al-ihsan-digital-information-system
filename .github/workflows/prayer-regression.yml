@@ -15,3 +15,5 @@ jobs:
           node-version: "22"
       - name: Verify Majelis Tarjih Padang reference
         run: node tests/prayer-regression.mjs
+      - name: Verify pre-azan rotation and silence window
+        run: node tests/pre-azan-regression.mjs
