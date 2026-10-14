@@ -5,7 +5,8 @@ on:
   push:
     branches: ["main"]
     paths:
-      - ".github/workflows/yodeck-rebuild.yml"\n      - "scripts/yodeck_rebuild.py"
+      - ".github/workflows/yodeck-rebuild.yml"
+      - "scripts/yodeck_rebuild.py"
 
 permissions:
   contents: read
