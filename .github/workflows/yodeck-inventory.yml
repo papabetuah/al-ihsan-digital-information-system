@@ -1,0 +1,27 @@
+name: Yodeck inventory
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/yodeck-inventory.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read Yodeck inventory
+        env:
+          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
+        run: python scripts/yodeck_inventory.py
+      - name: Upload inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: yodeck-inventory
+          path: yodeck-inventory/
+          retention-days: 3
