@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node\n// native-audio-dashboard-refresh-v1
 const fs=require("fs");
 const vm=require("vm");
 
