@@ -1,4 +1,4 @@
-name: Sync Yodeck prayer schedule
+name: Self-heal and sync Yodeck
 
 on:
   workflow_dispatch:
@@ -9,26 +9,60 @@ on:
     paths:
       - ".github/workflows/yodeck-schedule-sync.yml"
       - "scripts/yodeck_schedule_sync.js"
+      - "scripts/yodeck_rebuild.py"
       - "config-v64.js"
       - "prayer-times.js"
       - "pre-azan-playlist-v107.js"
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
-  sync:
+  self-heal-sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Sync rolling 14-day Yodeck schedule
+
+      - name: Verify and repair Yodeck media, playlists, and dashboard
+        env:
+          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
+        run: python scripts/yodeck_rebuild.py
+
+      - name: Sync rolling 30-day prayer schedule
         env:
           YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
         run: node scripts/yodeck_schedule_sync.js
-      - name: Upload schedule sync report
+
+      - name: Upload recovery report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: yodeck-schedule-sync-report
-          path: yodeck-schedule-sync-report.json
-          retention-days: 7
+          name: yodeck-recovery-report
+          path: |
+            yodeck-rebuild-report.json
+            yodeck-schedule-sync-report.json
+          retention-days: 14
+
+      - name: Open failure alert
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          TITLE="[AL-IHSAN] Otomasi Yodeck gagal"
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -z "$EXISTING" ]; then
+            gh issue create               --title "$TITLE"               --body "Pemeriksaan otomatis media/jadwal Yodeck gagal. Buka tab Actions dan periksa workflow **Self-heal and sync Yodeck**. TV masih memiliki buffer jadwal hingga 30 hari dari sinkronisasi terakhir yang berhasil."
+          fi
+
+      - name: Close recovered failure alert
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="[AL-IHSAN] Otomasi Yodeck gagal"
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" --reason completed
+          fi
