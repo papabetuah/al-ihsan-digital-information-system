@@ -2,7 +2,7 @@
 const C=window.AL_IHSAN_CONFIG,P=window.AL_IHSAN_PRAYER,M=C.prayerMethod,CAL=window.AL_IHSAN_CALENDAR,PRE=window.AL_IHSAN_PRE_AZAN;
 const $=id=>document.getElementById(id);
 const E={
-  stage:$("stage"),donation:$("donationScene"),donationUnderlay:$("donationUnderlay"),
+  stage:$("stage"),donation:$("donationScene"),donationUnderlay:$("donationUnderlay"),finance:$("financeScene"),
   announcement:$("announcementScene"),announcementUnderlay:$("announcementUnderlay"),announcementMain:$("announcementMainCard"),
   annPriority:$("announcementPriority"),annTitle:$("announcementTitle"),annBody:$("announcementBody"),
   annTime:$("announcementTime"),annLocation:$("announcementLocation"),annImage:$("announcementImage"),
@@ -86,7 +86,7 @@ function render(){
     if(E.zikirClock)E.zikirClock.textContent=`${clockParts.hour}:${clockParts.minute}`;
     for(const key of prayerKeys)if(E[key])E[key].textContent=times[key].time;
     if(E.next)E.next.textContent=String(next.label||"").replace(/^Menuju\s+/i,"").replace(/^Shubuh$/i,"Subuh");
-    if(E.countdown)E.countdown.textContent=P.countdown(next.ts-now.getTime());
+    if(E.countdown)E.countdown.textContent=P.countdown(next.ts-now.getTime());\n    try{window.AL_IHSAN_FINANCE_TICK?.({now,gregorianText,hijriText,nextLabel:next.label,countdownText:P.countdown(next.ts-now.getTime())})}catch(financeError){console.warn("Finance tick failed",financeError)}
     if(E.status)E.status.style.background="#58f1cf";
     document.documentElement.dataset.ready="true";
   }catch(error){
@@ -818,15 +818,15 @@ function scheduleCmsRefresh(){
 }
 
 function setScene(scene){
-  const allowed=["dashboard","donation","announcement","prayer","zikir"];
+  const allowed=["dashboard","donation","announcement","finance","prayer","zikir"];
   currentScene=allowed.includes(scene)?scene:"dashboard";
   E.stage.classList.toggle("scene-dashboard",currentScene==="dashboard");
   E.stage.classList.toggle("scene-donation",currentScene==="donation");
-  E.stage.classList.toggle("scene-announcement",currentScene==="announcement");
+  E.stage.classList.toggle("scene-announcement",currentScene==="announcement");\n  E.stage.classList.toggle("scene-finance",currentScene==="finance");
   E.stage.classList.toggle("scene-prayer",currentScene==="prayer");
   E.stage.classList.toggle("scene-zikir",currentScene==="zikir");
   if(E.donation)E.donation.setAttribute("aria-hidden",currentScene==="donation"?"false":"true");
-  if(E.announcement)E.announcement.setAttribute("aria-hidden",currentScene==="announcement"?"false":"true");
+  if(E.announcement)E.announcement.setAttribute("aria-hidden",currentScene==="announcement"?"false":"true");\n  if(E.finance)E.finance.setAttribute("aria-hidden",currentScene==="finance"?"false":"true");
   if(E.prayerScene)E.prayerScene.setAttribute("aria-hidden",currentScene==="prayer"?"false":"true");
   if(E.zikirScene)E.zikirScene.setAttribute("aria-hidden",currentScene==="zikir"?"false":"true");
   if(currentScene==="announcement"){renderAnnouncement();renderAgenda();renderWisdom();scheduleAnnouncementRotation()}
@@ -836,7 +836,7 @@ function setScene(scene){
 function sceneDuration(scene){
   const R=C.rotation||{};
   if(scene==="donation")return R.donationMs||30000;
-  if(scene==="announcement")return R.announcementMs||60000;
+  if(scene==="announcement")return R.announcementMs||60000;\n  if(scene==="finance")return R.financeMs||45000;
   return R.dashboardMs||45000;
 }
 
@@ -845,7 +845,7 @@ function scheduleSceneRotation(){
   if(prayerModeActive||currentScene==="prayer"||currentScene==="zikir")return;
   const params=new URLSearchParams(location.search);
   const forced=params.get("scene");
-  if(["dashboard","donation","announcement","zikir"].includes(forced)){setScene(forced);return}
+  if(["dashboard","donation","announcement","finance","zikir"].includes(forced)){setScene(forced);return}
   const seq=Array.isArray(C.rotation?.sequence)&&C.rotation.sequence.length?C.rotation.sequence:["dashboard","donation"];
   sceneTimerId=setTimeout(()=>{
     const idx=Math.max(0,seq.indexOf(currentScene));
