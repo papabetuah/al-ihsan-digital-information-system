@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, os, time, urllib.request, urllib.error
+import json, os, time, urllib.request, urllib.error, tempfile, subprocess, shutil
 
 BASE="https://app.yodeck.com/api/v2"
 TOKEN=os.environ["YODECK_API_TOKEN"].strip()
@@ -107,16 +107,68 @@ report={"created_media":[],"existing_media":[],"failed_media":[],"created_playli
 
 existing_media={x["name"]:x for x in list_all("/media")}
 
+def get_media_status(media_id):
+    try:
+        data=request("GET",f"/media/{media_id}/status")
+        return str(data.get("status","")).strip().lower()
+    except Exception:
+        return ""
+
+def download_and_validate_audio(drive_id):
+    urls=[
+        f"https://drive.usercontent.google.com/download?id={drive_id}&export=download&confirm=t",
+        f"https://drive.google.com/uc?export=download&id={drive_id}",
+    ]
+    last_error=None
+    for source_url in urls:
+        try:
+            req=urllib.request.Request(source_url,headers={"User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(req,timeout=120) as r:
+                blob=r.read()
+            if len(blob)<2048:
+                raise RuntimeError(f"download terlalu kecil: {len(blob)} bytes")
+            head=blob[:16].lower()
+            if head.startswith(b"<html") or head.startswith(b"<!doctype"):
+                raise RuntimeError("Google Drive mengembalikan HTML, bukan MP3")
+            if shutil.which("ffprobe"):
+                with tempfile.NamedTemporaryFile(suffix=".mp3",delete=True) as tmp:
+                    tmp.write(blob); tmp.flush()
+                    p=subprocess.run(
+                        ["ffprobe","-v","error","-show_entries","format=duration",
+                         "-of","default=noprint_wrappers=1:nokey=1",tmp.name],
+                        capture_output=True,text=True,timeout=30
+                    )
+                    if p.returncode!=0:
+                        raise RuntimeError("ffprobe gagal: "+(p.stderr.strip() or "unknown"))
+                    duration=float((p.stdout or "0").strip() or 0)
+                    if duration<1:
+                        raise RuntimeError(f"durasi MP3 tidak valid: {duration}")
+            return blob
+        except Exception as e:
+            last_error=e
+    raise RuntimeError(f"gagal mengambil MP3 valid dari Drive: {last_error}")
+
+def wait_until_media_ready(media_id,timeout_seconds=240):
+    deadline=time.time()+timeout_seconds
+    last=""
+    while time.time()<deadline:
+        last=get_media_status(media_id)
+        if last in ("initialized","ready","completed","encoded"):
+            return last
+        if last in ("failed","error"):
+            raise RuntimeError(f"Yodeck encoding gagal, status={last}")
+        time.sleep(5)
+    raise RuntimeError(f"Yodeck media belum siap setelah {timeout_seconds}s, status terakhir={last}")
+
 def upload_audio_bytes(obj,drive_id):
-    source_url=f"https://drive.usercontent.google.com/download?id={drive_id}&export=download&confirm=t"
-    with urllib.request.urlopen(urllib.request.Request(source_url,headers={"User-Agent":"Mozilla/5.0"}),timeout=120) as r:
-        blob=r.read()
+    blob=download_and_validate_audio(drive_id)
     upload=request("GET",f"/media/{obj['id']}/upload")
     upload_url=upload["upload_url"]
     put=urllib.request.Request(upload_url,data=blob,headers={"Content-Type":"audio/mpeg"},method="PUT")
     with urllib.request.urlopen(put,timeout=120) as r:
         r.read()
     request("PUT",f"/media/{obj['id']}/upload/complete",{"upload_url":upload_url})
+    return wait_until_media_ready(obj["id"])
 
 def ensure_audio(key,name,drive_id):
     obj=existing_media.get(name)
@@ -134,7 +186,9 @@ def ensure_audio(key,name,drive_id):
             report["created_media"].append(name)
         else:
             report["existing_media"].append(name)
-        if not obj.get("last_uploaded"):
+
+        status=get_media_status(obj["id"])
+        if status not in ("initialized","ready","completed","encoded"):
             upload_audio_bytes(obj,drive_id)
             obj=request("GET",f"/media/{obj['id']}")
             existing_media[name]=obj
@@ -147,6 +201,11 @@ for key,(name,gid) in TTS.items():
     ensure_audio(key,name,gid)
 for key,(name,gid) in TILAWAH.items():
     ensure_audio(key,name,gid)
+
+if report["failed_media"]:
+    with open("yodeck-rebuild-report.json","w") as f:
+        json.dump(report,f,ensure_ascii=False,indent=2)
+    raise SystemExit("Ada media yang belum berhasil dipulihkan; proses dihentikan sebelum membuat playlist/schedule.")
 
 dashboard_name="Dashboard Masjid Al Ihsan Kapuih"
 dashboard=existing_media.get(dashboard_name)
