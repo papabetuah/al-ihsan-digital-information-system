@@ -102,23 +102,26 @@ function buildPrayerEvents(date,prayerName,azanMs,mediaByName){
   if(!sel) return [];
   const friday=sel.prayerName==="Jumat";
   const specs=friday?[
-    ["tilawah",sel.tilawah,azanMs-10*60000],
-    ["message",sel.messages[0],azanMs-6*60000],
-    ["message",sel.messages[1],azanMs-3*60000],
-    ["intro",sel.intro,azanMs-30000]
+    ["tilawah",sel.tilawah,azanMs-15*60000,azanMs-10*60000],
+    ["message",sel.messages[0],azanMs-10*60000,azanMs-6*60000],
+    ["message",sel.messages[1],azanMs-6*60000,azanMs-3*60000],
+    ["intro",sel.intro,azanMs-3*60000,azanMs-30000]
   ]:[
-    ["tilawah",sel.tilawah,azanMs-5*60000],
-    ["message",sel.messages[0],azanMs-2*60000],
-    ["intro",sel.intro,azanMs-30000]
+    ["tilawah",sel.tilawah,azanMs-8*60000,azanMs-5*60000],
+    ["message",sel.messages[0],azanMs-5*60000,azanMs-2*60000],
+    ["intro",sel.intro,azanMs-2*60000,azanMs-30000]
   ];
   const out=[];
-  for(const [kind,item,endMs] of specs){
+  for(const [kind,item,startMs,slotEndMs] of specs){
     const name=fileNameFor(item,kind);
     const media=mediaByName.get(name);
     if(!media) throw new Error(`Missing Yodeck media: ${name}`);
     const dur=durationFor(item);
     if(!Number.isFinite(dur)) throw new Error(`Missing duration for ${itemId(item)}`);
-    const startMs=endMs-Math.ceil(dur*1000);
+    const endMs=startMs+Math.ceil(dur*1000);
+    if(endMs>slotEndMs){
+      throw new Error(`Audio ${itemId(item)} melebihi slot pra-azan`);
+    }
     out.push(eventFor(media,startMs,endMs));
   }
   return out;
