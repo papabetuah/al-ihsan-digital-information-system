@@ -187,12 +187,33 @@ def ensure_audio(key,name,drive_id):
         else:
             report["existing_media"].append(name)
 
+        origin=obj.get("media_origin") or {}
+        if origin.get("source")!="local":
+            obj=request("PUT",f"/media/{obj['id']}",{
+                "name":name,
+                "media_origin":{"type":"audio","source":"local","format":None},
+                "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
+                "default_duration":60,
+                "workspace":WORKSPACE,
+            })
+            existing_media[name]=obj
+
         status=get_media_status(obj["id"])
-        if (not obj.get("last_uploaded")) or status not in ("initialized","ready","completed","encoded"):
+        if (
+            (not obj.get("last_uploaded"))
+            or (not obj.get("file_extension"))
+            or (obj.get("media_origin") or {}).get("source")!="local"
+            or status not in ("initialized","ready","completed","encoded")
+        ):
             upload_audio_bytes(obj,drive_id)
             obj=request("GET",f"/media/{obj['id']}")
+            origin=obj.get("media_origin") or {}
+            if origin.get("source")!="local":
+                raise RuntimeError(f"media source masih {origin.get('source')}, seharusnya local")
             if not obj.get("last_uploaded"):
                 raise RuntimeError("Yodeck belum mencatat last_uploaded setelah upload selesai")
+            if not obj.get("file_extension"):
+                raise RuntimeError("Yodeck belum mengenali file_extension setelah upload selesai")
             existing_media[name]=obj
         return obj
     except Exception as e:
