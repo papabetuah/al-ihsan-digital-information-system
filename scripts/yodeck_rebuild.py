@@ -93,7 +93,9 @@ def request(method,path,payload=None,retries=4):
         try:
             with urllib.request.urlopen(req,timeout=60) as r:
                 raw=r.read()
-                return json.loads(raw) if raw else {}
+                result=json.loads(raw) if raw else {}
+                time.sleep(0.4)
+                return result
         except urllib.error.HTTPError as e:
             body=e.read().decode("utf-8","replace")
             if e.code==429 and attempt+1<retries:
@@ -106,13 +108,6 @@ def list_all(path):
 report={"created_media":[],"existing_media":[],"failed_media":[],"created_playlists":[],"existing_playlists":[],"failed_playlists":[]}
 
 existing_media={x["name"]:x for x in list_all("/media")}
-
-def get_media_status(media_id):
-    try:
-        data=request("GET",f"/media/{media_id}/status")
-        return str(data.get("status","")).strip().lower()
-    except Exception:
-        return ""
 
 def download_and_validate_audio(drive_id):
     urls=[
@@ -148,18 +143,6 @@ def download_and_validate_audio(drive_id):
             last_error=e
     raise RuntimeError(f"gagal mengambil MP3 valid dari Drive: {last_error}")
 
-def wait_until_media_ready(media_id,timeout_seconds=240):
-    deadline=time.time()+timeout_seconds
-    last=""
-    while time.time()<deadline:
-        last=get_media_status(media_id)
-        if last in ("initialized","ready","completed","encoded"):
-            return last
-        if last in ("failed","error"):
-            raise RuntimeError(f"Yodeck encoding gagal, status={last}")
-        time.sleep(5)
-    raise RuntimeError(f"Yodeck media belum siap setelah {timeout_seconds}s, status terakhir={last}")
-
 def upload_audio_bytes(obj,drive_id):
     blob=download_and_validate_audio(drive_id)
     upload=request("GET",f"/media/{obj['id']}/upload")
@@ -168,53 +151,72 @@ def upload_audio_bytes(obj,drive_id):
     with urllib.request.urlopen(put,timeout=120) as r:
         r.read()
     request("PUT",f"/media/{obj['id']}/upload/complete",{"upload_url":upload_url})
-    return wait_until_media_ready(obj["id"])
+
+managed_names=set()
+uploaded_names=[]
 
 def ensure_audio(key,name,drive_id):
+    managed_names.add(name)
     obj=existing_media.get(name)
     try:
+        created=False
         if not obj:
-            payload={
+            obj=request("POST","/media",{
                 "name":name,
                 "media_origin":{"type":"audio","source":"local","format":None},
                 "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
                 "default_duration":60,
                 "workspace":WORKSPACE,
-            }
-            obj=request("POST","/media",payload)
+            })
             existing_media[name]=obj
             report["created_media"].append(name)
+            created=True
         else:
             report["existing_media"].append(name)
 
         origin=obj.get("media_origin") or {}
+        converted=False
         if origin.get("source")!="local":
             obj=request("PATCH",f"/media/{obj['id']}",{
                 "media_origin":{"type":"audio","source":"local","format":None}
             })
             existing_media[name]=obj
+            converted=True
 
-        status=get_media_status(obj["id"])
-        if (
-            (not obj.get("last_uploaded"))
-            or (not obj.get("file_extension"))
-            or (obj.get("media_origin") or {}).get("source")!="local"
-            or status not in ("finished","initialized","ready","completed","encoded")
-        ):
+        current_status=str(obj.get("status","")).lower()
+        needs_upload=created or converted or (not obj.get("last_uploaded")) or current_status!="finished"
+        if needs_upload:
             upload_audio_bytes(obj,drive_id)
-            obj=request("GET",f"/media/{obj['id']}")
-            origin=obj.get("media_origin") or {}
-            if origin.get("source")!="local":
-                raise RuntimeError(f"media source masih {origin.get('source')}, seharusnya local")
-            if not obj.get("last_uploaded"):
-                raise RuntimeError("Yodeck belum mencatat last_uploaded setelah upload selesai")
-            if not obj.get("file_extension"):
-                raise RuntimeError("Yodeck belum mengenali file_extension setelah upload selesai")
-            existing_media[name]=obj
+            uploaded_names.append(name)
         return obj
     except Exception as e:
         report["failed_media"].append({"name":name,"error":str(e)})
         return None
+
+def wait_all_audio_finished(timeout_seconds=420):
+    deadline=time.time()+timeout_seconds
+    last_pending=[]
+    while time.time()<deadline:
+        items=list_all("/media")
+        by_name={x.get("name"):x for x in items}
+        pending=[]
+        for name in sorted(managed_names):
+            obj=by_name.get(name)
+            if not obj:
+                pending.append(f"{name} [missing]")
+                continue
+            origin=(obj.get("media_origin") or {}).get("source")
+            status=str(obj.get("status","")).lower()
+            if origin!="local" or status!="finished":
+                pending.append(f"{name} [source={origin}, status={status}]")
+        if not pending:
+            existing_media.clear()
+            existing_media.update(by_name)
+            return
+        last_pending=pending
+        print(f"Menunggu encoding Yodeck: {len(pending)} file belum selesai")
+        time.sleep(15)
+    raise RuntimeError("Audio Yodeck belum selesai diproses: "+"; ".join(last_pending[:12]))
 
 for key,(name,gid) in TTS.items():
     ensure_audio(key,name,gid)
@@ -225,6 +227,14 @@ if report["failed_media"]:
     with open("yodeck-rebuild-report.json","w") as f:
         json.dump(report,f,ensure_ascii=False,indent=2)
     raise SystemExit("Ada media yang belum berhasil dipulihkan; proses dihentikan sebelum membuat playlist/schedule.")
+
+try:
+    wait_all_audio_finished()
+except Exception as e:
+    report["failed_media"].append({"name":"__encoding_wait__","error":str(e)})
+    with open("yodeck-rebuild-report.json","w") as f:
+        json.dump(report,f,ensure_ascii=False,indent=2)
+    raise
 
 dashboard_name="Dashboard Masjid Al Ihsan Kapuih"
 dashboard=existing_media.get(dashboard_name)
