@@ -189,12 +189,8 @@ def ensure_audio(key,name,drive_id):
 
         origin=obj.get("media_origin") or {}
         if origin.get("source")!="local":
-            obj=request("PUT",f"/media/{obj['id']}",{
-                "name":name,
-                "media_origin":{"type":"audio","source":"local","format":None},
-                "description":"Masjid Al Ihsan Kapuih - otomatis dipulihkan via API",
-                "default_duration":60,
-                "workspace":WORKSPACE,
+            obj=request("PATCH",f"/media/{obj['id']}",{
+                "media_origin":{"type":"audio","source":"local","format":None}
             })
             existing_media[name]=obj
 
@@ -203,7 +199,7 @@ def ensure_audio(key,name,drive_id):
             (not obj.get("last_uploaded"))
             or (not obj.get("file_extension"))
             or (obj.get("media_origin") or {}).get("source")!="local"
-            or status not in ("initialized","ready","completed","encoded")
+            or status not in ("finished","initialized","ready","completed","encoded")
         ):
             upload_audio_bytes(obj,drive_id)
             obj=request("GET",f"/media/{obj['id']}")
