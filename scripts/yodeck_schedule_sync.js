@@ -161,6 +161,16 @@ function buildPrayerEvents(date,prayerName,azanMs,mediaByName){
 
   events.sort((a,b)=>a.start.localeCompare(b.start));
 
+  const usedIds=new Set(events.map(e=>e.source?.source_id).filter(Boolean));
+  const unfinished=mediaList.filter(m=>
+    usedIds.has(m.id) &&
+    m.media_origin?.type==="audio" &&
+    String(m.status||"").toLowerCase()!=="initialized"
+  );
+  if(unfinished.length){
+    throw new Error("Yodeck audio belum siap: "+unfinished.map(x=>x.name+" ["+x.status+"]").join(", "));
+  }
+
   const payload={
     name:SCHEDULE_NAME,
     workspace:{id:WORKSPACE_ID,name:WORKSPACE_NAME},
