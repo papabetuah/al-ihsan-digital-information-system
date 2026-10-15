@@ -16,7 +16,7 @@ const WORKSPACE_NAME="Surau Kapuih";
 const SCREEN_ID=811845;
 const SCHEDULE_NAME="JADWAL PRA-AZAN OTOMATIS";
 const DASHBOARD_NAME="Dashboard Masjid Al Ihsan Kapuih";
-const HORIZON_DAYS=14;
+const HORIZON_DAYS=30;
 
 const DURATIONS=Object.freeze({
   "05":17.554,"06":17.267,"07":18.390,"08":20.088,"09":21.969,"10":19.540,
