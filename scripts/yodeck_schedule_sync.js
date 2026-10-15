@@ -165,7 +165,10 @@ function buildPrayerEvents(date,prayerName,azanMs,mediaByName){
   const unfinished=mediaList.filter(m=>
     usedIds.has(m.id) &&
     m.media_origin?.type==="audio" &&
-    String(m.status||"").toLowerCase()!=="initialized"
+    (
+      String(m.status||"").toLowerCase()!=="finished" ||
+      String(m.media_origin?.source||"").toLowerCase()!=="local"
+    )
   );
   if(unfinished.length){
     throw new Error("Yodeck audio belum siap: "+unfinished.map(x=>x.name+" ["+x.status+"]").join(", "));
