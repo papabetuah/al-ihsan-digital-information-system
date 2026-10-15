@@ -34,9 +34,8 @@ assert(fallback.income===1299000,"fallback income mismatch");
 assert(fallback.expense===3981000,"fallback expense mismatch");
 assert(fallback.surplus===-2682000,"fallback surplus mismatch");
 
-for(const file of ["app-v107.js","finance-v111.js","config-v64.js"]){
+for(const file of ["app-v107.js","finance-v111.js","finance-v115.js","config-v64.js"]){
   const p=spawnSync(process.execPath,["--check",file],{encoding:"utf8"});
-  assert(p.status===0,file+" syntax error:
-"+p.stderr);
+  assert(p.status===0,file+" syntax error:\\n"+p.stderr);
 }
 console.log("Finance regression: OK");
