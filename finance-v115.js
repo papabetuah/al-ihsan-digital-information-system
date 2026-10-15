@@ -12,7 +12,9 @@ async function loadSharpUnderlay(){
       if(!r.ok)throw new Error("finance background part "+n);
       return (await r.text()).trim();
     }));
-    img.src="data:image/webp;base64,"+parts.join("");
+    const dataUrl="data:image/webp;base64,"+parts.join("");
+    img.src=dataUrl;
+    document.documentElement.style.setProperty("--finance-underlay-url",`url("${dataUrl}")`);
     img.dataset.quality="approved-v115";
   }catch(e){
     console.warn("Finance sharp underlay unavailable; fallback retained",e);
