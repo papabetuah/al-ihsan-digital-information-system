@@ -9,15 +9,21 @@ const finance=fs.readFileSync("finance-v111.js","utf8");
 const fallback=JSON.parse(fs.readFileSync("data/finance-summary.json","utf8"));
 
 assert(index.includes('id="financeScene"'),"financeScene missing from index.html");
-assert(index.includes("./finance-v111.css"),"finance CSS missing");
+assert(index.includes("./finance-v112.css"),"finance approved-master CSS missing");
 assert(index.includes("./finance-v111.js"),"finance JS missing");
 assert(!index.includes("pre-azan-audio-v110.js"),"browser pre-azan audio must remain disabled");
-assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"finance must be after announcement and before donation");
+
+assert(config.includes('sequence: Object.freeze(["dashboard","announcement","donation"])'),
+  "finance must remain preview-only until visual approval");
+assert(app.includes('["dashboard","donation","announcement","finance","prayer","zikir"]'),
+  "direct finance preview must remain available");
+
 assert(config.includes('financeDashboard: "Keuangan Dashboard"'),"finance dashboard sheet missing from config");
 assert(config.includes('financeTransactions: "Keuangan Transaksi"'),"finance transactions sheet missing from config");
 assert(app.includes("scene-finance"),"finance scene integration missing");
 assert(app.includes("AL_IHSAN_FINANCE_TICK"),"finance clock/prayer tick missing");
 assert(finance.includes("finance-summary.json"),"finance fallback missing");
+
 assert(fallback.period==="2026-10","fallback period mismatch");
 assert(fallback.position===-16864347,"fallback position mismatch");
 assert(fallback.income===1299000,"fallback income mismatch");
