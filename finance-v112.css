@@ -1,0 +1,199 @@
+/* Finance page v112 — locked to approved Lampiran 2 composition */
+.finance-scene{
+  position:absolute;inset:0;z-index:36;display:none;overflow:hidden;color:#f8fbf7;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 50% -8%,rgba(17,151,137,.22),transparent 31%),
+    radial-gradient(ellipse at 50% 104%,rgba(18,104,74,.58),transparent 48%),
+    linear-gradient(180deg,#031722 0%,#032732 47%,#031c28 100%);
+}
+.stage.scene-finance .finance-scene{display:block}
+.stage.scene-finance>.master-underlay,.stage.scene-finance>.live,.stage.scene-finance>.status-dot{display:none!important}
+
+/* ornamental master background */
+.finance-scene:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.68;
+  background:
+    radial-gradient(ellipse at 50% 22%,transparent 0 18%,rgba(228,196,98,.12) 18.2% 18.5%,transparent 18.8%),
+    radial-gradient(ellipse at 50% 31%,transparent 0 28%,rgba(36,205,181,.06) 28.2% 28.5%,transparent 28.8%),
+    linear-gradient(115deg,transparent 0 22%,rgba(25,161,118,.07) 22.2% 23%,transparent 23.2% 76%,rgba(25,161,118,.07) 76.2% 77%,transparent 77.2%),
+    repeating-linear-gradient(30deg,rgba(230,197,96,.025) 0 1px,transparent 1px 34px),
+    repeating-linear-gradient(150deg,rgba(230,197,96,.025) 0 1px,transparent 1px 34px);
+}
+.finance-scene:after{
+  content:"";position:absolute;left:-80px;right:-80px;bottom:-110px;height:310px;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 20% 105%,rgba(24,129,84,.62),transparent 36%),
+    radial-gradient(ellipse at 50% 110%,rgba(24,152,103,.45),transparent 38%),
+    radial-gradient(ellipse at 82% 105%,rgba(25,124,83,.55),transparent 36%);
+  filter:blur(1px);
+}
+
+/* HEADER — fixed to master */
+.finance-header{
+  position:absolute;left:48px;right:48px;top:23px;height:154px;z-index:2;
+  border-bottom:1px solid rgba(218,181,79,.58);
+}
+.finance-brand{
+  position:absolute;left:2px;top:7px;width:420px;height:116px;display:flex;align-items:center;gap:14px;
+}
+.finance-brand img{width:104px;height:99px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.45))}
+.finance-brand>div{display:flex;flex-direction:column;justify-content:center}
+.finance-kicker{font-family:Georgia,"Times New Roman",serif;color:#fff;font-size:28px;font-weight:800;letter-spacing:.2px;line-height:.98}
+.finance-title{font-family:Georgia,"Times New Roman",serif;color:#fff;font-size:28px;font-weight:800;line-height:.98;margin:0}
+.finance-period{font-size:17px;font-weight:800;color:#d8bb68;margin-top:7px}
+
+/* Existing text is repurposed via CSS: kicker=MASJID AL IHSAN, title=KAPUIH */
+.finance-heading{
+  position:absolute;left:430px;top:14px;width:660px;height:112px;text-align:center;display:flex;
+  flex-direction:column;justify-content:center;align-items:center;
+}
+.finance-heading-title{font-family:Georgia,"Times New Roman",serif;font-size:42px;font-weight:800;letter-spacing:1.5px;color:#fff}
+.finance-heading-period{margin-top:7px;font-size:18px;font-weight:800;color:#d8bb68}
+
+.finance-time-panel{
+  position:absolute;right:0;top:0;width:470px;height:145px;
+  border:1px solid rgba(218,181,79,.72);border-radius:16px;
+  background:linear-gradient(160deg,rgba(4,47,55,.87),rgba(3,24,34,.91));
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 14px 30px rgba(0,0,0,.24);
+  display:grid;grid-template-columns:208px 1fr;grid-template-rows:58px 36px 43px;column-gap:18px;
+  padding:10px 18px 9px 20px;text-align:left;
+}
+.finance-clock{
+  grid-column:1;grid-row:1/3;align-self:center;font-size:62px;line-height:.88;font-weight:900;
+  font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 3px 12px rgba(0,0,0,.45)
+}
+.finance-date-g{grid-column:2;grid-row:1;align-self:end;font-size:15px;font-weight:800;color:#f2f5f3;line-height:1.15}
+.finance-date-h{grid-column:2;grid-row:2;align-self:start;font-size:14px;font-weight:800;color:#d8bb68}
+.finance-next{
+  grid-column:1;grid-row:3;align-self:end;font-size:15px;font-weight:900;color:#a7d8cf;
+  border-top:1px solid rgba(218,181,79,.25);padding-top:8px
+}
+.finance-countdown{
+  grid-column:2;grid-row:3;align-self:end;text-align:right;font-size:28px;font-weight:900;color:#fff;
+  font-variant-numeric:tabular-nums;border-top:1px solid rgba(218,181,79,.25);padding-top:4px
+}
+
+/* 4 KPI cards */
+.finance-summary{
+  position:absolute;left:48px;right:48px;top:194px;height:145px;z-index:2;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px
+}
+.finance-card{
+  position:relative;border:1px solid rgba(214,179,82,.68);border-radius:15px;
+  background:linear-gradient(145deg,rgba(8,53,62,.90),rgba(4,29,39,.88));
+  box-shadow:inset 0 1px rgba(255,255,255,.04),0 14px 32px rgba(0,0,0,.22);
+  padding:25px 18px 17px 102px;overflow:hidden;
+}
+.finance-card:before{
+  position:absolute;left:22px;top:31px;width:58px;height:58px;border-radius:50%;
+  border:1px solid rgba(62,213,190,.45);display:grid;place-items:center;
+  color:#65e0cb;font-size:35px;font-weight:400;line-height:1;
+  background:rgba(7,66,70,.72);box-shadow:0 0 18px rgba(53,212,188,.10) inset;
+}
+.finance-card:nth-child(1):before{content:"▣"}
+.finance-card:nth-child(2):before{content:"↙"}
+.finance-card:nth-child(3):before{content:"↗"}
+.finance-card:nth-child(4):before{content:"↘"}
+.finance-card:after{
+  content:"";position:absolute;left:100px;right:22px;bottom:18px;height:2px;
+  background:linear-gradient(90deg,#d9b550 0 62%,rgba(36,212,187,.75) 62% 77%,transparent 77%);
+}
+.finance-card-label{font-size:15px;font-weight:800;color:#c6d6d2;letter-spacing:.1px;white-space:nowrap}
+.finance-card-value{margin-top:14px;font-size:34px;line-height:1;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}
+.finance-card-value.negative{color:#ffb071}.finance-card-value.positive{color:#8be7bd}
+
+/* MAIN PANELS */
+.finance-main{
+  position:absolute;left:48px;right:48px;top:365px;height:326px;z-index:2;
+  display:grid;grid-template-columns:1.62fr .98fr;gap:20px
+}
+.finance-panel{
+  position:relative;border:1px solid rgba(214,179,82,.58);border-radius:15px;
+  background:linear-gradient(150deg,rgba(5,42,51,.89),rgba(3,27,37,.91));
+  box-shadow:0 14px 34px rgba(0,0,0,.22);overflow:hidden
+}
+.finance-panel-title{
+  height:48px;padding:15px 20px 12px;font-family:Georgia,"Times New Roman",serif;
+  font-size:18px;font-weight:900;letter-spacing:.5px;color:#f1f4f1;
+  border-bottom:1px solid rgba(218,181,79,.30)
+}
+.finance-legend{
+  position:absolute;left:74px;top:408px;z-index:3;display:flex;gap:24px;font-size:12px;font-weight:800;color:#b8cfca
+}
+.finance-legend span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;background:#38c8b1}
+.finance-legend span:last-child:before{background:#d0a747}
+
+/* chart like master */
+.finance-chart{
+  position:absolute;left:20px;right:20px;top:59px;bottom:15px;padding:15px 12px 5px;
+  display:flex;gap:17px;align-items:flex-end;
+  background:repeating-linear-gradient(to top,rgba(255,255,255,.09) 0 1px,transparent 1px 47px);
+}
+.finance-chart-group{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0}
+.finance-bars{height:208px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.15)}
+.finance-bar{width:24px;min-height:3px;border-radius:4px 4px 0 0;box-shadow:0 0 14px rgba(26,218,192,.08)}
+.finance-bar.income{background:linear-gradient(#50dac3,#138e84)}
+.finance-bar.expense{background:linear-gradient(#e7c159,#8f7027)}
+.finance-month{margin-top:8px;font-size:13px;font-weight:900;color:#d6e1de;text-transform:uppercase}
+
+/* right ranking is SIDE BY SIDE like approved master */
+.finance-ranking{display:grid;grid-template-columns:1fr 1fr;height:278px}
+.finance-rank-block{padding:15px 15px 12px}
+.finance-rank-block+.finance-rank-block{border-left:1px solid rgba(218,181,79,.22)}
+.finance-rank-heading{
+  height:33px;font-size:14px;font-weight:900;color:#e5c663;text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,.10);margin-bottom:7px
+}
+.finance-rank-row{
+  min-height:60px;display:grid;grid-template-columns:28px minmax(0,1fr);grid-template-rows:26px 25px;
+  align-items:center;column-gap:7px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.07)
+}
+.finance-rank-no{
+  grid-row:1/3;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;
+  border:1px solid rgba(57,211,188,.42);color:#e5c663;font-size:12px;font-weight:900
+}
+.finance-rank-name{grid-column:2;font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f3f6f4}
+.finance-rank-amount{grid-column:2;font-size:13px;font-weight:900;font-variant-numeric:tabular-nums;color:#fff}
+
+/* operational need band */
+.finance-needs{
+  position:absolute;left:48px;right:48px;top:714px;height:137px;z-index:2;
+  display:grid;grid-template-columns:1.25fr .75fr .75fr 150px;gap:24px;align-items:center;
+  padding:15px 22px;border:1px solid rgba(214,179,82,.65);border-radius:15px;
+  background:linear-gradient(90deg,rgba(4,54,57,.91),rgba(3,30,39,.92));
+  box-shadow:0 14px 34px rgba(0,0,0,.20)
+}
+.finance-needs>div:first-child{align-self:center}
+.finance-needs-title{font-family:Georgia,"Times New Roman",serif;font-size:17px;font-weight:900;color:#f1f4f1}
+.finance-needs-main{font-size:28px;font-weight:900;margin-top:6px;color:#fff}
+.finance-progress-track{height:14px;border-radius:9px;background:rgba(255,255,255,.10);overflow:hidden;margin-top:10px;border:1px solid rgba(255,255,255,.06)}
+.finance-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#1a8d82,#4bd7b7);border-radius:9px;transition:width .6s ease}
+#financeProgressText{margin-top:4px!important;font-size:12px!important;font-weight:900!important;color:#8ee8d5!important}
+.finance-needs-stats{display:contents}
+.finance-stat{height:76px;padding:13px 17px;border-left:1px solid rgba(218,181,79,.25)}
+.finance-stat small{display:block;color:#aacbc5;font-size:13px;font-weight:800}
+.finance-stat strong{display:block;margin-top:7px;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;color:#fff}
+.finance-report-link{
+  height:92px;border-left:1px solid rgba(218,181,79,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center
+}
+.finance-qr{
+  width:54px;height:54px;border:1px solid rgba(230,197,96,.65);border-radius:3px;
+  display:grid;place-items:center;font-weight:900;color:#e4c467;background:
+  linear-gradient(90deg,#d9d9d9 7px,transparent 7px) 0 0/13px 13px,
+  linear-gradient(#d9d9d9 7px,transparent 7px) 0 0/13px 13px,
+  rgba(255,255,255,.07);
+}
+.finance-report-link span{font-size:11px;font-weight:900;margin-top:5px;color:#c9ded9;text-transform:uppercase}
+
+/* footer with official Mufida mark */
+.finance-footer{
+  position:absolute;left:49px;right:49px;bottom:19px;height:51px;z-index:2;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(218,181,79,.28);padding-top:7px;color:#a9c7c2;font-size:12px;font-weight:700
+}
+.finance-footer>div{max-width:1130px}
+.finance-footer strong{
+  font-size:0;width:228px;height:48px;display:block;background-position:center right;background-repeat:no-repeat;background-size:contain;
+  background-image:url("data:image/webp;base64,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");
+}
+@media (prefers-reduced-motion:reduce){.finance-progress-fill{transition:none}}
