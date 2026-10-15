@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
   <link rel="stylesheet" href="./styles-v102.css?v=zikir-meaning-layout-v102-20260926">
-</head>
+  <link rel="stylesheet" href="./finance-v111.css?v=finance-v111-20261015">\n</head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
     <section id="stage" class="stage" aria-live="polite">
@@ -83,6 +83,66 @@
         <footer class="announcement-footer">
           <div><strong>MASJID AL IHSAN KAPUIH</strong><span class="announcement-footer-sep"></span>Informasi jamaah, kajian, pendidikan, sosial &amp; pelayanan umat</div>
           <div>Mufida Digital</div>
+        </footer>
+      </section>
+
+      <section id="financeScene" class="finance-scene" aria-label="Laporan Keuangan Masjid" aria-hidden="true">
+        <header class="finance-header">
+          <div class="finance-brand">
+            <img src="./assets/logo-masjid-official-v58.png?v=finance-v111" alt="Logo Masjid Al Ihsan">
+            <div>
+              <div class="finance-kicker">TRANSPARANSI &amp; AMANAH</div>
+              <div class="finance-title">LAPORAN KEUANGAN</div>
+              <div id="financePeriod" class="finance-period">—</div>
+            </div>
+          </div>
+          <div class="finance-time-panel">
+            <div id="financeClock" class="finance-clock">--:--</div>
+            <div id="financeDateGregorian" class="finance-date-g">—</div>
+            <div id="financeDateHijri" class="finance-date-h">—</div>
+            <div id="financeNextPrayer" class="finance-next">Menuju —</div>
+            <div id="financeCountdown" class="finance-countdown">--:--:--</div>
+          </div>
+        </header>
+
+        <section class="finance-summary">
+          <div class="finance-card"><div class="finance-card-label">Posisi Dana Saat Ini</div><div id="financePosition" class="finance-card-value">—</div></div>
+          <div class="finance-card"><div class="finance-card-label">Pemasukan Bulan Ini</div><div id="financeIncome" class="finance-card-value">—</div></div>
+          <div class="finance-card"><div class="finance-card-label">Pengeluaran Bulan Ini</div><div id="financeExpense" class="finance-card-value">—</div></div>
+          <div class="finance-card"><div class="finance-card-label">Surplus / Defisit</div><div id="financeSurplus" class="finance-card-value">—</div></div>
+        </section>
+
+        <div class="finance-legend"><span>Pemasukan</span><span>Pengeluaran</span></div>
+        <section class="finance-main">
+          <div class="finance-panel">
+            <div class="finance-panel-title">PEMASUKAN VS PENGELUARAN • 6 BULAN</div>
+            <div id="financeChart" class="finance-chart"></div>
+          </div>
+          <div class="finance-panel">
+            <div class="finance-panel-title">RINGKASAN BULAN BERJALAN</div>
+            <div class="finance-ranking">
+              <div class="finance-rank-block"><div class="finance-rank-heading">3 Pemasukan Terbesar</div><div id="financeTopIncome"></div></div>
+              <div class="finance-rank-block"><div class="finance-rank-heading">3 Pengeluaran Terbesar</div><div id="financeTopExpense"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="finance-needs">
+          <div>
+            <div class="finance-needs-title">KEBUTUHAN OPERASIONAL BULAN INI</div>
+            <div id="financeTarget" class="finance-needs-main">—</div>
+            <div class="finance-progress-track"><div id="financeProgress" class="finance-progress-fill"></div></div>
+            <div id="financeProgressText" style="margin-top:5px;font-size:13px;font-weight:900;color:#8ee8d5">0%</div>
+          </div>
+          <div class="finance-needs-stats">
+            <div class="finance-stat"><small>Terkumpul</small><strong id="financeCollected">—</strong></div>
+            <div class="finance-stat"><small>Masih dibutuhkan</small><strong id="financeRemaining">—</strong></div>
+          </div>
+          <div id="financeReport" class="finance-report-link"><div class="finance-qr">QR</div><span>Laporan lengkap</span></div>
+        </section>
+        <footer class="finance-footer">
+          <div>Laporan diperbarui berkala sebagai bentuk transparansi pengelolaan dana jamaah. <span id="financeLastUpdate"></span></div>
+          <strong>MUFIDA DIGITAL</strong>
         </footer>
       </section>
 
@@ -303,6 +363,6 @@
   <script src="./calendar-engine-v106.js?v=printed-khgt-calendar-v106-20260926"></script>
   <script src="./pre-azan-playlist-v107.js?v=pre-azan-rotation-v107-20261015"></script>
   <script src="./pre-azan-audio-v110.js?v=audio-diagnostics-v110-20261015"></script>
-  <script src="./app-v107.js?v=pre-azan-scheduler-v107-20261015"></script>
+  <script src="./finance-v111.js?v=finance-v111-20261015"></script>\n  <script src="./app-v107.js?v=finance-scene-v111-20261015"></script>
 </body>
 </html>
