@@ -6,6 +6,7 @@ on:
     branches: ["main"]
     paths:
       - ".github/workflows/yodeck-media-probe.yml"
+      - "scripts/yodeck_media_probe.py"
 
 permissions:
   contents: read
