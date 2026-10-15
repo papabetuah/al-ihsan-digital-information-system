@@ -20,6 +20,10 @@ jobs:
         env:
           YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
         run: python scripts/yodeck_rebuild.py
+      - name: Sync Yodeck prayer schedule after rebuild
+        env:
+          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
+        run: node scripts/yodeck_schedule_sync.js
       - name: Upload rebuild report
         if: always()
         uses: actions/upload-artifact@v4
@@ -27,3 +31,10 @@ jobs:
           name: yodeck-rebuild-report
           path: yodeck-rebuild-report.json
           retention-days: 3
+      - name: Upload schedule report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yodeck-schedule-sync-report-after-rebuild
+          path: yodeck-schedule-sync-report.json
+          retention-days: 7
