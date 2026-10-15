@@ -9,7 +9,8 @@ const finance=fs.readFileSync("finance-v111.js","utf8");
 const fallback=JSON.parse(fs.readFileSync("data/finance-summary.json","utf8"));
 
 assert(index.includes('id="financeScene"'),"financeScene missing from index.html");
-assert(index.includes("./finance-v112.css"),"finance approved-master CSS missing");\nassert(index.includes("finance-background-approved-v114.webp"),"approved finance underlay missing");
+assert(index.includes("./finance-v112.css"),"finance approved-master CSS missing");
+assert(index.includes("finance-background-approved-v114.webp"),"approved finance underlay missing");
 assert(index.includes("./finance-v111.js"),"finance JS missing");
 assert(!index.includes("pre-azan-audio-v110.js"),"browser pre-azan audio must remain disabled");
 
