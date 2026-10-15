@@ -986,7 +986,7 @@ function scheduleNextTick(){
 function init(){
   fit();loadDonationUnderlay();loadAnnouncementUnderlay();
   const params=new URLSearchParams(location.search),forced=params.get("scene");
-  setScene(["dashboard","donation","announcement","prayer","zikir"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
+  setScene(["dashboard","donation","announcement","finance","prayer","zikir"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
   render();renderAnnouncement();renderAgenda();renderWisdom();
   scheduleNextTick();recoverPrayerSchedule("startup");recoverPreAzanSchedule("startup");scheduleSceneRotation();
   Promise.allSettled([loadCms(),loadPrayerConfig()]).finally(()=>{
