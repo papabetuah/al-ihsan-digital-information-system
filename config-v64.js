@@ -8,19 +8,24 @@ window.AL_IHSAN_CONFIG = Object.freeze({
     dashboardMs: 45000,
     donationMs: 30000,
     announcementMs: 60000,
-    sequence: Object.freeze(["dashboard","announcement","donation"]),
+    financeMs: 45000,
+    sequence: Object.freeze(["dashboard","announcement","finance","donation"]),
     startScene: "dashboard"
   }),
   cms: Object.freeze({
     spreadsheetId: "13CufIfmNBdbYR02NfJSMXXAIX1Q-Eg1Ia2272J_s-6M",
     refreshMs: 60000,
+    financeRefreshMs: 300000,
     sheets: Object.freeze({
       announcements: "Pengumuman Utama",
       agenda: "Agenda Kegiatan",
       wisdom: "Pesan Hikmah",
       prayerMode: "Mode Sholat",
       ramadanMode: "Mode Ramadan",
-      postPrayerZikir: "Mode Zikir"
+      postPrayerZikir: "Mode Zikir",
+      financeTransactions: "Keuangan Transaksi",
+      financeConfig: "Keuangan Config",
+      financeDashboard: "Keuangan Dashboard"
     })
   }),
   prayerMode: Object.freeze({
