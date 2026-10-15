@@ -188,9 +188,11 @@ def ensure_audio(key,name,drive_id):
             report["existing_media"].append(name)
 
         status=get_media_status(obj["id"])
-        if status not in ("initialized","ready","completed","encoded"):
+        if (not obj.get("last_uploaded")) or status not in ("initialized","ready","completed","encoded"):
             upload_audio_bytes(obj,drive_id)
             obj=request("GET",f"/media/{obj['id']}")
+            if not obj.get("last_uploaded"):
+                raise RuntimeError("Yodeck belum mencatat last_uploaded setelah upload selesai")
             existing_media[name]=obj
         return obj
     except Exception as e:
