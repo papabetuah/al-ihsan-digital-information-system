@@ -535,3 +535,80 @@
 .finance-stat:nth-child(1){left:586px!important;top:56px!important;width:250px!important}
 .finance-stat:nth-child(2){left:947px!important;top:56px!important;width:270px!important}
 .finance-stat strong{font-size:20px!important;line-height:1!important;margin:0!important}
+
+
+/* v116 texture-cloned cleanup masks */
+.finance-mask{
+  background-image:var(--finance-underlay-url)!important;
+  background-repeat:no-repeat!important;
+  background-size:1672px 941px!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+
+/* clone nearby clean texture instead of painting obvious solid rectangles */
+.mask-period{background-position:-690px -74px!important}
+.mask-clock{background-position:-1139px -25px!important}
+.mask-date-g{background-position:-1372px -32px!important}
+.mask-date-h{background-position:-1372px -61px!important}
+.mask-next{background-position:-1142px -95px!important}
+.mask-countdown{background-position:-1370px -92px!important}
+
+.mask-kpi-1{background-position:-168px -215px!important}
+.mask-kpi-2{background-position:-557px -215px!important}
+.mask-kpi-3{background-position:-946px -215px!important}
+.mask-kpi-4{background-position:-1338px -215px!important}
+
+/* main chart/ranking interiors need a uniform clean panel, but feathered so the patch disappears */
+.mask-chart,
+.mask-rank-income,
+.mask-rank-expense{
+  background-image:none!important;
+  background:linear-gradient(180deg,rgba(6,56,65,.985),rgba(5,46,56,.985))!important;
+  box-shadow:
+    inset 0 18px 24px rgba(6,55,64,.45),
+    inset 0 -18px 24px rgba(4,42,51,.35)!important;
+}
+.mask-chart{
+  left:78px!important;
+  top:432px!important;
+  width:938px!important;
+  height:238px!important;
+  border-radius:10px!important;
+}
+.mask-rank-income{
+  left:1094px!important;
+  top:452px!important;
+  width:228px!important;
+  height:208px!important;
+  border-radius:9px!important;
+}
+.mask-rank-expense{
+  left:1328px!important;
+  top:452px!important;
+  width:232px!important;
+  height:208px!important;
+  border-radius:9px!important;
+}
+
+.mask-target{background-position:-83px -735px!important}
+.mask-collected{background-position:-641px -735px!important}
+.mask-remaining{background-position:-1002px -735px!important}
+.mask-progress{
+  background-image:none!important;
+  background:rgba(5,58,64,.96)!important;
+  box-shadow:inset 0 0 14px rgba(0,0,0,.18)!important;
+}
+
+/* keep live values crisp and centered in the approved slots */
+.finance-card-value,
+.finance-needs-main,
+.finance-stat strong,
+.finance-clock,
+.finance-countdown{
+  text-shadow:0 2px 8px rgba(0,0,0,.38)!important;
+}
+.finance-heading-period{transform:translateY(-2px)}
+.finance-summary{top:201px!important}
+.finance-main{top:360px!important}
+.finance-needs{top:716px!important}
