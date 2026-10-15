@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
   <link rel="stylesheet" href="./styles-v102.css?v=zikir-meaning-layout-v102-20260926">
-  <link rel="stylesheet" href="./finance-v112.css?v=approved-underlay-v114-20261015">
+  <link rel="stylesheet" href="./finance-v112.css?v=clean-slots-v115-20261015">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
@@ -87,7 +87,27 @@
         </footer>
       </section>
 
-      <section id="financeScene" class="finance-scene" aria-label="Laporan Keuangan Masjid" aria-hidden="true">\n        <img class="finance-underlay" src="./assets/finance-background-approved-v114.webp?v=approved-v114-20261015" alt="" aria-hidden="true">
+      <section id="financeScene" class="finance-scene" aria-label="Laporan Keuangan Masjid" aria-hidden="true">
+        <img id="financeUnderlay" class="finance-underlay" src="./assets/finance-background-approved-v114.webp?v=fallback-v114" alt="" aria-hidden="true">
+        <div class="finance-static-cleanup" aria-hidden="true">
+          <span class="finance-mask mask-period"></span>
+          <span class="finance-mask mask-clock"></span>
+          <span class="finance-mask mask-date-g"></span>
+          <span class="finance-mask mask-date-h"></span>
+          <span class="finance-mask mask-next"></span>
+          <span class="finance-mask mask-countdown"></span>
+          <span class="finance-mask mask-kpi-1"></span>
+          <span class="finance-mask mask-kpi-2"></span>
+          <span class="finance-mask mask-kpi-3"></span>
+          <span class="finance-mask mask-kpi-4"></span>
+          <span class="finance-mask mask-chart"></span>
+          <span class="finance-mask mask-rank-income"></span>
+          <span class="finance-mask mask-rank-expense"></span>
+          <span class="finance-mask mask-target"></span>
+          <span class="finance-mask mask-collected"></span>
+          <span class="finance-mask mask-remaining"></span>
+          <span class="finance-mask mask-progress"></span>
+        </div>
         <header class="finance-header">
           <div class="finance-brand">
             <img src="./assets/logo-masjid-official-v58.png?v=finance-v112" alt="Logo Masjid Al Ihsan">
@@ -100,23 +120,23 @@
 
           <div class="finance-heading">
             <div class="finance-heading-title">LAPORAN KEUANGAN</div>
-            <div id="financePeriod" class="finance-heading-period">—</div>
+            <div id="financePeriod" class="finance-heading-period"></div>
           </div>
 
           <div class="finance-time-panel">
-            <div id="financeClock" class="finance-clock">--:--</div>
-            <div id="financeDateGregorian" class="finance-date-g">—</div>
-            <div id="financeDateHijri" class="finance-date-h">—</div>
-            <div id="financeNextPrayer" class="finance-next">Menuju —</div>
-            <div id="financeCountdown" class="finance-countdown">--:--:--</div>
+            <div id="financeClock" class="finance-clock"></div>
+            <div id="financeDateGregorian" class="finance-date-g"></div>
+            <div id="financeDateHijri" class="finance-date-h"></div>
+            <div id="financeNextPrayer" class="finance-next"></div>
+            <div id="financeCountdown" class="finance-countdown"></div>
           </div>
         </header>
 
         <section class="finance-summary">
-          <div class="finance-card"><div class="finance-card-label">POSISI DANA SAAT INI</div><div id="financePosition" class="finance-card-value">—</div></div>
-          <div class="finance-card"><div class="finance-card-label">PEMASUKAN BULAN INI</div><div id="financeIncome" class="finance-card-value">—</div></div>
-          <div class="finance-card"><div class="finance-card-label">PENGELUARAN BULAN INI</div><div id="financeExpense" class="finance-card-value">—</div></div>
-          <div class="finance-card"><div class="finance-card-label">SURPLUS / DEFISIT</div><div id="financeSurplus" class="finance-card-value">—</div></div>
+          <div class="finance-card"><div class="finance-card-label">POSISI DANA SAAT INI</div><div id="financePosition" class="finance-card-value"></div></div>
+          <div class="finance-card"><div class="finance-card-label">PEMASUKAN BULAN INI</div><div id="financeIncome" class="finance-card-value"></div></div>
+          <div class="finance-card"><div class="finance-card-label">PENGELUARAN BULAN INI</div><div id="financeExpense" class="finance-card-value"></div></div>
+          <div class="finance-card"><div class="finance-card-label">SURPLUS / DEFISIT</div><div id="financeSurplus" class="finance-card-value"></div></div>
         </section>
 
         <div class="finance-legend"><span>Pemasukan</span><span>Pengeluaran</span></div>
@@ -144,13 +164,13 @@
         <section class="finance-needs">
           <div>
             <div class="finance-needs-title">KEBUTUHAN OPERASIONAL BULAN INI</div>
-            <div id="financeTarget" class="finance-needs-main">—</div>
+            <div id="financeTarget" class="finance-needs-main"></div>
             <div class="finance-progress-track"><div id="financeProgress" class="finance-progress-fill"></div></div>
-            <div id="financeProgressText">0%</div>
+            <div id="financeProgressText"></div>
           </div>
           <div class="finance-needs-stats">
-            <div class="finance-stat"><small>TERKUMPUL</small><strong id="financeCollected">—</strong></div>
-            <div class="finance-stat"><small>MASIH DIBUTUHKAN</small><strong id="financeRemaining">—</strong></div>
+            <div class="finance-stat"><small>TERKUMPUL</small><strong id="financeCollected"></strong></div>
+            <div class="finance-stat"><small>MASIH DIBUTUHKAN</small><strong id="financeRemaining"></strong></div>
           </div>
           <div id="financeReport" class="finance-report-link"><div class="finance-qr"></div><span>LAPORAN LENGKAP</span></div>
         </section>
