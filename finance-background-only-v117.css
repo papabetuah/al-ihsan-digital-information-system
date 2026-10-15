@@ -1,0 +1,45 @@
+/* Finance v117 — background-only validation stage */
+.finance-scene{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:none;
+  overflow:hidden;
+  background:#031c25;
+  z-index:36;
+}
+.stage.scene-finance .finance-scene{display:block}
+.stage.scene-finance>.master-underlay,
+.stage.scene-finance>.live,
+.stage.scene-finance>.status-dot{display:none!important}
+
+.finance-bg-only{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.finance-underlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:fill;
+  object-position:center center;
+  opacity:1;
+  filter:none!important;
+  transform:none!important;
+  image-rendering:auto;
+  z-index:1;
+  pointer-events:none;
+  user-select:none;
+}
+
+.finance-scene::before,
+.finance-scene::after{
+  content:none!important;
+  display:none!important;
+}
