@@ -442,3 +442,96 @@
   margin-top:0!important;
   font-size:19px!important;
 }
+
+
+/* v115 cleaned approved backlayer + exact live slots */
+.finance-underlay{
+  filter:none!important;
+  opacity:1!important;
+  transform:none!important;
+  image-rendering:auto!important;
+}
+.finance-static-cleanup{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+.finance-mask{
+  position:absolute;
+  display:block;
+  background:linear-gradient(180deg,rgba(5,58,66,.995),rgba(4,43,53,.995));
+  box-shadow:none;
+}
+.mask-period{left:690px;top:104px;width:292px;height:30px;border-radius:4px;background:rgba(4,37,46,.985)}
+.mask-clock{left:1139px;top:62px;width:211px;height:61px;border-radius:5px;background:linear-gradient(180deg,#073d45,#063640)}
+.mask-date-g{left:1372px;top:62px;width:213px;height:28px;border-radius:3px;background:linear-gradient(180deg,#073d45,#063942)}
+.mask-date-h{left:1372px;top:91px;width:213px;height:27px;border-radius:3px;background:#063740}
+.mask-next{left:1142px;top:125px;width:181px;height:26px;border-radius:3px;background:#06333c}
+.mask-countdown{left:1370px;top:122px;width:214px;height:34px;border-radius:3px;background:#06333c}
+
+.mask-kpi-1{left:168px;top:255px;width:205px;height:49px;border-radius:5px;background:linear-gradient(180deg,#08434a,#06373f)}
+.mask-kpi-2{left:557px;top:255px;width:208px;height:49px;border-radius:5px;background:linear-gradient(180deg,#08434a,#06373f)}
+.mask-kpi-3{left:946px;top:255px;width:211px;height:49px;border-radius:5px;background:linear-gradient(180deg,#08434a,#06373f)}
+.mask-kpi-4{left:1338px;top:255px;width:210px;height:49px;border-radius:5px;background:linear-gradient(180deg,#08434a,#06373f)}
+
+.mask-chart{
+  left:82px;top:437px;width:931px;height:230px;border-radius:3px;
+  background:
+    repeating-linear-gradient(to top,rgba(255,255,255,.085) 0 1px,transparent 1px 48px),
+    linear-gradient(180deg,#063740,#052f39);
+}
+.mask-rank-income{left:1101px;top:455px;width:216px;height:202px;border-radius:3px;background:linear-gradient(180deg,#063941,#052f39)}
+.mask-rank-expense{left:1334px;top:455px;width:224px;height:202px;border-radius:3px;background:linear-gradient(180deg,#063941,#052f39)}
+
+.mask-target{left:83px;top:771px;width:427px;height:48px;border-radius:4px;background:linear-gradient(180deg,#064448,#063a40)}
+.mask-collected{left:641px;top:775px;width:240px;height:45px;border-radius:4px;background:linear-gradient(180deg,#064248,#06383f)}
+.mask-remaining{left:1002px;top:775px;width:260px;height:45px;border-radius:4px;background:linear-gradient(180deg,#064248,#06383f)}
+.mask-progress{left:82px;top:824px;width:474px;height:22px;border-radius:11px;background:#173e42}
+
+/* exact live-data slots */
+.finance-heading{left:690px!important;top:87px!important;width:292px!important;height:48px!important;display:block!important}
+.finance-heading-period{margin:0!important;padding:13px 0 0!important;text-align:center!important;font-size:15px!important;line-height:1!important;font-weight:800!important;color:#d9bc68!important}
+
+.finance-time-panel{
+  right:auto!important;left:1138px!important;top:58px!important;width:448px!important;height:101px!important;
+  display:block!important;padding:0!important;
+}
+.finance-clock{
+  position:absolute!important;left:0!important;top:5px!important;width:215px!important;height:62px!important;
+  font-size:51px!important;line-height:1!important;text-align:left!important;
+}
+.finance-date-g{position:absolute!important;left:233px!important;top:7px!important;width:213px!important;font-size:14px!important;line-height:1.2!important;text-align:left!important}
+.finance-date-h{position:absolute!important;left:233px!important;top:35px!important;width:213px!important;font-size:13px!important;line-height:1.2!important;text-align:left!important}
+.finance-next{position:absolute!important;left:2px!important;top:70px!important;width:190px!important;font-size:13px!important;line-height:1!important;padding:0!important}
+.finance-countdown{position:absolute!important;left:232px!important;top:64px!important;width:214px!important;font-size:27px!important;line-height:1!important;padding:0!important;text-align:right!important}
+
+.finance-summary{left:74px!important;right:74px!important;top:203px!important;height:120px!important;gap:18px!important}
+.finance-card{padding:50px 12px 0!important}
+.finance-card-value{font-size:31px!important;line-height:1!important;text-align:center!important;white-space:nowrap!important}
+
+.finance-main{left:55px!important;right:55px!important;top:365px!important;height:314px!important;grid-template-columns:995px 1fr!important;gap:20px!important}
+.finance-main .finance-panel:first-child{overflow:visible!important}
+.finance-chart{
+  left:27px!important;right:36px!important;top:72px!important;bottom:12px!important;
+  padding:0 7px 0!important;gap:20px!important;align-items:flex-end!important;
+}
+.finance-bars{height:194px!important;border:0!important}
+.finance-bar{width:25px!important}
+.finance-month{margin-top:7px!important;font-size:12px!important;color:#cbd9d5!important}
+.finance-ranking{margin-top:76px!important;height:202px!important;grid-template-columns:216px 224px!important;column-gap:17px!important;padding-left:12px!important}
+.finance-rank-block{padding:0!important}
+.finance-rank-row{min-height:60px!important;display:block!important;padding:5px 5px 4px!important}
+.finance-rank-name{display:block!important;padding:0!important;font-size:12px!important;line-height:1.25!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.finance-rank-amount{display:block!important;padding:5px 0 0!important;font-size:13px!important;line-height:1!important}
+
+.finance-needs{left:55px!important;right:55px!important;top:720px!important;height:135px!important;padding:0!important;display:block!important}
+.finance-needs>div:first-child{position:absolute!important;left:28px!important;top:26px!important;width:474px!important;height:106px!important}
+.finance-needs-main{margin:27px 0 0!important;font-size:27px!important;line-height:1!important}
+.finance-progress-track{position:absolute!important;left:0!important;top:77px!important;width:474px!important;height:13px!important;margin:0!important}
+#financeProgressText{position:absolute!important;left:0!important;top:93px!important;margin:0!important;font-size:11px!important}
+.finance-needs-stats{display:block!important}
+.finance-stat{position:absolute!important;height:52px!important;padding:0!important}
+.finance-stat:nth-child(1){left:586px!important;top:56px!important;width:250px!important}
+.finance-stat:nth-child(2){left:947px!important;top:56px!important;width:270px!important}
+.finance-stat strong{font-size:20px!important;line-height:1!important;margin:0!important}
