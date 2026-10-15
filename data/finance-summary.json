@@ -1,0 +1,71 @@
+{
+  "version": "finance-v111",
+  "source": "fallback",
+  "period": "2026-10",
+  "target": 10000000,
+  "position": -16864347,
+  "income": 1299000,
+  "expense": 3981000,
+  "surplus": -2682000,
+  "collected": 1299000,
+  "remaining": 8701000,
+  "progress": 0.1299,
+  "last_update": "15/10/2026 12:17",
+  "history": [
+    {
+      "period": "2026-05",
+      "income": 6955800,
+      "expense": 7397000
+    },
+    {
+      "period": "2026-06",
+      "income": 4023700,
+      "expense": 5021000
+    },
+    {
+      "period": "2026-07",
+      "income": 9182100,
+      "expense": 7305000
+    },
+    {
+      "period": "2026-08",
+      "income": 3918000,
+      "expense": 6471000
+    },
+    {
+      "period": "2026-09",
+      "income": 6776600,
+      "expense": 5463000
+    },
+    {
+      "period": "2026-10",
+      "income": 1299000,
+      "expense": 3981000
+    }
+  ],
+  "top_income": [
+    {
+      "label": "Kotak Amal",
+      "amount": 1064500
+    },
+    {
+      "label": "Infaq Jumat",
+      "amount": 234500
+    }
+  ],
+  "top_expense": [
+    {
+      "label": "Honor Imam/Petugas",
+      "amount": 1750000
+    },
+    {
+      "label": "Honor TPA",
+      "amount": 1000000
+    },
+    {
+      "label": "Jumat Berkah",
+      "amount": 731000
+    }
+  ],
+  "report_url": ""
+}
