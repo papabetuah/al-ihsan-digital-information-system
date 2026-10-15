@@ -10,6 +10,7 @@
   <title>Masjid Al Ihsan Kapuih — Digital Information System</title>
   <link rel="stylesheet" href="./styles-v102.css?v=zikir-meaning-layout-v102-20260926">
   <link rel="stylesheet" href="./finance-v112.css?v=clean-slots-v115-20261015">
+  <link rel="stylesheet" href="./finance-background-only-v117.css?v=background-only-v117-20261015">
 </head>
 <body>
   <main id="viewport" aria-label="Al Ihsan Digital Information System">
@@ -87,98 +88,14 @@
         </footer>
       </section>
 
-      <section id="financeScene" class="finance-scene" aria-label="Laporan Keuangan Masjid" aria-hidden="true">
-        <img id="financeUnderlay" class="finance-underlay" src="./assets/finance-background-approved-v114.webp?v=fallback-v114" alt="" aria-hidden="true">
-        <div class="finance-static-cleanup" aria-hidden="true">
-          <span class="finance-mask mask-period"></span>
-          <span class="finance-mask mask-clock"></span>
-          <span class="finance-mask mask-date-g"></span>
-          <span class="finance-mask mask-date-h"></span>
-          <span class="finance-mask mask-next"></span>
-          <span class="finance-mask mask-countdown"></span>
-          <span class="finance-mask mask-kpi-1"></span>
-          <span class="finance-mask mask-kpi-2"></span>
-          <span class="finance-mask mask-kpi-3"></span>
-          <span class="finance-mask mask-kpi-4"></span>
-          <span class="finance-mask mask-chart"></span>
-          <span class="finance-mask mask-rank-income"></span>
-          <span class="finance-mask mask-rank-expense"></span>
-          <span class="finance-mask mask-target"></span>
-          <span class="finance-mask mask-collected"></span>
-          <span class="finance-mask mask-remaining"></span>
-          <span class="finance-mask mask-progress"></span>
-        </div>
-        <header class="finance-header">
-          <div class="finance-brand">
-            <img src="./assets/logo-masjid-official-v58.png?v=finance-v112" alt="Logo Masjid Al Ihsan">
-            <div>
-              <div class="finance-kicker">MASJID AL IHSAN</div>
-              <div class="finance-title">KAPUIH</div>
-              <div class="finance-period">TRANSPARANSI &amp; AMANAH</div>
-            </div>
-          </div>
-
-          <div class="finance-heading">
-            <div class="finance-heading-title">LAPORAN KEUANGAN</div>
-            <div id="financePeriod" class="finance-heading-period"></div>
-          </div>
-
-          <div class="finance-time-panel">
-            <div id="financeClock" class="finance-clock"></div>
-            <div id="financeDateGregorian" class="finance-date-g"></div>
-            <div id="financeDateHijri" class="finance-date-h"></div>
-            <div id="financeNextPrayer" class="finance-next"></div>
-            <div id="financeCountdown" class="finance-countdown"></div>
-          </div>
-        </header>
-
-        <section class="finance-summary">
-          <div class="finance-card"><div class="finance-card-label">POSISI DANA SAAT INI</div><div id="financePosition" class="finance-card-value"></div></div>
-          <div class="finance-card"><div class="finance-card-label">PEMASUKAN BULAN INI</div><div id="financeIncome" class="finance-card-value"></div></div>
-          <div class="finance-card"><div class="finance-card-label">PENGELUARAN BULAN INI</div><div id="financeExpense" class="finance-card-value"></div></div>
-          <div class="finance-card"><div class="finance-card-label">SURPLUS / DEFISIT</div><div id="financeSurplus" class="finance-card-value"></div></div>
-        </section>
-
-        <div class="finance-legend"><span>Pemasukan</span><span>Pengeluaran</span></div>
-
-        <section class="finance-main">
-          <div class="finance-panel">
-            <div class="finance-panel-title">PEMASUKAN VS PENGELUARAN • 6 BULAN</div>
-            <div id="financeChart" class="finance-chart"></div>
-          </div>
-          <div class="finance-panel">
-            <div class="finance-panel-title">RINGKASAN BULAN BERJALAN</div>
-            <div class="finance-ranking">
-              <div class="finance-rank-block">
-                <div class="finance-rank-heading">3 PEMASUKAN TERBESAR</div>
-                <div id="financeTopIncome"></div>
-              </div>
-              <div class="finance-rank-block">
-                <div class="finance-rank-heading">3 PENGELUARAN TERBESAR</div>
-                <div id="financeTopExpense"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="finance-needs">
-          <div>
-            <div class="finance-needs-title">KEBUTUHAN OPERASIONAL BULAN INI</div>
-            <div id="financeTarget" class="finance-needs-main"></div>
-            <div class="finance-progress-track"><div id="financeProgress" class="finance-progress-fill"></div></div>
-            <div id="financeProgressText"></div>
-          </div>
-          <div class="finance-needs-stats">
-            <div class="finance-stat"><small>TERKUMPUL</small><strong id="financeCollected"></strong></div>
-            <div class="finance-stat"><small>MASIH DIBUTUHKAN</small><strong id="financeRemaining"></strong></div>
-          </div>
-          <div id="financeReport" class="finance-report-link"><div class="finance-qr"></div><span>LAPORAN LENGKAP</span></div>
-        </section>
-
-        <footer class="finance-footer">
-          <div>Laporan diperbarui berkala sebagai bentuk transparansi pengelolaan dana jamaah. <span id="financeLastUpdate"></span></div>
-          <strong>MUFIDA DIGITAL</strong>
-        </footer>
+      <section id="financeScene" class="finance-scene finance-bg-only" aria-label="Laporan Keuangan Masjid" aria-hidden="true">
+        <img
+          id="financeUnderlay"
+          class="finance-underlay"
+          src="./assets/finance-background-approved-v117.webp?v=background-only-v117-20261015"
+          alt=""
+          aria-hidden="true"
+        >
       </section>
 
       <section id="prayerScene" class="prayer-scene" aria-label="Mode Sholat" aria-hidden="true">
@@ -397,8 +314,6 @@
   <script src="./prayer-times.js?v=prayer-v58-20260925"></script>
   <script src="./calendar-engine-v106.js?v=printed-khgt-calendar-v106-20260926"></script>
   <script src="./pre-azan-playlist-v107.js?v=pre-azan-rotation-v107-20261015"></script>
-<script src="./finance-v111.js?v=finance-v111-20261015"></script>
-  <script src="./finance-v115.js?v=clean-backlayer-v115-20261015"></script>
-  <script src="./app-v107.js?v=finance-preview-v115-20261015"></script>
+  <script src="./app-v107.js?v=finance-background-only-v117-20261015"></script>
 </body>
 </html>
