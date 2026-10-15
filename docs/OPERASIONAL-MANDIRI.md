@@ -50,6 +50,8 @@ Minimal dua pengurus harus menjadi admin:
 1. Admin Utama Masjid
 2. Admin Cadangan
 
+Pada GitHub, kedua admin wajib mengaktifkan **Watch/Notifications** untuk repository, minimal untuk **Issues** dan **Actions**, agar kegagalan otomasi terlihat tanpa harus membuka dashboard setiap hari.
+
 Jangan memakai email pribadi pendiri sebagai satu-satunya pemilik.
 
 ## Secret dan kredensial
