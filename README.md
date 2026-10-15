@@ -22,3 +22,19 @@ Dynamic overlays remain limited to:
 - countdown
 
 The next-prayer overlay displays only the prayer name (for example `Zuhur`), without the word `Menuju`.
+
+
+## Owner-independent operation
+
+The production chain is designed to run without daily manual scheduling:
+
+`Google Drive master audio -> GitHub Actions self-heal -> Yodeck native media/schedule -> TV`
+
+- daily self-heal and schedule sync;
+- 30-day rolling prayer schedule safety buffer;
+- automatic Yodeck media/dashboard recovery;
+- GitHub issue alert only when automation fails;
+- no recorded azan: all azan remains live by the mosque muazin.
+
+Operational handover guide:
+`docs/OPERASIONAL-MANDIRI.md`
