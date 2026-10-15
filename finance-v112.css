@@ -242,3 +242,203 @@
 .finance-report-link{
   background:transparent!important;
 }
+
+
+/* v114 approved static underlay architecture */
+.finance-scene{
+  background:transparent!important;
+}
+.finance-scene:before,
+.finance-scene:after{
+  content:none!important;
+  display:none!important;
+}
+.finance-underlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+  pointer-events:none;
+  user-select:none;
+}
+.finance-header,
+.finance-summary,
+.finance-main,
+.finance-needs,
+.finance-footer,
+.finance-legend{
+  z-index:2;
+}
+
+/* Static labels, branding, borders, and decorative chrome live in the approved underlay only. */
+.finance-brand,
+.finance-heading-title,
+.finance-card-label,
+.finance-panel-title,
+.finance-legend,
+.finance-rank-heading,
+.finance-needs-title,
+.finance-stat small,
+.finance-report-link,
+.finance-footer>div,
+.finance-footer strong,
+.finance-card:before,
+.finance-card:after{
+  display:none!important;
+}
+
+/* Live-data layer must remain transparent. */
+.finance-header,
+.finance-time-panel,
+.finance-card,
+.finance-panel,
+.finance-needs,
+.finance-footer,
+.finance-ranking,
+.finance-rank-block,
+.finance-rank-row,
+.finance-stat,
+.finance-chart,
+.finance-bars,
+.finance-progress-track{
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.finance-header,
+.finance-time-panel,
+.finance-card,
+.finance-panel,
+.finance-needs,
+.finance-footer,
+.finance-rank-block,
+.finance-rank-row,
+.finance-stat,
+.finance-chart,
+.finance-bars,
+.finance-progress-track{
+  border-color:transparent!important;
+}
+
+/* Dynamic values only; align to the blank slots in approved underlay. */
+.finance-heading{
+  left:500px!important;
+  top:55px!important;
+  width:625px!important;
+  height:74px!important;
+}
+.finance-heading-period{
+  margin-top:42px!important;
+  font-size:16px!important;
+  color:#d8bb68!important;
+}
+
+.finance-time-panel{
+  right:8px!important;
+  top:8px!important;
+  width:438px!important;
+  height:128px!important;
+  padding:10px 18px!important;
+  grid-template-columns:190px 1fr!important;
+  grid-template-rows:50px 32px 39px!important;
+}
+.finance-clock{font-size:54px!important}
+.finance-date-g{font-size:14px!important}
+.finance-date-h{font-size:13px!important}
+.finance-next{font-size:14px!important;border-top:0!important;padding-top:6px!important}
+.finance-countdown{font-size:25px!important;border-top:0!important;padding-top:3px!important}
+
+.finance-summary{
+  left:54px!important;
+  right:54px!important;
+  top:205px!important;
+  height:122px!important;
+  gap:20px!important;
+}
+.finance-card{
+  padding:51px 18px 12px!important;
+  overflow:visible!important;
+}
+.finance-card-value{
+  margin-top:0!important;
+  text-align:center!important;
+  font-size:31px!important;
+}
+
+.finance-main{
+  left:54px!important;
+  right:54px!important;
+  top:365px!important;
+  height:313px!important;
+  grid-template-columns:1.62fr .98fr!important;
+}
+.finance-chart{
+  left:20px!important;
+  right:20px!important;
+  top:53px!important;
+  bottom:16px!important;
+  padding:12px 10px 4px!important;
+}
+.finance-bars{
+  height:203px!important;
+}
+.finance-bar{width:22px!important}
+.finance-month{font-size:12px!important}
+
+.finance-ranking{
+  margin-top:50px!important;
+  height:250px!important;
+}
+.finance-rank-block{
+  padding:20px 14px 8px!important;
+}
+.finance-rank-row{
+  min-height:58px!important;
+  grid-template-columns:1fr!important;
+  grid-template-rows:26px 24px!important;
+  padding:3px 6px!important;
+}
+.finance-rank-no{display:none!important}
+.finance-rank-name{
+  grid-column:1!important;
+  font-size:13px!important;
+  padding-left:26px!important;
+}
+.finance-rank-amount{
+  grid-column:1!important;
+  font-size:13px!important;
+  padding-left:26px!important;
+}
+
+.finance-needs{
+  left:54px!important;
+  right:54px!important;
+  top:713px!important;
+  height:124px!important;
+  padding:18px 22px!important;
+  grid-template-columns:1.25fr .75fr .75fr 150px!important;
+}
+.finance-needs-main{
+  margin-top:25px!important;
+  font-size:27px!important;
+}
+.finance-progress-track{
+  margin-top:9px!important;
+  height:12px!important;
+}
+.finance-progress-fill{
+  background:linear-gradient(90deg,#1a8d82,#4bd7b7)!important;
+}
+#financeProgressText{
+  margin-top:3px!important;
+  font-size:11px!important;
+}
+.finance-stat{
+  height:72px!important;
+  padding:27px 17px 8px!important;
+}
+.finance-stat strong{
+  margin-top:0!important;
+  font-size:19px!important;
+}
