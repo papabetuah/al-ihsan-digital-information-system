@@ -28,8 +28,10 @@ for(const id of ["financeClock","financeDateWeekday","financeDateGregorian","fin
   assert(financeBlock.includes(`id="${id}"`),id+" Stage 2A element missing");
 }
 assert(financeBlock.includes("finance-stage2a"),"Stage 2A upper layer missing");
+const upperBlock=financeBlock.match(/<div class="finance-upperlayer[\s\S]*?<\/div>\s*<\/section>/)?.[0]||"";
 for(const id of ["financePosition","financeIncome","financeExpense","financeSurplus"]){
   assert(financeBlock.includes(`id="${id}"`),id+" Stage 2B KPI missing");
+  assert(upperBlock.includes(`id="${id}"`),id+" must be inside finance-upperlayer");
 }
 assert(!/finance(?:TopIncome|TopExpense|Chart|Target|Collected|Remaining|Progress)/.test(financeBlock),
   "Stage 2C+ finance data must remain absent");
@@ -46,6 +48,8 @@ assert(stage2aCss.includes(".finance-date-separator"),"Gregorian/Hijri separator
 assert(stage2aCss.includes("font-size:52px")&&stage2aCss.includes("font-size:58px")&&stage2aCss.includes("font-size:56px"),"Stage 2A reference typography not applied");
 assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-time-box"),"Stage 2A placement missing");
 assert(stage2bCss.includes(".finance-kpi-position")&&stage2bCss.includes(".finance-kpi-surplus"),"Stage 2B KPI placement missing");
+assert(stage2bCss.includes("z-index:4"),"Stage 2B KPI must render above backlayer");
+assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
 for(const key of ["posisi_dana","pemasukan_operasional","pengeluaran_operasional","surplus_defisit"]){
   assert(stage2bJs.includes(key),"Stage 2B missing source key "+key);
 }
