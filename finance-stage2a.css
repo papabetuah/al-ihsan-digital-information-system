@@ -142,7 +142,7 @@
   justify-content:center!important;
   visibility:visible!important;
   opacity:1!important;
-  font-size:45px!important;
+  font-size:48px!important;
   line-height:1!important;
   font-weight:800!important;
   letter-spacing:.2px!important;
@@ -151,9 +151,9 @@
   color:#fff!important;
   text-shadow:0 2px 9px rgba(0,0,0,.60)!important;
 }
-.finance-upperlayer .finance-kpi-position{left:74px!important}
-.finance-upperlayer .finance-kpi-income{left:470px!important}
-.finance-upperlayer .finance-kpi-expense{left:859px!important}
-.finance-upperlayer .finance-kpi-surplus{left:1250px!important}
+.finance-upperlayer .finance-kpi-position{left:86px!important}
+.finance-upperlayer .finance-kpi-income{left:482px!important}
+.finance-upperlayer .finance-kpi-expense{left:871px!important}
+.finance-upperlayer .finance-kpi-surplus{left:1262px!important}
 .finance-upperlayer .finance-kpi-value.negative{color:#ff6069!important}
 .finance-upperlayer .finance-kpi-value.positive{color:#83efc0!important}
