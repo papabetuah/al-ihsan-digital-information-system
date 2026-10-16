@@ -16,6 +16,13 @@ assert(!block.includes("construction-mihrab-room")&&!block.includes("ILUSTRASI K
 assert(!block.includes("PEMBANGUNAN MIHRAB MASJID")&&!block.includes("PLAFOND AREA MIHRAB"),"marked focus detail text must be removed");
 assert(!block.includes("construction-qr-corners")&&!block.includes("<b>QRIS</b>"),"mock QRIS artwork/text must be removed");
 assert(!block.includes("<i></i></div>"),"mock metric value marks must be removed");
+assert(!block.includes('construction-metric progress'),"separate progress KPI card must be removed");
+assert(block.includes('construction-progress-label">Progress:</div>'),"static Progress label missing");
+assert(block.includes("construction-progress-track-static"),"static progress track missing");
+assert(block.includes("construction-progress-percent-slot"),"upper-layer percentage slot missing");
+assert(!block.includes(">0%</"),"backlayer must not contain a hard-coded progress percentage");
+assert(css.includes("grid-template-columns:repeat(3,minmax(0,1fr))"),"construction KPI row must have exactly 3 equal columns");
+
 assert(!block.includes("Rp145")&&!block.includes("144.760")&&!block.includes("69.344"),"Stage 1 must not bake live funding values");
 assert(!block.includes("<script"),"Stage 1 construction scene must not contain live renderer");
 assert(css.includes(".stage.scene-construction .construction-scene{display:block}"),"construction scene visibility rule missing");

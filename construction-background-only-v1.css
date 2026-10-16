@@ -97,3 +97,48 @@
 }
 .construction-qris-placeholder:before,
 .construction-qris-placeholder:after{content:none!important}
+
+/* Stage 1 refinement: 3 KPI columns + dedicated progress row. */
+.construction-metric-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:102px;
+  width:100%;
+}
+.construction-metric{
+  width:100%;
+}
+.construction-progress-shell{
+  position:absolute;
+  left:28px;
+  right:28px;
+  bottom:24px;
+  height:48px;
+  display:grid;
+  grid-template-columns:140px minmax(0,1fr) 72px;
+  gap:10px;
+  align-items:center;
+}
+.construction-progress-label{
+  font-size:26px;
+  font-weight:700;
+  color:#e5eef2;
+  text-align:left;
+  padding-left:10px;
+}
+.construction-progress-track-static{
+  height:34px;
+  border-radius:18px;
+  border:2px solid rgba(93,218,238,.55);
+  background:
+    linear-gradient(180deg,rgba(183,214,223,.78),rgba(126,166,180,.72));
+  box-shadow:
+    inset 0 0 0 4px rgba(3,48,66,.18),
+    0 0 10px rgba(61,207,229,.14);
+}
+.construction-progress-percent-slot{
+  height:34px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.08);
+  background:transparent;
+}
