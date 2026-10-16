@@ -19,3 +19,5 @@ jobs:
         run: node tests/pre-azan-regression.mjs
       - name: Verify finance dashboard integration
         run: node tests/finance-regression.mjs
+      - name: Verify construction backlayer preview
+        run: node tests/construction-regression.mjs

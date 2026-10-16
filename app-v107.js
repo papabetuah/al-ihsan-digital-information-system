@@ -2,7 +2,7 @@
 const C=window.AL_IHSAN_CONFIG,P=window.AL_IHSAN_PRAYER,M=C.prayerMethod,CAL=window.AL_IHSAN_CALENDAR,PRE=window.AL_IHSAN_PRE_AZAN;
 const $=id=>document.getElementById(id);
 const E={
-  stage:$("stage"),donation:$("donationScene"),donationUnderlay:$("donationUnderlay"),finance:$("financeScene"),
+  stage:$("stage"),donation:$("donationScene"),donationUnderlay:$("donationUnderlay"),finance:$("financeScene"),construction:$("constructionScene"),
   announcement:$("announcementScene"),announcementUnderlay:$("announcementUnderlay"),announcementMain:$("announcementMainCard"),
   annPriority:$("announcementPriority"),annTitle:$("announcementTitle"),annBody:$("announcementBody"),
   annTime:$("announcementTime"),annLocation:$("announcementLocation"),annImage:$("announcementImage"),
@@ -819,17 +819,19 @@ function scheduleCmsRefresh(){
 }
 
 function setScene(scene){
-  const allowed=["dashboard","donation","announcement","finance","prayer","zikir"];
+  const allowed=["dashboard","donation","announcement","finance","construction","prayer","zikir"];
   currentScene=allowed.includes(scene)?scene:"dashboard";
   E.stage.classList.toggle("scene-dashboard",currentScene==="dashboard");
   E.stage.classList.toggle("scene-donation",currentScene==="donation");
   E.stage.classList.toggle("scene-announcement",currentScene==="announcement");
   E.stage.classList.toggle("scene-finance",currentScene==="finance");
+  E.stage.classList.toggle("scene-construction",currentScene==="construction");
   E.stage.classList.toggle("scene-prayer",currentScene==="prayer");
   E.stage.classList.toggle("scene-zikir",currentScene==="zikir");
   if(E.donation)E.donation.setAttribute("aria-hidden",currentScene==="donation"?"false":"true");
   if(E.announcement)E.announcement.setAttribute("aria-hidden",currentScene==="announcement"?"false":"true");
   if(E.finance)E.finance.setAttribute("aria-hidden",currentScene==="finance"?"false":"true");
+  if(E.construction)E.construction.setAttribute("aria-hidden",currentScene==="construction"?"false":"true");
   if(E.prayerScene)E.prayerScene.setAttribute("aria-hidden",currentScene==="prayer"?"false":"true");
   if(E.zikirScene)E.zikirScene.setAttribute("aria-hidden",currentScene==="zikir"?"false":"true");
   if(currentScene==="announcement"){renderAnnouncement();renderAgenda();renderWisdom();scheduleAnnouncementRotation()}
@@ -849,7 +851,7 @@ function scheduleSceneRotation(){
   if(prayerModeActive||currentScene==="prayer"||currentScene==="zikir")return;
   const params=new URLSearchParams(location.search);
   const forced=params.get("scene");
-  if(["dashboard","donation","announcement","finance","zikir"].includes(forced)){setScene(forced);return}
+  if(["dashboard","donation","announcement","finance","construction","zikir"].includes(forced)){setScene(forced);return}
   const seq=Array.isArray(C.rotation?.sequence)&&C.rotation.sequence.length?C.rotation.sequence:["dashboard","donation"];
   sceneTimerId=setTimeout(()=>{
     const idx=Math.max(0,seq.indexOf(currentScene));
@@ -986,7 +988,7 @@ function scheduleNextTick(){
 function init(){
   fit();loadDonationUnderlay();loadAnnouncementUnderlay();
   const params=new URLSearchParams(location.search),forced=params.get("scene");
-  setScene(["dashboard","donation","announcement","finance","prayer","zikir"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
+  setScene(["dashboard","donation","announcement","finance","construction","prayer","zikir"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
   render();renderAnnouncement();renderAgenda();renderWisdom();
   scheduleNextTick();recoverPrayerSchedule("startup");recoverPreAzanSchedule("startup");scheduleSceneRotation();
   Promise.allSettled([loadCms(),loadPrayerConfig()]).finally(()=>{
