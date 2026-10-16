@@ -157,3 +157,103 @@
 .finance-upperlayer .finance-kpi-surplus{left:1262px!important}
 .finance-upperlayer .finance-kpi-value.negative{color:#ff6069!important}
 .finance-upperlayer .finance-kpi-value.positive{color:#83efc0!important}
+
+
+/* Finance Stage 2C — six-month chart, upper layer only */
+.finance-stage2cd{
+  position:absolute;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  user-select:none;
+}
+.finance-chart-live{
+  position:absolute;
+  left:520px;
+  top:495px;
+  width:635px;
+  height:178px;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  column-gap:8px;
+  align-items:end;
+}
+.finance-chart-group{
+  height:178px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+}
+.finance-chart-bars{
+  width:100%;
+  height:145px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:7px;
+}
+.finance-chart-bar{
+  width:22px;
+  min-height:3px;
+  border-radius:5px 5px 1px 1px;
+  box-shadow:0 0 12px rgba(0,0,0,.22);
+}
+.finance-chart-bar.income{
+  background:linear-gradient(180deg,#36f0a2 0%,#08bd79 100%);
+  box-shadow:0 0 10px rgba(21,227,147,.30);
+}
+.finance-chart-bar.expense{
+  background:linear-gradient(180deg,#ff5964 0%,#e32f3e 100%);
+  box-shadow:0 0 10px rgba(255,63,76,.28);
+}
+.finance-chart-month{
+  height:26px;
+  padding-top:7px;
+  font-size:14px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.4px;
+  color:#d8e5e6;
+  text-shadow:0 2px 5px rgba(0,0,0,.65);
+}
+
+/* Finance Stage 2D — top income / expense ranking */
+.finance-ranking-live{
+  position:absolute;
+  top:516px;
+  width:300px;
+  height:156px;
+  display:grid;
+  grid-template-rows:repeat(3,52px);
+}
+.finance-ranking-income{left:130px}
+.finance-ranking-expense{left:1274px}
+.finance-ranking-row{
+  min-width:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  align-items:center;
+  padding:0 4px 0 0;
+  font-size:15px;
+  line-height:1.15;
+  color:#f6f8f8;
+  text-shadow:0 2px 5px rgba(0,0,0,.65);
+}
+.finance-ranking-row span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-weight:700;
+}
+.finance-ranking-row strong{
+  white-space:nowrap;
+  font-size:16px;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+}
+.finance-ranking-income .finance-ranking-row strong{color:#70f0b8}
+.finance-ranking-expense .finance-ranking-row strong{color:#ff7b82}
+.finance-ranking-row.is-empty{visibility:hidden}
