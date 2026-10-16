@@ -8,10 +8,18 @@ const app=fs.readFileSync("app-v107.js","utf8");
 const css=fs.readFileSync("finance-background-only-v117.css","utf8");
 const stage2aCss=fs.readFileSync("finance-stage2a.css","utf8");
 const stage2aJs=fs.readFileSync("finance-stage2a.js","utf8");
+const publicReport=fs.readFileSync("laporan-keuangan/index.html","utf8");
+const publicRedirect=fs.readFileSync("r/index.html","utf8");
+const publicTransactions=JSON.parse(fs.readFileSync("data/finance-public-transactions.json","utf8"));
+const financeSummary=JSON.parse(fs.readFileSync("data/finance-summary.json","utf8"));
 
 
 assert(index.includes('id="financeScene"'),"financeScene missing");
 assert(index.includes("finance-background-approved-master.png"),"approved master PNG missing from financeScene");
+assert(publicReport.includes("Laporan Keuangan Masjid Al Ihsan"),"public finance report page missing");
+assert(publicRedirect.includes("../laporan-keuangan/"),"short QR redirect must target public finance report");
+assert(financeSummary.report_url==="https://papabetuah.github.io/al-ihsan-digital-information-system/laporan-keuangan/","public finance report URL missing from summary");
+assert(publicTransactions.period===financeSummary.period&&publicTransactions.transactions.length>0,"public transaction snapshot missing");
 assert(!index.includes("finance-background-approved-v117.webp"),"old compressed finance WebP must not be used");
 assert(!index.includes("./finance-v111.js"),"legacy finance data renderer must stay disabled");
 assert(!index.includes("./finance-v115.js"),"legacy finance cleanup loader must stay disabled");

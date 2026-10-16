@@ -1,0 +1,82 @@
+name: One-time install scannable finance QR
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-finance-public-qr-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  install-qr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install QR dependencies
+        run: python -m pip install --disable-pip-version-check pillow qrcode opencv-python-headless numpy
+
+      - name: Replace decorative QR with real QR
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import qrcode
+          import cv2
+          import numpy as np
+
+          target = "https://papabetuah.github.io/al-ihsan-digital-information-system/r/"
+          path = Path("assets/finance-background-approved-master.png")
+          base = Image.open(path).convert("RGB")
+          if base.size != (1672, 941):
+              raise SystemExit(f"Unexpected finance backlayer size: {base.size}")
+
+          qr = qrcode.QRCode(
+              version=None,
+              error_correction=qrcode.constants.ERROR_CORRECT_M,
+              box_size=2,
+              border=4,
+          )
+          qr.add_data(target)
+          qr.make(fit=True)
+          code = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+
+          panel = Image.new("RGB", (104, 104), "white")
+          panel.paste(code, ((104-code.width)//2, (104-code.height)//2))
+          base.paste(panel, (1335, 729))
+          base.save(path, optimize=True)
+
+          detector = cv2.QRCodeDetector()
+          frame = cv2.cvtColor(np.array(base), cv2.COLOR_RGB2BGR)
+          decoded, points, _ = detector.detectAndDecode(frame)
+          if decoded != target or points is None:
+              raise SystemExit(f"QR verification failed: {decoded!r}")
+          print("Finance public QR scan verification: OK ->", decoded)
+
+          idx = Path("index.html")
+          text = idx.read_text()
+          old = "finance-background-approved-master.png?v=approved-master-nopercent-20261016"
+          new = "finance-background-approved-master.png?v=approved-master-publicqr-20261016"
+          if old not in text:
+              raise SystemExit("Expected finance backlayer cache marker not found")
+          idx.write_text(text.replace(old, new))
+          PY
+
+      - name: Commit verified QR backlayer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm ".github/workflows/install-finance-public-qr-once.yml"
+          git add assets/finance-background-approved-master.png index.html
+          git commit -m "Install verified public finance QR in approved backlayer"
+          git push

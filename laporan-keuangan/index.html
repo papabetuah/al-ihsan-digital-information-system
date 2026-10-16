@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#061c2c">
+<title>Laporan Keuangan Publik — Masjid Al Ihsan Kapuih</title>
+<style>
+:root{color-scheme:dark;--bg:#061522;--panel:#0a2638;--line:#23506a;--text:#f7f4e8;--muted:#a9c0cf;--gold:#e8c46e;--green:#42e3a0;--red:#ff6570;--cyan:#55d9ff}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#061522,#082033 58%,#061522);color:var(--text)}
+main{max-width:1100px;margin:auto;padding:28px 18px 54px}
+header{padding:22px 0 16px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.eyebrow{color:var(--gold);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.08;margin:.35rem 0}
+.subtitle{color:var(--muted);margin:0}.meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card,.section{background:rgba(10,38,56,.92);border:1px solid var(--line);border-radius:16px}
+.card{padding:17px}.label{color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}.value{font-size:clamp(1.3rem,3vw,2rem);font-weight:900;margin-top:5px;font-variant-numeric:tabular-nums}
+.positive{color:var(--green)}.negative{color:var(--red)}.cyan{color:var(--cyan)}
+.section{padding:18px;margin-top:15px}.section h2{margin:0 0 13px;font-size:1.12rem}
+.need-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.need{padding:12px;border:1px solid rgba(255,255,255,.09);border-radius:12px}.need b{display:block;font-size:1.22rem;margin-top:4px}
+.track{height:14px;background:#123a52;border-radius:99px;overflow:hidden;margin:16px 0 5px}.fill{height:100%;background:linear-gradient(90deg,#20c788,#55e6ae);border-radius:99px}.progress-row{display:flex;justify-content:space-between;color:var(--muted)}
+.tables{display:grid;grid-template-columns:1fr 1fr;gap:15px}.table-wrap{overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+table{border-collapse:collapse;width:100%;min-width:520px;background:rgba(2,18,29,.42)}th,td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}th{color:var(--gold);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.history{min-width:100%}.note{color:var(--muted);font-size:.9rem}.status{padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);margin-top:12px}
+footer{color:var(--muted);text-align:center;margin-top:26px;font-size:.88rem}
+@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.tables{grid-template-columns:1fr}.need-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.value{font-size:1.65rem}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="eyebrow">Transparansi Jamaah</div>
+<h1>Laporan Keuangan Masjid Al Ihsan</h1>
+<p class="subtitle">Ringkasan publik keuangan operasional Masjid Al Ihsan Kapuih.</p>
+<div class="meta"><span id="periodMeta">Periode —</span><span id="updateMeta">Pembaruan —</span></div>
+</header>
+
+<section class="grid" aria-label="Ringkasan keuangan">
+<div class="card"><div class="label">Posisi Dana Saat Ini</div><div id="position" class="value">—</div></div>
+<div class="card"><div class="label">Pemasukan Bulan Ini</div><div id="income" class="value positive">—</div></div>
+<div class="card"><div class="label">Pengeluaran Bulan Ini</div><div id="expense" class="value negative">—</div></div>
+<div class="card"><div class="label">Surplus / Defisit</div><div id="surplus" class="value">—</div></div>
+</section>
+
+<section class="section">
+<h2>Kebutuhan Operasional Bulan Ini</h2>
+<div class="need-grid">
+<div class="need"><span class="label">Masih Dibutuhkan</span><b id="remaining" class="negative">—</b></div>
+<div class="need"><span class="label">Target Kebutuhan</span><b id="target" class="cyan">—</b></div>
+<div class="need"><span class="label">Terkumpul</span><b id="collected" class="positive">—</b></div>
+</div>
+<div class="track"><div id="progressFill" class="fill" style="width:0%"></div></div>
+<div class="progress-row"><span>Progress pemenuhan kebutuhan operasional</span><strong id="progressText">0%</strong></div>
+</section>
+
+<section class="section">
+<h2>Rekap 6 Bulan Terakhir</h2>
+<div class="table-wrap">
+<table class="history"><thead><tr><th>Periode</th><th class="num">Pemasukan</th><th class="num">Pengeluaran</th><th class="num">Selisih</th></tr></thead><tbody id="historyBody"></tbody></table>
+</div>
+</section>
+
+<section class="section">
+<h2>Transaksi Periode Aktif</h2>
+<p class="note">Tampilan publik hanya memuat informasi transaksi yang diperlukan untuk transparansi jamaah. Dokumen administrasi pengurus tetap privat.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Tanggal</th><th>Uraian</th><th>Kategori</th><th class="num">Masuk</th><th class="num">Keluar</th></tr></thead><tbody id="transactionBody"></tbody></table>
+</div>
+</section>
+
+<section class="section">
+<h2>Catatan</h2>
+<p class="note">Posisi dana dapat mencakup saldo awal dan penyesuaian antarprogram. Pemasukan dan pengeluaran operasional mengikuti pencatatan Kas Umum pada sistem keuangan Masjid Al Ihsan.</p>
+<div id="loadStatus" class="status">Memuat laporan…</div>
+</section>
+<footer>Masjid Al Ihsan Kapuih · Bersama Jamaah, Memakmurkan Masjid, Menebar Manfaat untuk Umat</footer>
+</main>
+<script>
+const rupiah=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0).replace("Rp","Rp ");
+const month=p=>{const m=String(p||"").match(/^(\d{4})-(\d{2})$/);if(!m)return p||"—";return new Intl.DateTimeFormat("id-ID",{month:"long",year:"numeric"}).format(new Date(Date.UTC(+m[1],+m[2]-1,2)))};
+const signed=(el,n)=>{el.textContent=rupiah(n);el.classList.toggle("negative",Number(n)<0);el.classList.toggle("positive",Number(n)>0)};
+(async()=>{
+ try{
+  const stamp=Date.now();
+  const [summary,detail]=await Promise.all([
+   fetch("../data/finance-summary.json?_"+stamp,{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("summary");return r.json()}),
+   fetch("../data/finance-public-transactions.json?_"+stamp,{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("transactions");return r.json()})
+  ]);
+  periodMeta.textContent="Periode "+month(summary.period);
+  updateMeta.textContent="Pembaruan "+(summary.last_update||detail.last_update||"—");
+  signed(position,summary.position); signed(income,summary.income); signed(expense,summary.expense); signed(surplus,summary.surplus);
+  remaining.textContent=rupiah(summary.remaining); target.textContent=rupiah(summary.target); collected.textContent=rupiah(summary.collected);
+  const pct=Math.max(0,Math.min(100,Number(summary.progress||0)*100)); progressFill.style.width=pct.toFixed(2)+"%"; progressText.textContent=Math.round(pct)+"%";
+  historyBody.replaceChildren(...(summary.history||[]).map(r=>{const tr=document.createElement("tr");[month(r.period),rupiah(r.income),rupiah(r.expense),rupiah(Number(r.income)-Number(r.expense))].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i)td.className="num";tr.appendChild(td)});return tr}));
+  transactionBody.replaceChildren(...(detail.transactions||[]).map(r=>{const tr=document.createElement("tr");[r.tanggal||"—",r.uraian||"—",r.kategori||"—",r.masuk?rupiah(r.masuk):"—",r.keluar?rupiah(r.keluar):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i>=3)td.className="num";tr.appendChild(td)});return tr}));
+  loadStatus.textContent="Laporan publik berhasil dimuat. Sumber administrasi pengurus tidak dibuka untuk akses publik.";
+ }catch(e){loadStatus.textContent="Laporan belum dapat dimuat. Silakan coba muat ulang halaman beberapa saat lagi."}
+})();
+</script>
+</body>
+</html>

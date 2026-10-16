@@ -1,0 +1,106 @@
+{
+  "period": "2026-10",
+  "last_update": "16/10/2026 17:24:08",
+  "transactions": [
+    {
+      "id": "1",
+      "tanggal": "",
+      "uraian": "Sisa Kas Bulan September",
+      "jenis": "Saldo Awal",
+      "kas": "Kas Umum",
+      "kategori": "Saldo Awal",
+      "masuk": -14182347,
+      "keluar": 0
+    },
+    {
+      "id": "2",
+      "tanggal": "",
+      "uraian": "Jum'at Berkah",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Jumat Berkah",
+      "masuk": 0,
+      "keluar": 331000
+    },
+    {
+      "id": "3",
+      "tanggal": "",
+      "uraian": "Khatib Jum'at",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Khatib",
+      "masuk": 0,
+      "keluar": 250000
+    },
+    {
+      "id": "4",
+      "tanggal": "",
+      "uraian": "Infaq Jum'at",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Infaq Jumat",
+      "masuk": 113500,
+      "keluar": 0
+    },
+    {
+      "id": "5",
+      "tanggal": "",
+      "uraian": "Khatib Jum'at",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Khatib",
+      "masuk": 0,
+      "keluar": 250000
+    },
+    {
+      "id": "6",
+      "tanggal": "",
+      "uraian": "Jum'at Berkah",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Jumat Berkah",
+      "masuk": 0,
+      "keluar": 400000
+    },
+    {
+      "id": "7",
+      "tanggal": "",
+      "uraian": "Infaq Jum'at",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Infaq Jumat",
+      "masuk": 121000,
+      "keluar": 0
+    },
+    {
+      "id": "8",
+      "tanggal": "",
+      "uraian": "Honor Imam",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Honor Imam/Petugas",
+      "masuk": 0,
+      "keluar": 1750000
+    },
+    {
+      "id": "9",
+      "tanggal": "",
+      "uraian": "Honor TPA",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Honor TPA",
+      "masuk": 0,
+      "keluar": 1000000
+    },
+    {
+      "id": "10",
+      "tanggal": "2026-10-11",
+      "uraian": "Kotak Amal",
+      "jenis": "Operasional",
+      "kas": "Kas Umum",
+      "kategori": "Kotak Amal",
+      "masuk": 1064500,
+      "keluar": 0
+    }
+  ]
+}
