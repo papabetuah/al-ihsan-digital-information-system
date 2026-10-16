@@ -1,0 +1,33 @@
+/* Finance Stage 2B — four KPI values only */
+.finance-kpi-values{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+  font-family:"Segoe UI",Arial,sans-serif;
+}
+.finance-kpi-value{
+  position:absolute;
+  top:347px;
+  width:290px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.2px;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  color:#ffffff;
+  text-shadow:0 2px 9px rgba(0,0,0,.60);
+}
+.finance-kpi-position{left:95px}
+.finance-kpi-income{left:486px}
+.finance-kpi-expense{left:873px}
+.finance-kpi-surplus{left:1263px}
+
+.finance-kpi-value.negative{color:#ff6069}
+.finance-kpi-value.positive{color:#83efc0}
