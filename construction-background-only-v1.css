@@ -63,3 +63,37 @@
 .construction-progress-card .construction-section-title{font-size:15px;margin:0 0 5px}.construction-progress-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.construction-progress-grid>div{height:34px;border-radius:7px;background:rgba(232,240,242,.93);color:#13384a;display:grid;grid-template-columns:26px 1fr 46px;align-items:center;padding:0 8px;font-size:10px}.construction-progress-grid span{font-size:17px}.construction-progress-grid i{height:10px;border-radius:4px;background:#ccd7da}
 .construction-donation-card{position:absolute;right:18px;top:558px;width:245px;height:366px;border:2px solid #d9b04e;border-radius:23px;background:linear-gradient(#f4d681,#f4e7be);color:#0b3040;padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
 .construction-donation-title{font-size:25px;font-weight:900}.construction-donation-sub{font-size:13px;font-weight:700;margin-top:3px}.construction-bank-placeholder{margin-top:18px;border-radius:12px;background:#fff;padding:13px}.construction-bank-placeholder span{display:block;height:16px;border-radius:5px;background:#d8e0e2;margin-bottom:9px}.construction-qris-placeholder{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:132px;height:150px;background:#fff;border-radius:13px;border:1px solid #d3c392;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px}.construction-qris-placeholder b{font-size:14px}.construction-qr-corners{position:absolute;left:20px;top:16px;width:92px;height:92px;background:#eef1f1}.construction-qr-corners i{position:absolute;width:22px;height:22px;border:5px solid #65777d}.construction-qr-corners i:nth-child(1){left:7px;top:7px}.construction-qr-corners i:nth-child(2){right:7px;top:7px}.construction-qr-corners i:nth-child(3){left:7px;bottom:7px}
+
+/* Stage 1 cleanup: marked content removed; empty slots only. */
+.construction-mihrab-empty{
+  background:
+    radial-gradient(circle at 52% 44%,rgba(23,126,151,.16),transparent 42%),
+    linear-gradient(145deg,rgba(4,48,72,.96),rgba(2,30,49,.98));
+}
+.construction-mihrab-empty:before{
+  content:"";
+  position:absolute;inset:28px;
+  border:1px solid rgba(226,188,95,.18);
+  border-radius:28px;
+  background:
+    linear-gradient(45deg,transparent 49%,rgba(255,255,255,.025) 50%,transparent 51%),
+    linear-gradient(-45deg,transparent 49%,rgba(255,255,255,.025) 50%,transparent 51%);
+  background-size:42px 42px;
+}
+.construction-focus-card{padding-top:78px}
+.construction-metric-grid{margin-top:102px}
+.construction-metric i{display:none!important}
+.construction-bank-official{
+  margin-top:18px;border-radius:12px;background:rgba(255,255,255,.96);
+  padding:14px 15px;color:#0b3040;border:1px solid rgba(11,48,64,.10);
+}
+.construction-bank-label{font-size:12px;font-weight:800;letter-spacing:.5px}
+.construction-bank-name{margin-top:4px;font-size:16px;font-weight:900;color:#b68016}
+.construction-bank-number{margin-top:3px;font-size:20px;font-weight:900;letter-spacing:.4px}
+.construction-bank-owner{margin-top:2px;font-size:12px;font-weight:700}
+.construction-qris-placeholder{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.30);
+}
+.construction-qris-placeholder:before,
+.construction-qris-placeholder:after{content:none!important}
