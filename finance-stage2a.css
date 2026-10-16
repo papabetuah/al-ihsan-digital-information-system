@@ -21,7 +21,7 @@
 }
 .finance-next-prayer{
   position:absolute;
-  left:5px;
+  left:10px;
   top:0;
   width:230px;
   font-size:43px;
@@ -36,7 +36,7 @@
 }
 .finance-countdown-live{
   position:absolute;
-  left:14px;
+  left:6px;
   top:62px;
   width:234px;
   font-size:46px;
@@ -63,7 +63,7 @@
   left:-3px;
   top:-10px;
   width:224px;
-  font-size:70px;
+  font-size:80px;
   line-height:1;
   font-weight:800;
   letter-spacing:.1px;
@@ -317,7 +317,7 @@
 .finance-progress-track{
   position:absolute;
   left:581px;
-  top:804.5px;
+  top:804.3px;
   width:558px;
   height:21px;
   overflow:hidden;
