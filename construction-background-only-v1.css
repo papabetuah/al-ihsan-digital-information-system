@@ -1,177 +1,24 @@
 .construction-scene{
-  position:absolute;inset:0;width:100%;height:100%;display:none;overflow:hidden;z-index:37;
-  font-family:Arial,Helvetica,sans-serif;color:#f8fbfd
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:none;
+  overflow:hidden;
+  z-index:37;
 }
 .stage.scene-construction .construction-scene{display:block}
 .stage.scene-construction>.master-underlay,
 .stage.scene-construction>.live,
 .stage.scene-construction>.status-dot{display:none!important}
-.construction-backlayer{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 76% 42%,rgba(19,151,158,.24),transparent 38%),
-    linear-gradient(135deg,#031b2b 0%,#07364a 47%,#062337 100%);
-  overflow:hidden
-}
-.construction-backlayer:before{
-  content:"";position:absolute;inset:0;opacity:.10;
-  background-image:
-    linear-gradient(30deg,transparent 24%,rgba(255,255,255,.14) 25%,rgba(255,255,255,.14) 26%,transparent 27%,transparent 74%,rgba(255,255,255,.14) 75%,rgba(255,255,255,.14) 76%,transparent 77%),
-    linear-gradient(150deg,transparent 24%,rgba(255,255,255,.08) 25%,rgba(255,255,255,.08) 26%,transparent 27%,transparent 74%,rgba(255,255,255,.08) 75%,rgba(255,255,255,.08) 76%,transparent 77%);
-  background-size:46px 80px
-}
-.construction-ornament{position:absolute;width:210px;height:210px;border:2px solid rgba(220,178,76,.22);transform:rotate(45deg);border-radius:32px}
-.construction-ornament-a{left:-120px;top:-120px}.construction-ornament-b{right:-120px;bottom:-120px}
-.construction-header{
-  position:absolute;left:0;top:0;width:100%;height:132px;display:flex;align-items:center;
-  background:linear-gradient(90deg,rgba(4,26,42,.96),rgba(7,55,76,.94));
-  border-bottom:2px solid #d9b04e;box-shadow:0 8px 24px rgba(0,0,0,.34);z-index:2
-}
-.construction-brand{width:360px;height:100%;display:flex;align-items:center;padding-left:54px;gap:16px}
-.construction-brand img{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.45))}
-.construction-brand-small{font-size:20px;letter-spacing:4px}.construction-brand-name{font-family:Georgia,serif;font-size:34px;font-weight:900;color:#f3d486;line-height:1}.construction-brand-place{font-size:15px;letter-spacing:5px;margin-top:5px}
-.construction-title-wrap{width:785px;text-align:center}
-.construction-title{font-weight:900;font-size:54px;letter-spacing:1px;text-shadow:0 4px 12px rgba(0,0,0,.45)}
-.construction-title span{color:#f2cf75}.construction-tagline{font-size:18px;letter-spacing:2px;margin-top:2px;color:#dce9ef;text-transform:uppercase}
-.construction-live-shell{position:absolute;right:28px;top:16px;width:430px;height:96px;border:1px solid rgba(85,214,245,.55);border-radius:20px;background:rgba(4,35,54,.66);display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
-.construction-live-slot{border-radius:9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}.construction-live-slot.wide{grid-column:1/3;height:27px}
-.construction-mihrab-visual{position:absolute;left:18px;top:148px;width:610px;height:520px;border:2px solid #e4bc5f;border-radius:32px;overflow:hidden;background:#d8c2a0;box-shadow:0 12px 34px rgba(0,0,0,.42)}
-.construction-mihrab-room{position:absolute;inset:0;background:linear-gradient(90deg,#f7f0e7 0 8%,#d6b989 8% 13%,#efe3d2 13% 87%,#d6b989 87% 92%,#f7f0e7 92%);overflow:hidden}
-.construction-ceiling{position:absolute;top:0;left:0;right:0;height:86px;background:linear-gradient(#e7d6bd,#f8f1e8);box-shadow:inset 0 -18px 24px rgba(216,167,78,.22)}
-.construction-ceiling span{position:absolute;top:25px;width:18px;height:18px;border-radius:50%;background:#fff6da;box-shadow:0 0 20px #ffd676}.construction-ceiling span:nth-child(1){left:125px}.construction-ceiling span:nth-child(2){left:296px}.construction-ceiling span:nth-child(3){right:125px}
-.construction-pillar{position:absolute;top:70px;bottom:0;width:54px;background:linear-gradient(90deg,#c0a175,#f0ddc1,#b99563);box-shadow:inset 0 0 0 2px rgba(113,76,37,.12)}.construction-pillar.left{left:66px}.construction-pillar.right{right:66px}
-.construction-shelf{position:absolute;top:185px;width:86px;height:245px;background:#81593c;border:8px solid #b88b5b;display:flex;flex-direction:column;justify-content:space-around;padding:10px}.construction-shelf.left{left:126px}.construction-shelf.right{right:126px}.construction-shelf i{height:12px;background:linear-gradient(90deg,#4a2e1c 0 18%,#b99a52 18% 27%,#55331b 27% 46%,#89702f 46% 58%,#4b2e1c 58%);border-radius:2px}
-.construction-arch{position:absolute;left:50%;transform:translateX(-50%);bottom:42px;border-radius:48% 48% 8px 8px;background:#d7b36f;box-shadow:0 0 22px rgba(236,187,75,.48)}
-.construction-arch.outer{width:330px;height:390px;padding:17px;background:linear-gradient(90deg,#d8b86f,#f2d58e,#c89d51)}
-.construction-arch.middle{position:relative;width:100%;height:100%;padding:19px;background:#f2eadf;border:4px solid #e3c273}
-.construction-arch.inner{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#fffdf4,#eadcc6);border:4px solid #dcb85b}
-.construction-calligraphy{font-family:Georgia,serif;font-size:66px;font-weight:900;color:#785a20;text-shadow:0 2px 6px rgba(0,0,0,.18)}
-.construction-carpet{position:absolute;left:0;right:0;bottom:0;height:56px;background:repeating-linear-gradient(0deg,#8f1017 0 14px,#b6282d 14px 18px,#8f1017 18px 32px)}
-.construction-visual-caption{position:absolute;left:20px;bottom:18px;background:rgba(3,28,44,.88);border-left:4px solid #e6bd5d;border-radius:8px;padding:10px 16px;font-weight:800;letter-spacing:1px}
-.construction-focus-card{position:absolute;left:648px;top:148px;width:1002px;height:392px;border:2px solid #d9b04e;border-radius:32px;background:linear-gradient(135deg,rgba(7,54,67,.96),rgba(4,33,50,.96));padding:62px 28px 22px;box-shadow:0 12px 34px rgba(0,0,0,.36)}
-.construction-focus-chip{position:absolute;left:28px;top:18px;padding:10px 54px;background:linear-gradient(90deg,#f0c85e,#d9a947);color:#06293a;font-weight:900;font-size:22px;border-radius:7px 24px 24px 7px}
-.construction-focus-card h1{margin:0;font-family:Georgia,serif;font-size:40px;letter-spacing:.5px}.construction-focus-card h2{margin:3px 0 0;font-size:29px;color:#f1c965}.construction-focus-card h2 span{color:#eef7fa}.construction-focus-card p{font-size:18px;max-width:760px;color:#c9dce5;margin:10px 0 18px}
-.construction-metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.construction-metric{height:112px;border:1px solid rgba(255,255,255,.18);border-radius:15px;background:rgba(255,255,255,.06);padding:14px 15px;position:relative}.construction-metric span{font-size:33px;display:inline-block;margin-right:8px;color:#f0c95f}.construction-metric b{font-size:16px}.construction-metric i{position:absolute;left:16px;right:16px;bottom:16px;height:32px;border-radius:8px;background:rgba(255,255,255,.09)}
-.construction-plan-card{position:absolute;left:648px;top:558px;width:745px;height:285px;border:1px solid rgba(75,229,220,.55);border-radius:20px;background:rgba(3,36,48,.94);padding:15px}
-.construction-section-title{font-weight:900;font-size:21px;letter-spacing:.4px;color:#f2f5f6;margin-bottom:10px}
-.construction-table-head,.construction-table-row{display:grid;grid-template-columns:48px 1fr 82px 70px 128px 116px;gap:7px;align-items:center}
-.construction-table-head span{height:30px;display:flex;align-items:center;justify-content:center;background:#dfe7e9;color:#163748;font-size:12px;font-weight:900;border-radius:7px}
-.construction-table-row{height:40px}.construction-table-row span{height:28px;border-radius:7px;background:rgba(222,235,239,.13)}.construction-table-row span:first-child{display:flex;align-items:center;justify-content:center;background:#dbe4e6;color:#163748;font-weight:900}
-.construction-agenda-card{position:absolute;left:18px;top:684px;width:525px;height:240px;border:1px solid #d9b04e;border-radius:20px;background:rgba(3,29,45,.94);padding:14px 16px}
-.construction-agenda-row{height:21px;display:grid;grid-template-columns:28px 1fr 70px;gap:8px;align-items:center}.construction-agenda-row b{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e3bb5c;color:#0b3040;font-size:12px}.construction-agenda-row span,.construction-agenda-row i{height:12px;border-radius:5px;background:rgba(220,235,239,.22)}
-.construction-progress-card{position:absolute;left:560px;top:858px;width:833px;height:66px;border:1px solid rgba(75,229,220,.45);border-radius:18px;background:rgba(3,35,48,.95);padding:8px 15px}
-.construction-progress-card .construction-section-title{font-size:15px;margin:0 0 5px}.construction-progress-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.construction-progress-grid>div{height:34px;border-radius:7px;background:rgba(232,240,242,.93);color:#13384a;display:grid;grid-template-columns:26px 1fr 46px;align-items:center;padding:0 8px;font-size:10px}.construction-progress-grid span{font-size:17px}.construction-progress-grid i{height:10px;border-radius:4px;background:#ccd7da}
-.construction-donation-card{position:absolute;right:18px;top:558px;width:245px;height:366px;border:2px solid #d9b04e;border-radius:23px;background:linear-gradient(#f4d681,#f4e7be);color:#0b3040;padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
-.construction-donation-title{font-size:25px;font-weight:900}.construction-donation-sub{font-size:13px;font-weight:700;margin-top:3px}.construction-bank-placeholder{margin-top:18px;border-radius:12px;background:#fff;padding:13px}.construction-bank-placeholder span{display:block;height:16px;border-radius:5px;background:#d8e0e2;margin-bottom:9px}.construction-qris-placeholder{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:132px;height:150px;background:#fff;border-radius:13px;border:1px solid #d3c392;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px}.construction-qris-placeholder b{font-size:14px}.construction-qr-corners{position:absolute;left:20px;top:16px;width:92px;height:92px;background:#eef1f1}.construction-qr-corners i{position:absolute;width:22px;height:22px;border:5px solid #65777d}.construction-qr-corners i:nth-child(1){left:7px;top:7px}.construction-qr-corners i:nth-child(2){right:7px;top:7px}.construction-qr-corners i:nth-child(3){left:7px;bottom:7px}
-
-/* Stage 1 cleanup: marked content removed; empty slots only. */
-.construction-mihrab-empty{
-  background:
-    radial-gradient(circle at 52% 44%,rgba(23,126,151,.16),transparent 42%),
-    linear-gradient(145deg,rgba(4,48,72,.96),rgba(2,30,49,.98));
-}
-.construction-mihrab-empty:before{
-  content:"";
-  position:absolute;inset:28px;
-  border:1px solid rgba(226,188,95,.18);
-  border-radius:28px;
-  background:
-    linear-gradient(45deg,transparent 49%,rgba(255,255,255,.025) 50%,transparent 51%),
-    linear-gradient(-45deg,transparent 49%,rgba(255,255,255,.025) 50%,transparent 51%);
-  background-size:42px 42px;
-}
-.construction-focus-card{padding-top:78px}
-.construction-metric-grid{margin-top:102px}
-.construction-metric i{display:none!important}
-.construction-bank-official{
-  margin-top:18px;border-radius:12px;background:rgba(255,255,255,.96);
-  padding:14px 15px;color:#0b3040;border:1px solid rgba(11,48,64,.10);
-}
-.construction-bank-label{font-size:12px;font-weight:800;letter-spacing:.5px}
-.construction-bank-name{margin-top:4px;font-size:16px;font-weight:900;color:#b68016}
-.construction-bank-number{margin-top:3px;font-size:20px;font-weight:900;letter-spacing:.4px}
-.construction-bank-owner{margin-top:2px;font-size:12px;font-weight:700}
-.construction-qris-placeholder{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.30);
-}
-.construction-qris-placeholder:before,
-.construction-qris-placeholder:after{content:none!important}
-
-/* Stage 1 refinement: 3 KPI columns + dedicated progress row. */
-.construction-metric-grid{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-  margin-top:102px;
-  width:100%;
-}
-.construction-metric{
-  width:100%;
-}
-.construction-progress-shell{
+.construction-underlay{
   position:absolute;
-  left:28px;
-  right:28px;
-  bottom:24px;
-  height:48px;
-  display:grid;
-  grid-template-columns:140px minmax(0,1fr) 72px;
-  gap:10px;
-  align-items:center;
-}
-.construction-progress-label{
-  font-size:26px;
-  font-weight:700;
-  color:#e5eef2;
-  text-align:left;
-  padding-left:10px;
-}
-.construction-progress-track-static{
-  height:34px;
-  border-radius:18px;
-  border:2px solid rgba(93,218,238,.55);
-  background:
-    linear-gradient(180deg,rgba(183,214,223,.78),rgba(126,166,180,.72));
-  box-shadow:
-    inset 0 0 0 4px rgba(3,48,66,.18),
-    0 0 10px rgba(61,207,229,.14);
-}
-.construction-progress-percent-slot{
-  height:34px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.08);
-  background:transparent;
-}
-
-/* Stage 1 refinement v3: compact KPI row and reserved live percentage slot. */
-.construction-metric-grid{
-  margin-top:134px;
-}
-.construction-metric{
-  height:120px;
-  padding:16px 18px;
-}
-.construction-metric span{
-  font-size:31px;
-}
-.construction-metric b{
-  font-size:16px;
-}
-.construction-progress-shell{
-  left:28px;
-  right:28px;
-  bottom:22px;
-  height:46px;
-  grid-template-columns:140px minmax(0,1fr) 92px;
-  gap:10px;
-}
-.construction-progress-track-static{
-  height:34px;
-}
-.construction-progress-percent-slot{
-  width:92px;
-  height:34px;
-  border:0;
-  background:transparent;
-  box-shadow:none;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:fill;
+  opacity:1;
+  filter:none;
+  transform:none;
 }

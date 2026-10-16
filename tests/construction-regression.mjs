@@ -1,36 +1,24 @@
 import fs from "node:fs";
 function assert(ok,msg){if(!ok)throw new Error(msg)}
+
 const index=fs.readFileSync("index.html","utf8");
 const app=fs.readFileSync("app-v107.js","utf8");
 const config=fs.readFileSync("config-v64.js","utf8");
 const css=fs.readFileSync("construction-background-only-v1.css","utf8");
+const image=fs.readFileSync("assets/construction-background-approved-master.png");
 
-const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>\s*<section id="prayerScene"/)?.[0]||"";
+const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>/)?.[0]||"";
+
 assert(index.includes('id="constructionScene"'),"constructionScene missing");
-assert(index.includes("./construction-background-only-v1.css?v=construction-stage1-v3-kpi120-progressslot92-20261016"),"construction Stage 1 CSS missing");
-assert(block.includes("AGENDA PEMBANGUNAN MASJID"),"construction agenda shell missing");
-assert(block.includes("MARI BERPARTISIPASI"),"construction donation shell missing");
-assert(block.includes("Bank Nagari Syariah")&&block.includes("7100.0201.05008-5")&&block.includes("a.n. Masjid Al Ihsan Kapuih"),"official Bank Nagari donation account missing");
-assert(block.includes('class="construction-mihrab-visual construction-mihrab-empty"'),"illustration must be removed and replaced by an empty visual slot");
-assert(!block.includes("construction-mihrab-room")&&!block.includes("ILUSTRASI KONSEP MIHRAB"),"mihrab illustration content must be removed");
-assert(!block.includes("PEMBANGUNAN MIHRAB MASJID")&&!block.includes("PLAFOND AREA MIHRAB"),"marked focus detail text must be removed");
-assert(!block.includes("construction-qr-corners")&&!block.includes("<b>QRIS</b>"),"mock QRIS artwork/text must be removed");
-assert(!block.includes("<i></i></div>"),"mock metric value marks must be removed");
-assert(!block.includes('construction-metric progress'),"separate progress KPI card must be removed");
-assert(block.includes('construction-progress-label">Progress:</div>'),"static Progress label missing");
-assert(block.includes("construction-progress-track-static"),"static progress track missing");
-assert(block.includes("construction-progress-percent-slot"),"upper-layer percentage slot missing");
-assert(!block.includes(">0%</"),"backlayer must not contain a hard-coded progress percentage");
-assert(css.includes("grid-template-columns:repeat(3,minmax(0,1fr))"),"construction KPI row must have exactly 3 equal columns");
-assert(css.includes("height:120px"),"construction KPI cards must use the compact 120px height");
-assert(css.includes("grid-template-columns:140px minmax(0,1fr) 92px"),"progress row must reserve a 92px live percentage slot");
-assert(css.includes("width:92px")&&css.includes("border:0"),"percentage slot must remain visually empty for upper-layer live data");
-
-
-assert(!block.includes("Rp145")&&!block.includes("144.760")&&!block.includes("69.344"),"Stage 1 must not bake live funding values");
-assert(!block.includes("<script"),"Stage 1 construction scene must not contain live renderer");
-assert(css.includes(".stage.scene-construction .construction-scene{display:block}"),"construction scene visibility rule missing");
+assert(index.includes("construction-background-only-v1.css?v=approved-master-20261016"),"approved construction CSS cache marker missing");
+assert(block.includes('class="construction-underlay"'),"approved construction image element missing");
+assert(block.includes("assets/construction-background-approved-master.png?v=approved-master-20261016"),"approved construction image path missing");
+assert(!block.includes("construction-metric")&&!block.includes("construction-focus-card"),"synthetic construction UI must not remain in Stage 1");
+assert(css.includes(".construction-underlay"),"construction underlay CSS missing");
+assert(!css.includes(".construction-metric-grid")&&!css.includes(".construction-focus-card"),"synthetic construction CSS must be removed");
+assert(image.length>1000000,"approved construction image appears incomplete");
+assert(image[0]===0x89&&image[1]===0x50&&image[2]===0x4e&&image[3]===0x47,"approved construction asset must be PNG");
 assert(app.includes('construction:$("constructionScene")'),"construction scene reference missing");
-assert(app.includes('"construction","prayer"'),"construction direct preview not allowed");
-assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only and must not enter general rotation");
-console.log("Construction Stage 1 backlayer regression: OK");
+assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
+assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
+console.log("Construction approved image backlayer regression: OK");
