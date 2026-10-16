@@ -53,7 +53,7 @@ assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-t
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus"),"Stage 2B KPI must be styled inside upper layer");
 assert(stage2aCss.includes("z-index:10!important"),"Stage 2B KPI must render above backlayer");
 assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
-assert(index.includes("finance-upperlayer-2abcd-v8-20261016"),"Upper-layer cache-busting version missing");
+assert(index.includes("finance-upperlayer-2abcd-v9-chart-right4-down8-expense-right8-down4-20261016"),"Upper-layer cache-busting version missing");
 assert(stage2aCss.includes("top:346px!important"),"KPI values must be lowered another 12px");
 assert(stage2aCss.includes("font-size:48px!important"),"KPI font must be 48px");
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position{left:86px!important}")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus{left:1262px!important}"),"KPI values must be shifted another 12px right");
@@ -63,6 +63,8 @@ for(const key of ["posisi_dana","pemasukan_operasional","pengeluaran_operasional
 assert(stage2aJs.includes("finance-summary.json"),"Finance fallback missing");
 assert(stage2aJs.includes("renderChart")&&stage2aJs.includes("topCategories"),"Stage 2C/2D dynamic renderers missing");
 assert(stage2aCss.includes(".finance-chart-live")&&stage2aCss.includes(".finance-ranking-live"),"Stage 2C/2D upper-layer styling missing");
+assert(stage2aCss.includes("left:524px;\n  top:503px;"),"Stage 2C chart must move right 4px and down 8px");
+assert(stage2aCss.includes(".finance-ranking-expense{left:1282px;top:520px}"),"Stage 2D expense ranking must move right 8px and down 4px");
 assert(financeBlock.includes("MEI")&&financeBlock.includes("OKT"),"Stage 2C initial six-month chart missing");
 assert(financeBlock.includes("Kotak Amal")&&financeBlock.includes("Honor Imam/Petugas"),"Stage 2D initial ranking missing");
 
