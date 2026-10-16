@@ -227,8 +227,8 @@
   display:grid;
   grid-template-rows:repeat(3,52px);
 }
-.finance-ranking-income{left:130px}
-.finance-ranking-expense{left:1290px;top:522px}
+.finance-ranking-income{left:126px;top:522px}
+.finance-ranking-expense{left:1298px;top:523px}
 .finance-ranking-row{
   min-width:0;
   display:grid;
