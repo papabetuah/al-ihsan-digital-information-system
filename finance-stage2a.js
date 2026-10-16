@@ -16,7 +16,6 @@ const clockFormatter=new Intl.DateTimeFormat("id-ID",{
   timeZone:timezone,
   hour:"2-digit",
   minute:"2-digit",
-  second:"2-digit",
   hourCycle:"h23"
 });
 
@@ -26,7 +25,7 @@ function formatClock(now){
       .filter(part=>part.type!=="literal")
       .map(part=>[part.type,part.value])
   );
-  return `${parts.hour}:${parts.minute}:${parts.second}`;
+  return `${parts.hour}:${parts.minute}`;
 }
 
 function normalizePrayer(label){
