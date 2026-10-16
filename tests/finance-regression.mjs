@@ -22,7 +22,7 @@ assert(!index.includes("finance-v112.css"),"legacy finance layout stylesheet mus
 
 const financeBlock=index.match(/<section id="financeScene"[\s\S]*?<\/section>/)?.[0]||"";
 assert((financeBlock.match(/<img\b/g)||[]).length===1,"financeScene must retain exactly one backlayer img");
-for(const id of ["financeClock","financeDateGregorian","financeDateHijri","financeNextPrayer","financeCountdown"]){
+for(const id of ["financeClock","financeDateWeekday","financeDateGregorian","financeDateHijri","financeNextPrayer","financeCountdown"]){
   assert(financeBlock.includes(`id="${id}"`),id+" Stage 2A element missing");
 }
 assert(financeBlock.includes("finance-stage2a"),"Stage 2A upper layer missing");
@@ -34,6 +34,9 @@ assert(css.includes("object-fit:fill"),"finance master must fill the 1672x941 st
 assert(!css.includes("::before")&&!css.includes("::after"),"finance backlayer CSS must not use pseudo overlays");
 assert(stage2aJs.includes("AL_IHSAN_FINANCE_TICK"),"Stage 2A must consume existing finance tick hook");
 assert(stage2aJs.includes("gregorianText")&&stage2aJs.includes("hijriText"),"Stage 2A dates not wired");
+assert(stage2aJs.includes("splitGregorian"),"Gregorian weekday/date split missing");
+assert(stage2aCss.includes(".finance-date-separator"),"Gregorian/Hijri separator missing");
+assert(stage2aCss.includes("font-size:52px")&&stage2aCss.includes("font-size:58px")&&stage2aCss.includes("font-size:56px"),"Stage 2A reference typography not applied");
 assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-time-box"),"Stage 2A placement missing");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","donation"])'),
