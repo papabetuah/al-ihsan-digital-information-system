@@ -118,3 +118,42 @@
   text-shadow:0 2px 7px rgba(0,0,0,.55);
   white-space:nowrap;
 }
+
+
+/* Finance Stage 2B — four KPI values, physically inside finance-upperlayer */
+.finance-upperlayer .finance-kpi-values{
+  position:absolute!important;
+  inset:0!important;
+  z-index:10!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:none!important;
+  user-select:none!important;
+  font-family:"Segoe UI",Arial,sans-serif!important;
+}
+.finance-upperlayer .finance-kpi-value{
+  position:absolute!important;
+  top:322px!important;
+  width:315px!important;
+  height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  visibility:visible!important;
+  opacity:1!important;
+  font-size:33px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  letter-spacing:.2px!important;
+  font-variant-numeric:tabular-nums!important;
+  white-space:nowrap!important;
+  color:#fff!important;
+  text-shadow:0 2px 9px rgba(0,0,0,.60)!important;
+}
+.finance-upperlayer .finance-kpi-position{left:62px!important}
+.finance-upperlayer .finance-kpi-income{left:458px!important}
+.finance-upperlayer .finance-kpi-expense{left:847px!important}
+.finance-upperlayer .finance-kpi-surplus{left:1238px!important}
+.finance-upperlayer .finance-kpi-value.negative{color:#ff6069!important}
+.finance-upperlayer .finance-kpi-value.positive{color:#83efc0!important}

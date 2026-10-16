@@ -8,8 +8,7 @@ const app=fs.readFileSync("app-v107.js","utf8");
 const css=fs.readFileSync("finance-background-only-v117.css","utf8");
 const stage2aCss=fs.readFileSync("finance-stage2a.css","utf8");
 const stage2aJs=fs.readFileSync("finance-stage2a.js","utf8");
-const stage2bCss=fs.readFileSync("finance-stage2b.css","utf8");
-const stage2bJs=fs.readFileSync("finance-stage2b.js","utf8");
+
 
 assert(index.includes('id="financeScene"'),"financeScene missing");
 assert(index.includes("finance-background-approved-master.png"),"approved master PNG missing from financeScene");
@@ -37,8 +36,8 @@ assert(!/finance(?:TopIncome|TopExpense|Chart|Target|Collected|Remaining|Progres
   "Stage 2C+ finance data must remain absent");
 assert(index.includes("./finance-stage2a.css"),"Stage 2A stylesheet missing");
 assert(index.includes("./finance-stage2a.js"),"Stage 2A renderer missing");
-assert(index.includes("./finance-stage2b.css"),"Stage 2B stylesheet missing");
-assert(index.includes("./finance-stage2b.js"),"Stage 2B renderer missing");
+assert(!index.includes("./finance-stage2b.css"),"Stage 2B must not depend on a separate stylesheet");
+assert(!index.includes("./finance-stage2b.js"),"Stage 2B must not depend on a separate renderer");
 assert(css.includes("object-fit:fill"),"finance master must fill the 1672x941 stage");
 assert(!css.includes("::before")&&!css.includes("::after"),"finance backlayer CSS must not use pseudo overlays");
 assert(stage2aJs.includes("AL_IHSAN_FINANCE_TICK"),"Stage 2A must consume existing finance tick hook");
@@ -47,13 +46,14 @@ assert(stage2aJs.includes("splitGregorian"),"Gregorian weekday/date split missin
 assert(stage2aCss.includes(".finance-date-separator"),"Gregorian/Hijri separator missing");
 assert(stage2aCss.includes("font-size:52px")&&stage2aCss.includes("font-size:58px")&&stage2aCss.includes("font-size:56px"),"Stage 2A reference typography not applied");
 assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-time-box"),"Stage 2A placement missing");
-assert(stage2bCss.includes(".finance-kpi-position")&&stage2bCss.includes(".finance-kpi-surplus"),"Stage 2B KPI placement missing");
-assert(stage2bCss.includes("z-index:4"),"Stage 2B KPI must render above backlayer");
+assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus"),"Stage 2B KPI must be styled inside upper layer");
+assert(stage2aCss.includes("z-index:10!important"),"Stage 2B KPI must render above backlayer");
 assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
+assert(index.includes("finance-upperlayer-2ab-v3-20261016"),"Upper-layer cache-busting version missing");
 for(const key of ["posisi_dana","pemasukan_operasional","pengeluaran_operasional","surplus_defisit"]){
-  assert(stage2bJs.includes(key),"Stage 2B missing source key "+key);
+  assert(stage2aJs.includes(key),"Stage 2B missing source key "+key);
 }
-assert(stage2bJs.includes("finance-summary.json"),"Stage 2B fallback missing");
+assert(stage2aJs.includes("finance-summary.json"),"Stage 2B fallback missing");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","donation"])'),
   "finance must remain preview-only until final visual approval");
@@ -61,7 +61,7 @@ assert(app.includes('["dashboard","donation","announcement","finance","prayer","
   "direct finance preview must remain available");
 assert(app.includes("AL_IHSAN_FINANCE_TICK"),"app finance tick hook missing");
 
-for(const file of ["app-v107.js","config-v64.js","finance-stage2a.js","finance-stage2b.js"]){
+for(const file of ["app-v107.js","config-v64.js","finance-stage2a.js"]){
   const p=spawnSync(process.execPath,["--check",file],{encoding:"utf8"});
   assert(p.status===0,file+" syntax error:\n"+p.stderr);
 }
