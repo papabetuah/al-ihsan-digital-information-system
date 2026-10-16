@@ -23,8 +23,16 @@ h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.08;margin:.35rem 0}
 .tables{display:grid;grid-template-columns:1fr 1fr;gap:15px}.table-wrap{overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
 table{border-collapse:collapse;width:100%;min-width:520px;background:rgba(2,18,29,.42)}th,td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left}th{color:var(--gold);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .history{min-width:100%}.note{color:var(--muted);font-size:.9rem}.status{padding:10px 12px;border:1px solid var(--line);border-radius:10px;color:var(--muted);margin-top:12px}
+.donation-cta{margin-top:22px;padding:22px;background:linear-gradient(135deg,rgba(15,51,68,.98),rgba(7,31,46,.98));border:1px solid rgba(232,196,110,.5);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.donation-cta h2{margin:0 0 8px;color:var(--gold);font-size:1.35rem}.donation-lead{margin:0;color:#dbe8ef;max-width:900px}
+.donation-content{display:grid;grid-template-columns:1.45fr .75fr;gap:18px;margin-top:18px;align-items:stretch}
+.bank-stack{display:grid;gap:12px}.bank-box{background:rgba(2,18,29,.6);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:15px}
+.bank-name{font-weight:800;color:#fff}.bank-number{font-size:clamp(1.25rem,3vw,1.8rem);font-weight:900;letter-spacing:.04em;color:var(--cyan);font-variant-numeric:tabular-nums;margin:4px 0}.bank-owner{color:var(--muted);font-size:.92rem}
+.qris-box{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px}
+.qris-box img{display:block;width:min(100%,260px);height:auto;background:#fff;border-radius:10px;padding:8px}.qris-title{font-weight:800;margin-bottom:9px}.qris-caption{color:var(--muted);font-size:.88rem;margin-top:8px}
+.donation-closing{margin:18px 0 0;color:#eaf3f7}.donation-closing strong{color:var(--gold)}
 footer{color:var(--muted);text-align:center;margin-top:26px;font-size:.88rem}
-@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.tables{grid-template-columns:1fr}.need-grid{grid-template-columns:1fr}}
+@media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.tables{grid-template-columns:1fr}.need-grid{grid-template-columns:1fr}.donation-content{grid-template-columns:1fr}}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.value{font-size:1.65rem}}
 </style>
 </head>
@@ -74,6 +82,33 @@ footer{color:var(--muted);text-align:center;margin-top:26px;font-size:.88rem}
 <h2>Catatan</h2>
 <p class="note">Posisi dana dapat mencakup saldo awal dan penyesuaian antarprogram. Pemasukan dan pengeluaran operasional mengikuti pencatatan Kas Umum pada sistem keuangan Masjid Al Ihsan.</p>
 <div id="loadStatus" class="status">Memuat laporan…</div>
+</section>
+<section class="donation-cta" aria-labelledby="donationTitle">
+<h2 id="donationTitle">Ingin Turut Menjadi Bagian dari Kebaikan Ini?</h2>
+<p class="donation-lead">Setiap infak dan sedekah yang dititipkan melalui Masjid Al Ihsan Kapuih membantu menjaga kegiatan ibadah, pendidikan, pembinaan umat, serta berbagai program kemaslahatan masyarakat agar terus berjalan dan berkembang.</p>
+
+<div class="donation-content">
+  <div class="bank-stack" aria-label="Rekening donasi">
+    <div class="bank-box">
+      <div class="bank-name">Bank Syariah Indonesia (BSI)</div>
+      <div class="bank-number">710 6640178</div>
+      <div class="bank-owner">a.n. Dodi F QQ Rumah Tahfiz Al Ihsan</div>
+    </div>
+    <div class="bank-box">
+      <div class="bank-name">Bank Nagari Syariah</div>
+      <div class="bank-number">7100.0201.05008-5</div>
+      <div class="bank-owner">a.n. Masjid Al Ihsan Kapuih</div>
+    </div>
+  </div>
+
+  <div class="qris-box">
+    <div class="qris-title">Atau lebih praktis, pindai QRIS</div>
+    <img src="../assets/qris-rumah-tahfiz-final.jpg" alt="QRIS resmi donasi Masjid Al Ihsan dan Rumah Tahfiz Al Ihsan">
+    <div class="qris-caption">Gunakan aplikasi pembayaran yang mendukung QRIS.</div>
+  </div>
+</div>
+
+<p class="donation-closing">Sekecil apa pun kontribusinya, insyaAllah sangat berarti dan menjadi bagian dari ikhtiar bersama untuk <strong>memakmurkan masjid dan menebar manfaat bagi umat</strong>.<br><strong>Jazakumullahu khairan.</strong> Semoga Allah menerima setiap amal kebaikan, melapangkan rezeki, dan membalasnya dengan pahala terbaik.</p>
 </section>
 <footer>Masjid Al Ihsan Kapuih · Bersama Jamaah, Memakmurkan Masjid, Menebar Manfaat untuk Umat</footer>
 </main>
