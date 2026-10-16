@@ -304,11 +304,13 @@
   color:#ff6069;
 }
 .finance-need-target{
-  left:748px;
+  left:763px;
+  top:768px;
   color:#47ddff;
 }
 .finance-need-collected{
-  left:963px;
+  left:978px;
+  top:768px;
   color:#52ef9b;
 }
 .finance-progress-track{
@@ -329,8 +331,8 @@
 }
 .finance-progress-text{
   position:absolute;
-  left:1134px;
-  top:792px;
+  left:1149px;
+  top:800px;
   width:70px;
   text-align:center;
   font-size:34px;
