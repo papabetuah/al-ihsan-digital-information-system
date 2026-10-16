@@ -36,8 +36,10 @@ for(const id of ["financeChart","financeTopIncome","financeTopExpense"]){
   assert(financeBlock.includes(`id="${id}"`),id+" Stage 2C/2D element missing");
   assert(upperBlock.includes(`id="${id}"`),id+" must be inside finance-upperlayer");
 }
-assert(!/finance(?:Target|Collected|Remaining|Progress)/.test(financeBlock),
-  "Stage 2E finance data must remain absent");
+for(const id of ["financePeriod","financeTarget","financeCollected","financeRemaining","financeProgress","financeProgressText"]){
+  assert(financeBlock.includes(`id="${id}"`),id+" Stage 2E/period element missing");
+  assert(upperBlock.includes(`id="${id}"`),id+" must be inside finance-upperlayer");
+}
 assert(index.includes("./finance-stage2a.css"),"Stage 2A stylesheet missing");
 assert(index.includes("./finance-stage2a.js"),"Stage 2A renderer missing");
 assert(!index.includes("./finance-stage2b.css"),"Stage 2B must not depend on a separate stylesheet");
@@ -53,7 +55,7 @@ assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-t
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus"),"Stage 2B KPI must be styled inside upper layer");
 assert(stage2aCss.includes("z-index:10!important"),"Stage 2B KPI must render above backlayer");
 assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
-assert(index.includes("finance-upperlayer-2abcd-v11-income-left4-down6-expense-right24-down7-20261016"),"Upper-layer cache-busting version missing");
+assert(index.includes("finance-upperlayer-2abcde-v12-period-operational-20261016"),"Upper-layer cache-busting version missing");
 assert(stage2aCss.includes("top:346px!important"),"KPI values must be lowered another 12px");
 assert(stage2aCss.includes("font-size:48px!important"),"KPI font must be 48px");
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position{left:86px!important}")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus{left:1262px!important}"),"KPI values must be shifted another 12px right");
@@ -62,12 +64,18 @@ for(const key of ["posisi_dana","pemasukan_operasional","pengeluaran_operasional
 }
 assert(stage2aJs.includes("finance-summary.json"),"Finance fallback missing");
 assert(stage2aJs.includes("renderChart")&&stage2aJs.includes("topCategories"),"Stage 2C/2D dynamic renderers missing");
+for(const key of ["target_operasional","terkumpul_operasional","masih_dibutuhkan","persentase"]){assert(stage2aJs.includes(key),"Stage 2E missing source key "+key)}
+assert(stage2aJs.includes("formatPeriod")&&stage2aJs.includes("setProgress"),"Stage 2E/period dynamic renderers missing");
 assert(stage2aCss.includes(".finance-chart-live")&&stage2aCss.includes(".finance-ranking-live"),"Stage 2C/2D upper-layer styling missing");
+assert(stage2aCss.includes(".finance-period-live"),"Finance period styling missing");
+assert(stage2aCss.includes(".finance-stage2e")&&stage2aCss.includes(".finance-progress-fill"),"Stage 2E styling missing");
 assert(stage2aCss.includes("left:528px;\n  top:505px;"),"Stage 2C chart must move another 4px right and 2px down");
 assert(stage2aCss.includes(".finance-ranking-expense{left:1298px;top:523px}"),"Stage 2D expense ranking must move another 8px right and 1px down");
 assert(stage2aCss.includes(".finance-ranking-income{left:126px;top:522px}"),"Stage 2D income ranking must move 4px left and 6px down");
 assert(financeBlock.includes("MEI")&&financeBlock.includes("OKT"),"Stage 2C initial six-month chart missing");
 assert(financeBlock.includes("Kotak Amal")&&financeBlock.includes("Honor Imam/Petugas"),"Stage 2D initial ranking missing");
+assert(financeBlock.includes("OKTOBER 2026"),"Initial finance period missing");
+assert(financeBlock.includes("Rp 8.701.000")&&financeBlock.includes("Rp 10.000.000")&&financeBlock.includes("13%"),"Stage 2E initial values missing");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","donation"])'),
   "finance must remain preview-only until final visual approval");
@@ -79,4 +87,4 @@ for(const file of ["app-v107.js","config-v64.js","finance-stage2a.js"]){
   const p=spawnSync(process.execPath,["--check",file],{encoding:"utf8"});
   assert(p.status===0,file+" syntax error:\n"+p.stderr);
 }
-console.log("Finance Stage 2C/2D regression: OK");
+console.log("Finance Stage 2E + period regression: OK");

@@ -257,3 +257,86 @@
 .finance-ranking-income .finance-ranking-row strong{color:#70f0b8}
 .finance-ranking-expense .finance-ranking-row strong{color:#ff7b82}
 .finance-ranking-row.is-empty{visibility:hidden}
+
+
+/* Finance period — approved empty period slot */
+.finance-period-live{
+  position:absolute;
+  left:620px;
+  top:154px;
+  width:390px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:11;
+  font-size:34px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:1.2px;
+  color:#f5e6b2;
+  text-shadow:0 2px 8px rgba(0,0,0,.58);
+  white-space:nowrap;
+}
+
+/* Finance Stage 2E — operational need data only */
+.finance-stage2e{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  user-select:none;
+}
+.finance-need-value{
+  position:absolute;
+  top:760px;
+  width:190px;
+  text-align:center;
+  font-size:25px;
+  line-height:1;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+  text-shadow:0 2px 7px rgba(0,0,0,.62);
+}
+.finance-need-remaining{
+  left:535px;
+  color:#ff6069;
+}
+.finance-need-target{
+  left:748px;
+  color:#47ddff;
+}
+.finance-need-collected{
+  left:963px;
+  color:#52ef9b;
+}
+.finance-progress-track{
+  position:absolute;
+  left:550px;
+  top:800px;
+  width:558px;
+  height:21px;
+  overflow:hidden;
+  border-radius:12px;
+}
+.finance-progress-fill{
+  height:100%;
+  min-width:0;
+  border-radius:12px;
+  background:linear-gradient(90deg,#16bf84 0%,#3fe5a5 100%);
+  box-shadow:0 0 12px rgba(53,232,165,.40);
+}
+.finance-progress-text{
+  position:absolute;
+  left:1134px;
+  top:792px;
+  width:70px;
+  text-align:center;
+  font-size:34px;
+  line-height:1;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  color:#ffffff;
+  text-shadow:0 2px 7px rgba(0,0,0,.62);
+}

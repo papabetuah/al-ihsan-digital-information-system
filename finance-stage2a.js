@@ -70,7 +70,13 @@ const KPI={
   surplus:$("financeSurplus"),
   chart:$("financeChart"),
   topIncome:$("financeTopIncome"),
-  topExpense:$("financeTopExpense")
+  topExpense:$("financeTopExpense"),
+  period:$("financePeriod"),
+  target:$("financeTarget"),
+  collected:$("financeCollected"),
+  remaining:$("financeRemaining"),
+  progress:$("financeProgress"),
+  progressText:$("financeProgressText")
 };
 
 let kpiRefreshTimer=0;
@@ -165,6 +171,10 @@ function normalize(rows,transactions=[]){
     income:n(map.get("pemasukan_operasional")),
     expense:n(map.get("pengeluaran_operasional")),
     surplus:n(map.get("surplus_defisit")),
+    target:n(map.get("target_operasional")),
+    collected:n(map.get("terkumpul_operasional")),
+    remaining:n(map.get("masih_dibutuhkan")),
+    progress:n(map.get("persentase")),
     history,
     top_income:topCategories(transactions,period,"Uang Masuk"),
     top_expense:topCategories(transactions,period,"Uang Keluar"),
@@ -278,11 +288,30 @@ function setValue(el,value){
   el.classList.toggle("positive",amount>0);
 }
 
+function formatPeriod(period){
+  const m=String(period||"").match(/^(\d{4})-(\d{2})$/);
+  if(!m)return String(period||"");
+  return new Intl.DateTimeFormat("id-ID",{month:"long",year:"numeric",timeZone:"Asia/Jakarta"})
+    .format(new Date(Date.UTC(Number(m[1]),Number(m[2])-1,2,12)))
+    .toUpperCase();
+}
+
+function setProgress(value){
+  const pct=Math.max(0,Math.min(1,n(value)));
+  if(KPI.progress)KPI.progress.style.width=(pct*100).toFixed(2)+"%";
+  if(KPI.progressText)KPI.progressText.textContent=Math.round(pct*100)+"%";
+}
+
 function render(data){
   setValue(KPI.position,data.position);
   setValue(KPI.income,data.income);
   setValue(KPI.expense,data.expense);
   setValue(KPI.surplus,data.surplus);
+  if(KPI.period)KPI.period.textContent=formatPeriod(data.period);
+  setValue(KPI.target,data.target);
+  setValue(KPI.collected,data.collected);
+  setValue(KPI.remaining,data.remaining);
+  setProgress(data.progress);
   renderChart(data.history);
   renderRanking(KPI.topIncome,data.top_income);
   renderRanking(KPI.topExpense,data.top_expense);
