@@ -21,6 +21,7 @@ assert(publicReport.includes("Ingin Turut Menjadi Bagian dari Kebaikan Ini?"),"p
 assert(publicReport.includes("710 6640178")&&publicReport.includes("7100.0201.05008-5"),"public finance donation bank accounts missing");
 assert(publicReport.includes("Dodi F QQ Rumah Tahfiz Al Ihsan")&&publicReport.includes("Masjid Al Ihsan Kapuih"),"public finance donation account owners missing");
 assert(publicReport.includes("../assets/qris-rumah-tahfiz-final.jpg"),"public finance donation QRIS must reuse approved donation QRIS asset");
+assert(!publicReport.includes("Laporan publik berhasil dimuat. Sumber administrasi pengurus tidak dibuka untuk akses publik."),"public finance success status text must be removed");
 assert(publicRedirect.includes("../laporan-keuangan/"),"short QR redirect must target public finance report");
 assert(financeSummary.report_url==="https://papabetuah.github.io/al-ihsan-digital-information-system/laporan-keuangan/","public finance report URL missing from summary");
 assert(publicTransactions.period===financeSummary.period&&publicTransactions.transactions.length>0,"public transaction snapshot missing");

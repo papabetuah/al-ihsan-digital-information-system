@@ -81,7 +81,7 @@ footer{color:var(--muted);text-align:center;margin-top:26px;font-size:.88rem}
 <section class="section">
 <h2>Catatan</h2>
 <p class="note">Posisi dana dapat mencakup saldo awal dan penyesuaian antarprogram. Pemasukan dan pengeluaran operasional mengikuti pencatatan Kas Umum pada sistem keuangan Masjid Al Ihsan.</p>
-<div id="loadStatus" class="status">Memuat laporan…</div>
+<div id="loadStatus" class="status" hidden></div>
 </section>
 <section class="donation-cta" aria-labelledby="donationTitle">
 <h2 id="donationTitle">Ingin Turut Menjadi Bagian dari Kebaikan Ini?</h2>
@@ -130,7 +130,7 @@ const signed=(el,n)=>{el.textContent=rupiah(n);el.classList.toggle("negative",Nu
   const pct=Math.max(0,Math.min(100,Number(summary.progress||0)*100)); progressFill.style.width=pct.toFixed(2)+"%"; progressText.textContent=Math.round(pct)+"%";
   historyBody.replaceChildren(...(summary.history||[]).map(r=>{const tr=document.createElement("tr");[month(r.period),rupiah(r.income),rupiah(r.expense),rupiah(Number(r.income)-Number(r.expense))].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i)td.className="num";tr.appendChild(td)});return tr}));
   transactionBody.replaceChildren(...(detail.transactions||[]).map(r=>{const tr=document.createElement("tr");[r.tanggal||"—",r.uraian||"—",r.kategori||"—",r.masuk?rupiah(r.masuk):"—",r.keluar?rupiah(r.keluar):"—"].forEach((v,i)=>{const td=document.createElement("td");td.textContent=v;if(i>=3)td.className="num";tr.appendChild(td)});return tr}));
-  loadStatus.textContent="Laporan publik berhasil dimuat. Sumber administrasi pengurus tidak dibuka untuk akses publik.";
+  loadStatus.textContent=""; loadStatus.hidden=true;
  }catch(e){loadStatus.textContent="Laporan belum dapat dimuat. Silakan coba muat ulang halaman beberapa saat lagi."}
 })();
 </script>
