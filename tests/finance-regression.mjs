@@ -49,9 +49,9 @@ assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-t
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus"),"Stage 2B KPI must be styled inside upper layer");
 assert(stage2aCss.includes("z-index:10!important"),"Stage 2B KPI must render above backlayer");
 assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
-assert(index.includes("finance-upperlayer-2ab-v4-kpi38-20261016"),"Upper-layer cache-busting version missing");
-assert(stage2aCss.includes("top:334px!important"),"KPI values must be lowered 12px");
-assert(stage2aCss.includes("font-size:38px!important"),"KPI font must be 38px");
+assert(index.includes("finance-upperlayer-2ab-v5-kpi45-20261016"),"Upper-layer cache-busting version missing");
+assert(stage2aCss.includes("top:346px!important"),"KPI values must be lowered another 12px");
+assert(stage2aCss.includes("font-size:45px!important"),"KPI font must be 45px");
 for(const key of ["posisi_dana","pemasukan_operasional","pengeluaran_operasional","surplus_defisit"]){
   assert(stage2aJs.includes(key),"Stage 2B missing source key "+key);
 }
