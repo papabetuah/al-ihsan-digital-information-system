@@ -1,0 +1,102 @@
+name: One-time finance background cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-finance-background-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix-background:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image dependencies
+        run: python -m pip install --disable-pip-version-check pillow numpy
+
+      - name: Remove stray percent from approved finance backlayer
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          import numpy as np
+          from pathlib import Path
+
+          path = Path("assets/finance-background-approved-master.png")
+          im = np.array(Image.open(path).convert("RGB")).astype(np.float32)
+          out = im.copy()
+
+          # Exact cleanup area for the baked standalone percent glyph.
+          x0, x1 = 1204, 1238
+          y0, y1 = 801, 831
+          width = x1 - x0
+          texture = im[y0:y1, 1242:1242 + width].copy()
+
+          for yy in range(y0, y1):
+              left = im[yy, 1198:1204].mean(axis=0)
+              right = im[yy, 1238:1244].mean(axis=0)
+              t = np.linspace(0, 1, width)[:, None]
+              base = left[None, :] * (1 - t) + right[None, :] * t
+              row_texture = texture[yy - y0]
+              residual = row_texture - row_texture.mean(axis=0, keepdims=True)
+              out[yy, x0:x1] = np.clip(base + residual * 0.35, 0, 255)
+
+          # Feather rectangle edges so only the unwanted glyph disappears.
+          for k, alpha in enumerate((0.25, 0.50, 0.75)):
+              out[y0:y1, x0 + k] = im[y0:y1, x0 + k] * (1 - alpha) + out[y0:y1, x0 + k] * alpha
+              out[y0:y1, x1 - 1 - k] = im[y0:y1, x1 - 1 - k] * (1 - alpha) + out[y0:y1, x1 - 1 - k] * alpha
+
+          for k, alpha in enumerate((0.33, 0.66)):
+              out[y0 + k, x0:x1] = im[y0 + k, x0:x1] * (1 - alpha) + out[y0 + k, x0:x1] * alpha
+              out[y1 - 1 - k, x0:x1] = im[y1 - 1 - k, x0:x1] * (1 - alpha) + out[y1 - 1 - k, x0:x1] * alpha
+
+          Image.fromarray(out.astype(np.uint8)).save(path, optimize=True)
+
+          index = Path("index.html")
+          text = index.read_text()
+          old = "finance-background-approved-master.png?v=approved-master-20261016"
+          new = "finance-background-approved-master.png?v=approved-master-nopercent-20261016"
+          if old not in text:
+              raise SystemExit("Expected finance backlayer cache marker not found")
+          index.write_text(text.replace(old, new))
+          PY
+
+      - name: Verify cleanup
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          import numpy as np
+
+          im = np.array(Image.open("assets/finance-background-approved-master.png").convert("RGB"))
+          roi = im[801:831, 1204:1238]
+          # The old white standalone percent sign must be gone.
+          bright_neutral = (
+              (roi[:,:,0] > 120) &
+              (roi[:,:,1] > 120) &
+              (roi[:,:,2] > 120) &
+              ((roi.max(axis=2) - roi.min(axis=2)) < 45)
+          )
+          if int(bright_neutral.sum()) > 5:
+              raise SystemExit("Stray percent cleanup verification failed")
+          print("Finance backlayer percent cleanup: OK")
+          PY
+
+      - name: Commit cleaned backlayer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm ".github/workflows/fix-finance-background-once.yml"
+          git add assets/finance-background-approved-master.png index.html
+          git commit -m "Remove stray percent from finance backlayer"
+          git push
