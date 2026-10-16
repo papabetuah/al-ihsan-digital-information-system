@@ -107,7 +107,7 @@ assert(financeBlock.includes("Rp 8.701.000")&&financeBlock.includes("Rp 10.000.0
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),
   "finance must be enabled in the approved general TV rotation after announcement and before donation");
 assert(config.includes("financeMs: 45000"),"Finance rotation duration must remain 45 seconds");
-assert(app.includes('["dashboard","donation","announcement","finance","prayer","zikir"]'),
+assert(app.includes('["dashboard","donation","announcement","finance","construction","prayer","zikir"]'),
   "direct finance preview must remain available");
 assert(app.includes("AL_IHSAN_FINANCE_TICK"),"app finance tick hook missing");
 
