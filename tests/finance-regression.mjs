@@ -55,7 +55,7 @@ assert(stage2aCss.includes(".finance-next-box")&&stage2aCss.includes(".finance-t
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus"),"Stage 2B KPI must be styled inside upper layer");
 assert(stage2aCss.includes("z-index:10!important"),"Stage 2B KPI must render above backlayer");
 assert(financeBlock.includes("-Rp 16.864.347")&&financeBlock.includes("Rp 1.299.000"),"Stage 2B initial visible values missing");
-assert(index.includes("finance-upperlayer-2abcde-v14-stage2e-refine-20261016"),"Upper-layer cache-busting version missing");
+assert(index.includes("finance-upperlayer-2abcde-v15-stage2e-finealign-20261016"),"Upper-layer cache-busting version missing");
 assert(stage2aCss.includes("top:346px!important"),"KPI values must be lowered another 12px");
 assert(stage2aCss.includes("font-size:48px!important"),"KPI font must be 48px");
 assert(stage2aCss.includes(".finance-upperlayer .finance-kpi-position{left:86px!important}")&&stage2aCss.includes(".finance-upperlayer .finance-kpi-surplus{left:1262px!important}"),"KPI values must be shifted another 12px right");
@@ -69,11 +69,11 @@ assert(stage2aJs.includes("formatPeriod")&&stage2aJs.includes("setProgress"),"St
 assert(stage2aCss.includes(".finance-chart-live")&&stage2aCss.includes(".finance-ranking-live"),"Stage 2C/2D upper-layer styling missing");
 assert(stage2aCss.includes(".finance-period-live"),"Finance period styling missing");
 assert(stage2aCss.includes(".finance-stage2e")&&stage2aCss.includes(".finance-progress-fill"),"Stage 2E styling missing");
-assert(stage2aCss.includes(".finance-need-target{\n  left:778px;\n  top:768px;"),"Target kebutuhan must move another 15px right");
-assert(stage2aCss.includes(".finance-need-collected{\n  left:993px;\n  top:768px;"),"Terkumpul must move another 15px right");
-assert(stage2aCss.includes("left:1164px;\n  top:796px;"),"Progress text must move another 15px right and 4px up");
-assert(stage2aCss.includes(".finance-need-remaining{\n  left:565px;\n  top:768px;"),"Masih dibutuhkan must move right 30px and down 8px");
-assert(stage2aCss.includes(".finance-progress-track{\n  position:absolute;\n  left:580px;\n  top:805px;"),"Progress indicator must move right 30px and down 5px");
+assert(stage2aCss.includes(".finance-need-target{\n  left:788px;\n  top:766px;"),"Target kebutuhan must move another 10px right and 2px up");
+assert(stage2aCss.includes(".finance-need-collected{\n  left:1003px;\n  top:766px;"),"Terkumpul must move another 10px right and 2px up");
+assert(stage2aCss.includes("left:1172px;\n  top:794px;"),"Progress text must move another 8px right and 2px up");
+assert(stage2aCss.includes(".finance-need-remaining{\n  left:575px;\n  top:766px;"),"Masih dibutuhkan must move another 10px right and 2px up");
+assert(stage2aCss.includes(".finance-progress-track{\n  position:absolute;\n  left:581px;\n  top:804px;"),"Progress indicator must move another 1px right and 1px up");
 assert(stage2aCss.includes("left:528px;\n  top:505px;"),"Stage 2C chart must move another 4px right and 2px down");
 assert(stage2aCss.includes(".finance-ranking-expense{left:1298px;top:523px}"),"Stage 2D expense ranking must move another 8px right and 1px down");
 assert(stage2aCss.includes(".finance-ranking-income{left:126px;top:522px}"),"Stage 2D income ranking must move 4px left and 6px down");

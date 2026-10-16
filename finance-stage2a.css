@@ -300,24 +300,24 @@
   text-shadow:0 2px 7px rgba(0,0,0,.62);
 }
 .finance-need-remaining{
-  left:565px;
-  top:768px;
+  left:575px;
+  top:766px;
   color:#ff6069;
 }
 .finance-need-target{
-  left:778px;
-  top:768px;
+  left:788px;
+  top:766px;
   color:#47ddff;
 }
 .finance-need-collected{
-  left:993px;
-  top:768px;
+  left:1003px;
+  top:766px;
   color:#52ef9b;
 }
 .finance-progress-track{
   position:absolute;
-  left:580px;
-  top:805px;
+  left:581px;
+  top:804px;
   width:558px;
   height:21px;
   overflow:hidden;
@@ -332,8 +332,8 @@
 }
 .finance-progress-text{
   position:absolute;
-  left:1164px;
-  top:796px;
+  left:1172px;
+  top:794px;
   width:70px;
   text-align:center;
   font-size:34px;
