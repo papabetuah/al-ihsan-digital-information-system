@@ -134,7 +134,7 @@
 }
 .finance-upperlayer .finance-kpi-value{
   position:absolute!important;
-  top:322px!important;
+  top:334px!important;
   width:315px!important;
   height:42px!important;
   display:flex!important;
@@ -142,7 +142,7 @@
   justify-content:center!important;
   visibility:visible!important;
   opacity:1!important;
-  font-size:33px!important;
+  font-size:38px!important;
   line-height:1!important;
   font-weight:800!important;
   letter-spacing:.2px!important;
