@@ -21,10 +21,10 @@
 }
 .finance-next-prayer{
   position:absolute;
-  left:0;
+  left:5px;
   top:0;
   width:230px;
-  font-size:46px;
+  font-size:43px;
   line-height:1;
   font-weight:800;
   letter-spacing:.2px;
@@ -36,10 +36,10 @@
 }
 .finance-countdown-live{
   position:absolute;
-  left:8px;
+  left:14px;
   top:62px;
   width:234px;
-  font-size:48px;
+  font-size:46px;
   line-height:1;
   font-weight:800;
   letter-spacing:.2px;
@@ -63,7 +63,7 @@
   left:-3px;
   top:-10px;
   width:224px;
-  font-size:66px;
+  font-size:70px;
   line-height:1;
   font-weight:800;
   letter-spacing:.1px;
@@ -301,17 +301,17 @@
 }
 .finance-need-remaining{
   left:575px;
-  top:766px;
+  top:762px;
   color:#ff6069;
 }
 .finance-need-target{
   left:796px;
-  top:766px;
+  top:762px;
   color:#47ddff;
 }
 .finance-need-collected{
-  left:1003px;
-  top:766px;
+  left:1013px;
+  top:762px;
   color:#52ef9b;
 }
 .finance-progress-track{
