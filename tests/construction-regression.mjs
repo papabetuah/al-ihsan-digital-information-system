@@ -7,7 +7,7 @@ const css=fs.readFileSync("construction-background-only-v1.css","utf8");
 
 const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>\s*<section id="prayerScene"/)?.[0]||"";
 assert(index.includes('id="constructionScene"'),"constructionScene missing");
-assert(index.includes("./construction-background-only-v1.css?v=construction-stage1-v1-20261016"),"construction Stage 1 CSS missing");
+assert(index.includes("./construction-background-only-v1.css?v=construction-stage1-v3-kpi120-progressslot92-20261016"),"construction Stage 1 CSS missing");
 assert(block.includes("AGENDA PEMBANGUNAN MASJID"),"construction agenda shell missing");
 assert(block.includes("MARI BERPARTISIPASI"),"construction donation shell missing");
 assert(block.includes("Bank Nagari Syariah")&&block.includes("7100.0201.05008-5")&&block.includes("a.n. Masjid Al Ihsan Kapuih"),"official Bank Nagari donation account missing");
@@ -22,6 +22,10 @@ assert(block.includes("construction-progress-track-static"),"static progress tra
 assert(block.includes("construction-progress-percent-slot"),"upper-layer percentage slot missing");
 assert(!block.includes(">0%</"),"backlayer must not contain a hard-coded progress percentage");
 assert(css.includes("grid-template-columns:repeat(3,minmax(0,1fr))"),"construction KPI row must have exactly 3 equal columns");
+assert(css.includes("height:120px"),"construction KPI cards must use the compact 120px height");
+assert(css.includes("grid-template-columns:140px minmax(0,1fr) 92px"),"progress row must reserve a 92px live percentage slot");
+assert(css.includes("width:92px")&&css.includes("border:0"),"percentage slot must remain visually empty for upper-layer live data");
+
 
 assert(!block.includes("Rp145")&&!block.includes("144.760")&&!block.includes("69.344"),"Stage 1 must not bake live funding values");
 assert(!block.includes("<script"),"Stage 1 construction scene must not contain live renderer");

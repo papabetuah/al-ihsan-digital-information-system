@@ -142,3 +142,36 @@
   border:1px solid rgba(255,255,255,.08);
   background:transparent;
 }
+
+/* Stage 1 refinement v3: compact KPI row and reserved live percentage slot. */
+.construction-metric-grid{
+  margin-top:134px;
+}
+.construction-metric{
+  height:120px;
+  padding:16px 18px;
+}
+.construction-metric span{
+  font-size:31px;
+}
+.construction-metric b{
+  font-size:16px;
+}
+.construction-progress-shell{
+  left:28px;
+  right:28px;
+  bottom:22px;
+  height:46px;
+  grid-template-columns:140px minmax(0,1fr) 92px;
+  gap:10px;
+}
+.construction-progress-track-static{
+  height:34px;
+}
+.construction-progress-percent-slot{
+  width:92px;
+  height:34px;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
