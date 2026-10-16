@@ -169,8 +169,8 @@
 }
 .finance-chart-live{
   position:absolute;
-  left:524px;
-  top:503px;
+  left:528px;
+  top:505px;
   width:635px;
   height:178px;
   display:grid;
@@ -228,7 +228,7 @@
   grid-template-rows:repeat(3,52px);
 }
 .finance-ranking-income{left:130px}
-.finance-ranking-expense{left:1282px;top:520px}
+.finance-ranking-expense{left:1290px;top:522px}
 .finance-ranking-row{
   min-width:0;
   display:grid;
