@@ -38,8 +38,8 @@ assert(stage2cJs.includes("estimate!==null?estimate:(active?campaignTarget:null)
 assert(stage2cCss.includes(".construction-agenda-program-live"),"construction Stage 2C agenda program styling missing");
 assert(stage2cCss.includes(".construction-agenda-no-live"),"construction Stage 2C agenda number overlay missing");
 
-assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v9-target25-collected-right10-20261017"),"construction Stage 2B stylesheet missing");
-assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v10-sheet-master-20261017"),"construction Stage 2B runtime missing");
+assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v10-focus-two-lines-20261017"),"construction Stage 2B stylesheet missing");
+assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v11-focus-two-lines-20261017"),"construction Stage 2B runtime missing");
 assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
 assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
 assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&stage2bJs.includes("Progress"),"construction funding fields missing");
