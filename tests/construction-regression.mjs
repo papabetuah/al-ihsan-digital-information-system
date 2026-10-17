@@ -7,6 +7,8 @@ const config=fs.readFileSync("config-v64.js","utf8");
 const baseCss=fs.readFileSync("construction-background-only-v1.css","utf8");
 const stage2aCss=fs.readFileSync("construction-stage2a.css","utf8");
 const stage2aJs=fs.readFileSync("construction-stage2a.js","utf8");
+const stage2bCss=fs.readFileSync("construction-stage2b.css","utf8");
+const stage2bJs=fs.readFileSync("construction-stage2b.js","utf8");
 const image=fs.readFileSync("assets/construction-background-approved-master.png");
 
 const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>/)?.[0]||"";
@@ -19,6 +21,19 @@ assert(block.includes('class="construction-upperlayer"'),"construction Stage 2A 
 for(const id of ["constructionClock","constructionDateGregorian","constructionDateHijri","constructionNextPrayer","constructionCountdown"]){
   assert(block.includes('id="'+id+'"'),id+" missing");
 }
+
+for(const id of ["constructionFocusTitle","constructionFocusNote","constructionTarget","constructionCollected","constructionRemaining","constructionProgressFill","constructionProgressText"]){
+  assert(block.includes('id="'+id+'"'),id+" missing");
+}
+
+assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v1-focus-kpi-20261017"),"construction Stage 2B stylesheet missing");
+assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v1-focus-kpi-20261017"),"construction Stage 2B runtime missing");
+assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
+assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
+assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&stage2bJs.includes("Progress"),"construction funding fields missing");
+assert(stage2bJs.includes('return "—"'),"blank funding values must not be invented");
+assert(stage2bCss.includes(".construction-focus-title-live"),"construction focus typography missing");
+assert(stage2bCss.includes(".construction-progress-fill-live"),"construction progress live layer missing");
 
 assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v8-countdown-right10-20261017"),"construction Stage 2A stylesheet missing");
 assert(index.includes("./construction-stage2a.js?v=construction-stage2a-v8-countdown-right10-20261017"),"construction Stage 2A runtime missing");
@@ -46,7 +61,9 @@ assert(app.includes("AL_IHSAN_CONSTRUCTION_TICK"),"main render loop must feed co
 assert(app.includes('construction:$("constructionScene")'),"construction scene reference missing");
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
+assert(config.includes('constructionCampaignTarget: 145000000'),"approved construction campaign target missing");
+assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2a-v8-20261017"'),"construction Stage 2A release marker missing");
+assert(config.includes('release: "construction-stage2b-v1-20261017"'),"construction Stage 2B release marker missing");
 
 console.log("Construction Stage 2A regression: OK");

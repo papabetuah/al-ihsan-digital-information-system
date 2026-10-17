@@ -1,0 +1,91 @@
+/* Construction Stage 2B — focus + funding KPI upper layer only */
+.construction-stage2b-live{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  user-select:none;
+  font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
+  font-stretch:condensed;
+}
+
+.construction-focus-content-live{
+  position:absolute;
+  left:930px;
+  top:232px;
+  width:565px;
+  text-align:left;
+}
+
+.construction-focus-title-live{
+  font-size:39px;
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:.2px;
+  color:#ffffff;
+  text-shadow:0 3px 10px rgba(0,0,0,.68);
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.construction-focus-note-live{
+  margin-top:14px;
+  font-size:23px;
+  line-height:1.15;
+  font-weight:700;
+  color:#f2cf75;
+  text-shadow:0 2px 8px rgba(0,0,0,.62);
+  white-space:nowrap;
+}
+
+.construction-kpi-value-live{
+  position:absolute;
+  top:431px;
+  width:226px;
+  text-align:center;
+  font-size:29px;
+  line-height:1;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  color:#ffffff;
+  text-shadow:0 2px 8px rgba(0,0,0,.68);
+  white-space:nowrap;
+}
+
+.construction-target-live{left:852px;color:#f2cf75}
+.construction-collected-live{left:1116px;color:#ffffff}
+.construction-remaining-live{left:1380px;color:#ffffff}
+
+.construction-progress-live{
+  position:absolute;
+  left:976px;
+  top:506px;
+  width:521px;
+  height:39px;
+  overflow:hidden;
+  border-radius:17px;
+}
+
+.construction-progress-fill-live{
+  width:0;
+  height:100%;
+  border-radius:17px;
+  background:linear-gradient(90deg,#17c792 0%,#48e7b3 100%);
+  box-shadow:0 0 12px rgba(72,231,179,.45);
+  transition:width .35s ease;
+}
+
+.construction-progress-text-live{
+  position:absolute;
+  left:1514px;
+  top:510px;
+  width:95px;
+  text-align:center;
+  font-size:27px;
+  line-height:1;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  color:#ffffff;
+  text-shadow:0 2px 7px rgba(0,0,0,.65);
+  white-space:nowrap;
+}
