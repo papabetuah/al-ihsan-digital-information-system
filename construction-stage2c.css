@@ -11,8 +11,8 @@
 
 .construction-agenda-rows-live{
   position:absolute;
-  left:40px;
-  top:724px;
+  left:42px;
+  top:728px;
   width:954px;
   height:166px;
 }
@@ -23,7 +23,7 @@
   width:954px;
   height:22px;
   line-height:22px;
-  font-size:14px;
+  font-size:13px;
   font-weight:700;
   color:#f6f8fb;
   text-shadow:0 1px 4px rgba(0,0,0,.72);
@@ -54,7 +54,7 @@
   padding:0 8px;
   box-sizing:border-box;
   text-align:left;
-  font-size:14px;
+  font-size:13px;
 }
 
 .construction-agenda-priority-live{
@@ -65,27 +65,27 @@
 .construction-agenda-status-live{
   left:430px;
   width:98px;
-  font-size:11px;
+  font-size:10px;
   letter-spacing:-.1px;
 }
 
 .construction-agenda-target-live{
   left:548px;
   width:128px;
-  font-size:13px;
+  font-size:12px;
   font-variant-numeric:tabular-nums;
 }
 
 .construction-agenda-collected-live{
   left:690px;
   width:128px;
-  font-size:13px;
+  font-size:12px;
   font-variant-numeric:tabular-nums;
 }
 
 .construction-agenda-remaining-live{
   left:832px;
   width:122px;
-  font-size:13px;
+  font-size:12px;
   font-variant-numeric:tabular-nums;
 }
