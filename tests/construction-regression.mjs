@@ -42,6 +42,6 @@ assert(app.includes('construction:$("constructionScene")'),"construction scene r
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2a-v3-fontplus8-next30-offset-20261017"'),"construction Stage 2A release marker missing");
+assert(config.includes('release: "construction-stage2a-v3-20261017"'),"construction Stage 2A release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
