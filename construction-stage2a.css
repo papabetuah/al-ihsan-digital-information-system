@@ -19,7 +19,11 @@
   font-size:58px;
   line-height:1;
   font-weight:800;
-  letter-spacing:.2px;
+  font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
+  font-stretch:condensed;
+  transform:scaleX(.84);
+  transform-origin:center center;
+  letter-spacing:-.4px;
   font-variant-numeric:tabular-nums;
   color:#fff;
   text-shadow:0 2px 9px rgba(0,0,0,.62);
@@ -43,6 +47,11 @@
   font-size:17px;
   line-height:1.15;
   font-weight:600;
+  font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
+  font-stretch:condensed;
+  transform:scaleX(.84);
+  transform-origin:center center;
+  letter-spacing:-.2px;
   color:#fff;
   text-shadow:0 2px 7px rgba(0,0,0,.58);
   white-space:nowrap;
@@ -56,6 +65,11 @@
   font-size:17px;
   line-height:1.15;
   font-weight:700;
+  font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
+  font-stretch:condensed;
+  transform:scaleX(.84);
+  transform-origin:center center;
+  letter-spacing:-.2px;
   color:#f2cf75;
   text-shadow:0 2px 7px rgba(0,0,0,.58);
   white-space:nowrap;
@@ -88,7 +102,7 @@
   left:0;
   top:21px;
   width:132px;
-  font-size:22px;
+  font-size:27px;
   line-height:1;
   font-weight:900;
   letter-spacing:.2px;
@@ -103,7 +117,7 @@
   left:0;
   top:50px;
   width:132px;
-  font-size:24px;
+  font-size:29px;
   line-height:1;
   font-weight:800;
   font-variant-numeric:tabular-nums;
