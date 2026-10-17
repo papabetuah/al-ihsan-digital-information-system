@@ -102,7 +102,7 @@ function render(row){
 
   if(E.focusTitle)E.focusTitle.textContent=title||"PEMBUATAN MIHRAB MASJID";
   if(E.focusNote)E.focusNote.textContent=note||"Paket termasuk plafond area mihrab ±15 m²";
-  if(E.target)E.target.textContent=money(campaignTarget);
+  if(E.target)E.target.textContent=moneyFunding(campaignTarget);
   if(E.collected)E.collected.textContent=moneyFunding(collectedValue,{compactZero:true});
   if(E.remaining)E.remaining.textContent=moneyFunding(remaining);
 
