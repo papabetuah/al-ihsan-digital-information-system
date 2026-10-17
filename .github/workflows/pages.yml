@@ -24,6 +24,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Build approved construction backlayer
+        run: |
+          python - <<'PY'
+          import base64, glob, hashlib
+          from pathlib import Path
+
+          parts = sorted(glob.glob("assets/construction-background-v2.b64.*"))
+          if len(parts) != 15:
+              raise SystemExit(f"Expected 15 construction backlayer chunks, found {len(parts)}")
+
+          encoded = "".join(Path(p).read_text().strip() for p in parts)
+          data = base64.b64decode(encoded, validate=True)
+
+          expected_size = 170314
+          expected_sha256 = "aa1d28ac3b57e3de49042afd2489273af42f585b60b6c38ff980038c91202e50"
+          if len(data) != expected_size:
+              raise SystemExit(f"Unexpected backlayer size: {len(data)}")
+          if hashlib.sha256(data).hexdigest() != expected_sha256:
+              raise SystemExit("Construction backlayer SHA-256 mismatch")
+
+          Path("assets/construction-background-approved-master-v2.webp").write_bytes(data)
+          PY
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
