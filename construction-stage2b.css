@@ -56,8 +56,8 @@
   white-space:nowrap;
 }
 
-.construction-target-live{left:864px;font-size:29px;color:#f2cf75}
-.construction-collected-live{left:1046px;color:#ffffff}
+.construction-target-live{left:864px;font-size:25px;color:#f2cf75}
+.construction-collected-live{left:1056px;color:#ffffff}
 .construction-remaining-live{left:1398px;color:#ffffff}
 
 .construction-progress-live{
