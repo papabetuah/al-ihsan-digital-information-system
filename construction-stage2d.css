@@ -1,0 +1,107 @@
+/* Construction Stage 2D — visual focus / construction progress panel only */
+.construction-stage2d-live{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+}
+
+.construction-visual-focus-live{
+  position:absolute;
+  left:62px;
+  top:168px;
+  width:850px;
+  height:486px;
+  overflow:hidden;
+  border-radius:38px;
+  background:#062d4c;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,202,77,.16),
+    0 12px 28px rgba(0,0,0,.28);
+}
+
+.construction-visual-image-live{
+  position:absolute;
+  inset:-2%;
+  width:104%;
+  height:104%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.1s ease;
+  will-change:opacity,transform;
+}
+
+.construction-visual-image-live.is-active{
+  opacity:1;
+  animation:constructionVisualKenBurns 8s ease-out both;
+}
+
+.construction-visual-image-live.view-a{object-position:50% 50%}
+.construction-visual-image-live.view-b{object-position:35% 43%}
+.construction-visual-image-live.view-c{object-position:67% 48%}
+.construction-visual-image-live.view-d{object-position:48% 35%}
+
+@keyframes constructionVisualKenBurns{
+  from{transform:scale(1.02)}
+  to{transform:scale(1.095)}
+}
+
+.construction-visual-shade-live{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(0,27,48,.08) 0%,rgba(0,27,48,.02) 53%,rgba(0,26,47,.72) 100%),
+    radial-gradient(circle at 50% 42%,transparent 50%,rgba(0,24,45,.18) 100%);
+}
+
+.construction-visual-caption-live{
+  position:absolute;
+  left:28px;
+  bottom:24px;
+  max-width:650px;
+  text-align:left;
+  font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow",Arial,sans-serif;
+  text-shadow:0 2px 8px rgba(0,0,0,.8);
+}
+
+.construction-visual-caption-live span{
+  display:block;
+  margin-bottom:4px;
+  font-size:17px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:1.2px;
+  color:#f2cf75;
+}
+
+.construction-visual-caption-live strong{
+  display:block;
+  font-size:27px;
+  line-height:1.06;
+  font-weight:900;
+  letter-spacing:.3px;
+  color:#fff;
+}
+
+.construction-visual-dots-live{
+  position:absolute;
+  right:28px;
+  bottom:29px;
+  display:flex;
+  gap:8px;
+}
+
+.construction-visual-dot-live{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.38);
+  box-shadow:0 1px 4px rgba(0,0,0,.45);
+}
+
+.construction-visual-dot-live.is-active{
+  width:23px;
+  border-radius:7px;
+  background:#f2cf75;
+}
