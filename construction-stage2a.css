@@ -13,7 +13,7 @@
 .construction-clock-live{
   position:absolute;
   left:1052px;
-  top:32px;
+  top:28px;
   width:140px;
   text-align:center;
   font-size:82px;
@@ -42,7 +42,7 @@
 .construction-date-gregorian{
   position:absolute;
   left:-12px;
-  top:5px;
+  top:0;
   width:200px;
   font-size:28px;
   line-height:1.15;
@@ -59,8 +59,8 @@
 
 .construction-date-hijri{
   position:absolute;
-  left:-12px;
-  top:36px;
+  left:-2px;
+  top:46px;
   width:200px;
   font-size:28px;
   line-height:1.15;

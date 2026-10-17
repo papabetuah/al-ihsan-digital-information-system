@@ -20,16 +20,16 @@ for(const id of ["constructionClock","constructionDateGregorian","constructionDa
   assert(block.includes('id="'+id+'"'),id+" missing");
 }
 
-assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v6-clockleft10-date28-left20-20261017"),"construction Stage 2A stylesheet missing");
-assert(index.includes("./construction-stage2a.js?v=construction-stage2a-v6-clockleft10-date28-left20-20261017"),"construction Stage 2A runtime missing");
+assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v7-vertical-align-20261017"),"construction Stage 2A stylesheet missing");
+assert(index.includes("./construction-stage2a.js?v=construction-stage2a-v7-vertical-align-20261017"),"construction Stage 2A runtime missing");
 assert(baseCss.includes(".construction-underlay"),"construction underlay CSS missing");
-assert(stage2aCss.includes("left:1052px")&&stage2aCss.includes("top:32px"),"construction clock must shift left 10px");
+assert(stage2aCss.includes("left:1052px")&&stage2aCss.includes("top:28px"),"construction clock must move up 4px");
 assert(stage2aCss.includes("left:1210px")&&stage2aCss.includes("width:200px"),"construction date first-pass geometry missing");
 assert(stage2aCss.includes("left:1481px")&&stage2aCss.includes("width:132px"),"construction next-prayer first-pass geometry missing");
 assert(stage2aCss.includes('"Arial Narrow","Roboto Condensed","Liberation Sans Narrow"'),"construction time/date condensed font stack missing");
 assert(stage2aCss.includes("transform:scaleX(.84)"),"construction time/date must remain tall and narrow");
-assert(/\.construction-date-gregorian\{[\s\S]*?left:-12px;[\s\S]*?font-size:28px;/.test(stage2aCss),"Gregorian date must be 28px and shifted left 20px");
-assert(/\.construction-date-hijri\{[\s\S]*?left:-12px;[\s\S]*?font-size:28px;/.test(stage2aCss),"Hijri date must be 28px and shifted left 20px");
+assert(/\.construction-date-gregorian\{[\s\S]*?left:-12px;[\s\S]*?top:0;[\s\S]*?font-size:28px;/.test(stage2aCss),"Gregorian date must move up 5px");
+assert(/\.construction-date-hijri\{[\s\S]*?left:-2px;[\s\S]*?top:46px;[\s\S]*?font-size:28px;/.test(stage2aCss),"Hijri date must move right/down 10px");
 assert(stage2aCss.includes("font-size:82px"),"construction clock font must be 82px");
 assert(stage2aCss.match(/font-size:28px/g)?.length>=2,"construction Gregorian/Hijri fonts must be 28px");
 assert(stage2aCss.includes(".construction-date-live:after")&&stage2aCss.includes("top:38px"),"date separator must move down another 2px");
@@ -47,6 +47,6 @@ assert(app.includes('construction:$("constructionScene")'),"construction scene r
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2a-v6-20261017"'),"construction Stage 2A release marker missing");
+assert(config.includes('release: "construction-stage2a-v7-20261017"'),"construction Stage 2A release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
