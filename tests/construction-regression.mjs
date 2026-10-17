@@ -20,16 +20,16 @@ for(const id of ["constructionClock","constructionDateGregorian","constructionDa
   assert(block.includes('id="'+id+'"'),id+" missing");
 }
 
-assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v2-condensed-nextplus5-20261017"),"construction Stage 2A stylesheet missing");
-assert(index.includes("./construction-stage2a.js?v=construction-stage2a-v2-condensed-nextplus5-20261017"),"construction Stage 2A runtime missing");
+assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v3-fontplus8-next30-offset-20261017"),"construction Stage 2A stylesheet missing");
+assert(index.includes("./construction-stage2a.js?v=construction-stage2a-v3-fontplus8-next30-offset-20261017"),"construction Stage 2A runtime missing");
 assert(baseCss.includes(".construction-underlay"),"construction underlay CSS missing");
 assert(stage2aCss.includes("left:1062px")&&stage2aCss.includes("top:32px"),"construction clock first-pass geometry missing");
 assert(stage2aCss.includes("left:1210px")&&stage2aCss.includes("width:200px"),"construction date first-pass geometry missing");
 assert(stage2aCss.includes("left:1481px")&&stage2aCss.includes("width:132px"),"construction next-prayer first-pass geometry missing");
 assert(stage2aCss.includes('"Arial Narrow","Roboto Condensed","Liberation Sans Narrow"'),"construction time/date condensed font stack missing");
 assert(stage2aCss.includes("transform:scaleX(.84)"),"construction time/date must remain tall and narrow");
-assert(/\.construction-next-prayer\{[\s\S]*?font-size:27px;/.test(stage2aCss),"construction next-prayer font must be 27px");
-assert(/\.construction-countdown-live\{[\s\S]*?font-size:29px;/.test(stage2aCss),"construction countdown font must be 29px");
+assert(/\.construction-next-prayer\{[\s\S]*?font-size:30px;/.test(stage2aCss),"construction next-prayer font must be 30px");
+assert(/\.construction-countdown-live\{[\s\S]*?font-size:30px;/.test(stage2aCss),"construction countdown font must be 30px");
 
 assert(image.length===1770530,"approved construction image size changed");
 assert(image[0]===0x89&&image[1]===0x50&&image[2]===0x4e&&image[3]===0x47,"approved construction asset must remain PNG");
@@ -42,6 +42,6 @@ assert(app.includes('construction:$("constructionScene")'),"construction scene r
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2a-v2-condensed-nextplus5-20261017"'),"construction Stage 2A release marker missing");
+assert(config.includes('release: "construction-stage2a-v3-fontplus8-next30-offset-20261017"'),"construction Stage 2A release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
