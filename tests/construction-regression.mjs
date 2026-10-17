@@ -46,8 +46,9 @@ assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&s
 assert(stage2bJs.includes('return "—"'),"blank funding values must not be invented");
 assert(stage2bCss.includes(".construction-focus-title-live"),"construction focus typography missing");
 assert(stage2bCss.includes("left:975px"),"construction focus content must shift another 15px right");
-assert(stage2bCss.includes("font-size:38px")&&stage2bCss.includes("top:-4px"),"construction focus title must stay 38px and move up another 2px");
-assert(/\.construction-focus-note-live\{[\s\S]*?left:2px;[\s\S]*?font-size:32px;/.test(stage2bCss),"construction focus note must move right 4px and be 32px");
+assert(/\.construction-focus-title-live\{[\s\S]*?font-size:30px;[\s\S]*?white-space:pre-line;/.test(stage2bCss),"construction focus title must be a compact two-line 30px block");
+assert(/\.construction-focus-note-live\{[\s\S]*?left:2px;[\s\S]*?font-size:21px;[\s\S]*?white-space:pre-line;/.test(stage2bCss),"construction focus note must be a compact two-line 21px block");
+assert(stage2bJs.includes("focusTitleTwoLines")&&stage2bJs.includes("focusNoteTwoLines"),"construction focus two-line runtime formatting missing");
 assert(stage2bCss.includes(".construction-target-live{left:864px;font-size:25px;color:#f2cf75}"),"construction target must be 25px and remain yellow");
 assert(stage2bCss.includes(".construction-collected-live{left:1056px"),"construction collected must shift 10px right");
 assert(stage2bCss.includes(".construction-remaining-live{left:1398px"),"construction remaining must shift another 6px left");
