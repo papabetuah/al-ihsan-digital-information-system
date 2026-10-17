@@ -89,8 +89,8 @@ function render(rows){
     const collectedRaw=numberOrNull(row["Dana Terkumpul"]);
     const remainingRaw=numberOrNull(row["Kekurangan"]);
 
-    const target=active?campaignTarget:estimate;
-    const collected=active?(collectedRaw??0):collectedRaw;
+    const target=estimate!==null?estimate:(active?campaignTarget:null);
+    const collected=collectedRaw!==null?collectedRaw:(active?0:null);
     const remaining=remainingRaw!==null
       ? remainingRaw
       : (Number.isFinite(target)&&Number.isFinite(collected)?Math.max(target-collected,0):null);
