@@ -9,8 +9,8 @@
 
 .construction-visual-focus-live{
   position:absolute;
-  left:62px;
-  top:168px;
+  left:42px;
+  top:148px;
   width:850px;
   height:486px;
   overflow:hidden;
@@ -38,9 +38,9 @@
 }
 
 .construction-visual-image-live.view-a{object-position:50% 50%}
-.construction-visual-image-live.view-b{object-position:35% 43%}
-.construction-visual-image-live.view-c{object-position:67% 48%}
-.construction-visual-image-live.view-d{object-position:48% 35%}
+.construction-visual-image-live.view-b{object-position:50% 50%}
+.construction-visual-image-live.view-c{object-position:50% 46%}
+.construction-visual-image-live.view-d{object-position:50% 42%}
 
 @keyframes constructionVisualKenBurns{
   from{transform:scale(1.02)}
