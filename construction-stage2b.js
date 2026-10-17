@@ -83,6 +83,19 @@ function queryAgenda(){
   });
 }
 
+function focusTitleTwoLines(value){
+  const v=text(value)||"PEMBUATAN MIHRAB MASJID + PLAFOND MIHRAB";
+  if(v.includes(" + "))return v.replace(" + ","\n+ ");
+  return v;
+}
+
+function focusNoteTwoLines(value){
+  const v=text(value)||"Mihrab dan plafond area mihrab menjadi satu paket pekerjaan";
+  const marker=" area mihrab ";
+  if(v.includes(marker))return v.replace(marker,marker.trimEnd()+"\n");
+  return v;
+}
+
 function render(row){
   if(!row)return;
   const title=text(row["Program Pembangunan"]);
@@ -102,8 +115,8 @@ function render(row){
     ? explicitProgress
     : (targetValue>0?(collectedValue/targetValue)*100:0);
 
-  if(E.focusTitle)E.focusTitle.textContent=title||"PEMBUATAN MIHRAB MASJID + PLAFOND MIHRAB";
-  if(E.focusNote)E.focusNote.textContent=note||"Mihrab dan plafond area mihrab menjadi satu paket pekerjaan";
+  if(E.focusTitle)E.focusTitle.textContent=focusTitleTwoLines(title);
+  if(E.focusNote)E.focusNote.textContent=focusNoteTwoLines(note);
   if(E.target)E.target.textContent=moneyFunding(targetValue);
   if(E.collected)E.collected.textContent=moneyFunding(collectedValue,{compactZero:true});
   if(E.remaining)E.remaining.textContent=moneyFunding(remaining);
