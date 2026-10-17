@@ -11,8 +11,8 @@
 
 .construction-agenda-rows-live{
   position:absolute;
-  left:38px;
-  top:720px;
+  left:40px;
+  top:724px;
   width:954px;
   height:166px;
 }
@@ -45,12 +45,7 @@
 }
 
 .construction-agenda-no-live{
-  left:4px;
-  width:44px;
-  border-radius:12px;
-  background:rgba(25,76,112,.96);
-  color:#f2cf75;
-  font-weight:900;
+  display:none;
 }
 
 .construction-agenda-program-live{
