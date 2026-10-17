@@ -107,6 +107,12 @@ function render(row){
   if(E.remaining)E.remaining.textContent=moneyFunding(remaining);
 
   const pct=percent(progressValue);
+  const fundingClass=pct>=50?"funding-high":"funding-low";
+  for(const el of [E.collected,E.remaining]){
+    if(!el)continue;
+    el.classList.remove("funding-low","funding-high");
+    el.classList.add(fundingClass);
+  }
   if(E.progressFill)E.progressFill.style.width=(pct===0?1:pct)+"%";
   if(E.progressText)E.progressText.textContent=numberFormat.format(pct)+"%";
 }

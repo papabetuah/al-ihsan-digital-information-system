@@ -40,7 +40,7 @@
 
 .construction-kpi-value-live{
   position:absolute;
-  top:431px;
+  top:437px;
   width:226px;
   text-align:center;
   font-size:24px;
@@ -52,9 +52,9 @@
   white-space:nowrap;
 }
 
-.construction-target-live{left:870px;color:#f2cf75}
-.construction-collected-live{left:1146px;color:#ffffff}
-.construction-remaining-live{left:1410px;color:#ffffff}
+.construction-target-live{left:870px;font-size:19px;color:#f2cf75}
+.construction-collected-live{left:1116px;color:#ffffff}
+.construction-remaining-live{left:1404px;color:#ffffff}
 
 .construction-progress-live{
   position:absolute;
@@ -89,3 +89,8 @@
   text-shadow:0 2px 7px rgba(0,0,0,.65);
   white-space:nowrap;
 }
+
+
+/* Stage 2B v5 — funding status color rules */
+.construction-kpi-value-live.funding-low{color:#ff4f5a}
+.construction-kpi-value-live.funding-high{color:#51e89a}
