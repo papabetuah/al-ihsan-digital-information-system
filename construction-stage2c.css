@@ -42,6 +42,10 @@
   transform:translateY(3px);
 }
 
+.construction-agenda-row-live:nth-child(n+4){
+  transform:translateY(5px);
+}
+
 .construction-agenda-cell-live{
   position:absolute;
   top:0;
