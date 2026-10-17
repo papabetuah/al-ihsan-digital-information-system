@@ -114,9 +114,10 @@ function render(rows){
 
 async function refresh(){
   try{
-    render(await queryAgenda());
+    const rows=await queryAgenda();
+    if(rows.some(row=>text(row["Program Pembangunan"])))render(rows);
   }catch(error){
-    console.warn("Construction Stage 2C refresh failed",error);
+    console.warn("Construction Stage 2C refresh failed; keeping embedded agenda rows",error);
   }finally{
     clearTimeout(timer);
     timer=setTimeout(refresh,refreshMs);
