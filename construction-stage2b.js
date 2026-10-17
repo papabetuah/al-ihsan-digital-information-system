@@ -32,7 +32,7 @@ function money(v){
   return "Rp"+numberFormat.format(Math.max(0,v));
 }
 function percent(v){
-  if(v===null||v===undefined||!Number.isFinite(v))return "—";
+  if(v===null||v===undefined||!Number.isFinite(v))return 0;
   return Math.max(0,Math.min(100,v));
 }
 
@@ -101,8 +101,8 @@ function render(row){
   if(E.remaining)E.remaining.textContent=money(remaining);
 
   const pct=percent(progressValue);
-  if(E.progressFill)E.progressFill.style.width=(pct==="—"?0:pct)+"%";
-  if(E.progressText)E.progressText.textContent=pct==="—"?"—":numberFormat.format(pct)+"%";
+  if(E.progressFill)E.progressFill.style.width=(pct===0?2:pct)+"%";
+  if(E.progressText)E.progressText.textContent=numberFormat.format(pct)+"%";
 }
 
 async function refresh(){
