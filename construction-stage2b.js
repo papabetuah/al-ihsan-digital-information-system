@@ -87,22 +87,24 @@ function render(row){
   if(!row)return;
   const title=text(row["Program Pembangunan"]);
   const note=text(row["Catatan"]).split(".")[0].trim();
+  const estimate=numberOrNull(row["Estimasi Anggaran"]);
   const collected=numberOrNull(row["Dana Terkumpul"]);
   const explicitRemaining=numberOrNull(row["Kekurangan"]);
   const explicitProgress=numberOrNull(row["Progress"]);
 
+  const targetValue=estimate!==null?Math.max(estimate,0):campaignTarget;
   const collectedValue=collected!==null?Math.max(collected,0):0;
   const remaining=explicitRemaining!==null
     ? explicitRemaining
-    : Math.max(campaignTarget-collectedValue,0);
+    : Math.max(targetValue-collectedValue,0);
 
   const progressValue=explicitProgress!==null
     ? explicitProgress
-    : (campaignTarget>0?(collectedValue/campaignTarget)*100:0);
+    : (targetValue>0?(collectedValue/targetValue)*100:0);
 
-  if(E.focusTitle)E.focusTitle.textContent=title||"PEMBUATAN MIHRAB MASJID";
-  if(E.focusNote)E.focusNote.textContent=note||"Paket termasuk plafond area mihrab ±15 m²";
-  if(E.target)E.target.textContent=moneyFunding(campaignTarget);
+  if(E.focusTitle)E.focusTitle.textContent=title||"PEMBUATAN MIHRAB MASJID + PLAFOND MIHRAB";
+  if(E.focusNote)E.focusNote.textContent=note||"Mihrab dan plafond area mihrab menjadi satu paket pekerjaan";
+  if(E.target)E.target.textContent=moneyFunding(targetValue);
   if(E.collected)E.collected.textContent=moneyFunding(collectedValue,{compactZero:true});
   if(E.remaining)E.remaining.textContent=moneyFunding(remaining);
 
@@ -127,8 +129,12 @@ async function refresh(){
   }catch(error){
     console.warn("Construction Stage 2B refresh failed",error);
     render({
-      "Program Pembangunan":"Pembuatan mihrab masjid",
-      "Catatan":"Paket termasuk plafond area mihrab ±15 m²"
+      "Program Pembangunan":"Pembuatan mihrab masjid + plafond mihrab",
+      "Estimasi Anggaran":55550000,
+      "Dana Terkumpul":0,
+      "Kekurangan":55550000,
+      "Progress":0,
+      "Catatan":"Mihrab dan plafond area mihrab menjadi satu paket pekerjaan."
     });
   }finally{
     clearTimeout(timer);
