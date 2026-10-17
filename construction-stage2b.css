@@ -19,7 +19,7 @@
 
 .construction-focus-title-live{
   position:relative;
-  top:-2px;
+  top:-4px;
   font-size:38px;
   line-height:1.05;
   font-weight:900;
@@ -32,9 +32,9 @@
 
 .construction-focus-note-live{
   position:relative;
-  left:-2px;
+  left:2px;
   margin-top:14px;
-  font-size:28px;
+  font-size:32px;
   line-height:1.15;
   font-weight:700;
   color:#f2cf75;
@@ -56,8 +56,8 @@
   white-space:nowrap;
 }
 
-.construction-target-live{left:864px;color:#f2cf75}
-.construction-collected-live{left:1066px;color:#ffffff}
+.construction-target-live{left:864px;font-size:29px;color:#f2cf75}
+.construction-collected-live{left:1046px;color:#ffffff}
 .construction-remaining-live{left:1398px;color:#ffffff}
 
 .construction-progress-live{

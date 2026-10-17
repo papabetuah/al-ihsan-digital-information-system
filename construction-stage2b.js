@@ -33,7 +33,7 @@ function money(v){
 }
 function moneyFunding(v,{compactZero=false}={}){
   const value=Number.isFinite(v)?Math.max(0,v):0;
-  if(compactZero&&value===0)return "Rp.0";
+  if(compactZero&&value===0)return "Rp. 0";
   return "Rp. "+numberFormat.format(value);
 }
 function percent(v){
