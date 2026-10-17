@@ -88,6 +88,7 @@ function render(){
     if(E.next)E.next.textContent=String(next.label||"").replace(/^Menuju\s+/i,"").replace(/^Shubuh$/i,"Subuh");
     if(E.countdown)E.countdown.textContent=P.countdown(next.ts-now.getTime());
     try{window.AL_IHSAN_FINANCE_TICK?.({now,gregorianText,hijriText,nextLabel:next.label,countdownText:P.countdown(next.ts-now.getTime())})}catch(financeError){console.warn("Finance tick failed",financeError)}
+    try{window.AL_IHSAN_CONSTRUCTION_TICK?.({now,gregorianText,hijriText,nextLabel:next.label,countdownText:P.countdown(next.ts-now.getTime())})}catch(constructionError){console.warn("Construction tick failed",constructionError)}
     if(E.status)E.status.style.background="#58f1cf";
     document.documentElement.dataset.ready="true";
   }catch(error){

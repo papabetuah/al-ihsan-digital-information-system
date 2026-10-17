@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./styles-v102.css?v=zikir-meaning-layout-v102-20260926">
 <link rel="stylesheet" href="./finance-background-only-v117.css?v=approved-master-20261016">
   <link rel="stylesheet" href="./construction-background-only-v1.css?v=approved-master-20261016">
+  <link rel="stylesheet" href="./construction-stage2a.css?v=construction-stage2a-v1-20261017">
   <link rel="stylesheet" href="./finance-stage2a.css?v=finance-upperlayer-2abcde-v22-clock83-down3-20261016">
 </head>
 <body>
@@ -172,12 +173,24 @@
         </div>
       </section>
 
-      <section id="constructionScene" class="construction-scene construction-stage1" aria-label="Halaman Pembangunan Masjid" aria-hidden="true">
+      <section id="constructionScene" class="construction-scene construction-stage2a" aria-label="Halaman Pembangunan Masjid" aria-hidden="true">
         <img
           class="construction-underlay"
-          src="./assets/construction-background-approved-master-v2.webp?v=approved-master-20261017"
+          src="./assets/construction-background-approved-master.png?v=approved-master-20261017"
           alt=""
           aria-hidden="true">
+        <div class="construction-upperlayer" aria-label="Informasi waktu dan sholat">
+          <div id="constructionClock" class="construction-clock-live"></div>
+          <div class="construction-date-live">
+            <div id="constructionDateGregorian" class="construction-date-gregorian"></div>
+            <div id="constructionDateHijri" class="construction-date-hijri"></div>
+          </div>
+          <div class="construction-next-live">
+            <div class="construction-next-caption">Sholat Berikutnya</div>
+            <div id="constructionNextPrayer" class="construction-next-prayer"></div>
+            <div id="constructionCountdown" class="construction-countdown-live"></div>
+          </div>
+        </div>
       </section>
 
       <section id="prayerScene" class="prayer-scene" aria-label="Mode Sholat" aria-hidden="true">
@@ -397,6 +410,7 @@
   <script src="./calendar-engine-v106.js?v=printed-khgt-calendar-v106-20260926"></script>
   <script src="./pre-azan-playlist-v107.js?v=pre-azan-rotation-v107-20261015"></script>
   <script src="./finance-stage2a.js?v=finance-upperlayer-2abcde-v22-clock83-down3-20261016"></script>
-  <script src="./app-v107.js?v=finance-stage2a-20261016"></script>
+  <script src="./construction-stage2a.js?v=construction-stage2a-v1-20261017"></script>
+  <script src="./app-v107.js?v=construction-stage2a-v1-20261017"></script>
 </body>
 </html>

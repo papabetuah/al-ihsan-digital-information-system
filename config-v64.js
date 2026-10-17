@@ -2,7 +2,7 @@ window.AL_IHSAN_CONFIG = Object.freeze({
   name: "Masjid Al Ihsan Kapuih",
   timezone: "Asia/Jakarta",
   timezoneOffset: 7,
-  release: "construction-approved-backlayer-v1-20261016",
+  release: "construction-stage2a-v1-20261017",
   stage: Object.freeze({ width: 1672, height: 941 }),
   rotation: Object.freeze({
     dashboardMs: 45000,

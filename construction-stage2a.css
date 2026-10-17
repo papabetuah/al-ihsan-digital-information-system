@@ -1,0 +1,113 @@
+/* Construction Stage 2A — approved image backlayer + live header only */
+.construction-upperlayer{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:#fff;
+}
+
+/* Header slot in approved 1672×941 backlayer */
+.construction-clock-live{
+  position:absolute;
+  left:1062px;
+  top:32px;
+  width:140px;
+  text-align:center;
+  font-size:58px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.2px;
+  font-variant-numeric:tabular-nums;
+  color:#fff;
+  text-shadow:0 2px 9px rgba(0,0,0,.62);
+  white-space:nowrap;
+}
+
+.construction-date-live{
+  position:absolute;
+  left:1210px;
+  top:31px;
+  width:200px;
+  height:66px;
+  text-align:center;
+}
+
+.construction-date-gregorian{
+  position:absolute;
+  left:0;
+  top:5px;
+  width:200px;
+  font-size:17px;
+  line-height:1.15;
+  font-weight:600;
+  color:#fff;
+  text-shadow:0 2px 7px rgba(0,0,0,.58);
+  white-space:nowrap;
+}
+
+.construction-date-hijri{
+  position:absolute;
+  left:0;
+  top:36px;
+  width:200px;
+  font-size:17px;
+  line-height:1.15;
+  font-weight:700;
+  color:#f2cf75;
+  text-shadow:0 2px 7px rgba(0,0,0,.58);
+  white-space:nowrap;
+}
+
+.construction-next-live{
+  position:absolute;
+  left:1481px;
+  top:24px;
+  width:132px;
+  height:78px;
+  text-align:center;
+}
+
+.construction-next-caption{
+  position:absolute;
+  left:0;
+  top:0;
+  width:132px;
+  font-size:13px;
+  line-height:1;
+  font-weight:600;
+  color:#fff;
+  text-shadow:0 2px 6px rgba(0,0,0,.58);
+  white-space:nowrap;
+}
+
+.construction-next-prayer{
+  position:absolute;
+  left:0;
+  top:21px;
+  width:132px;
+  font-size:22px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.2px;
+  text-transform:uppercase;
+  color:#f2cf75;
+  text-shadow:0 2px 8px rgba(0,0,0,.62);
+  white-space:nowrap;
+}
+
+.construction-countdown-live{
+  position:absolute;
+  left:0;
+  top:50px;
+  width:132px;
+  font-size:24px;
+  line-height:1;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,.62);
+  white-space:nowrap;
+}
