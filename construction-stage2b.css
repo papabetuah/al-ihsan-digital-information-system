@@ -11,14 +11,14 @@
 
 .construction-focus-content-live{
   position:absolute;
-  left:945px;
+  left:960px;
   top:232px;
   width:565px;
   text-align:left;
 }
 
 .construction-focus-title-live{
-  font-size:24px;
+  font-size:30px;
   line-height:1.05;
   font-weight:900;
   letter-spacing:.2px;
@@ -52,14 +52,14 @@
   white-space:nowrap;
 }
 
-.construction-target-live{left:862px;color:#f2cf75}
-.construction-collected-live{left:1126px;color:#ffffff}
-.construction-remaining-live{left:1390px;color:#ffffff}
+.construction-target-live{left:866px;color:#f2cf75}
+.construction-collected-live{left:1136px;color:#ffffff}
+.construction-remaining-live{left:1400px;color:#ffffff}
 
 .construction-progress-live{
   position:absolute;
-  left:986px;
-  top:506px;
+  left:991px;
+  top:514px;
   width:521px;
   height:39px;
   overflow:hidden;
@@ -77,8 +77,8 @@
 
 .construction-progress-text-live{
   position:absolute;
-  left:1524px;
-  top:510px;
+  left:1529px;
+  top:518px;
   width:95px;
   text-align:center;
   font-size:27px;

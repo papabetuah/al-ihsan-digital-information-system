@@ -26,22 +26,25 @@ for(const id of ["constructionFocusTitle","constructionFocusNote","constructionT
   assert(block.includes('id="'+id+'"'),id+" missing");
 }
 
-assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v2-focus-kpi-align-progress0-20261017"),"construction Stage 2B stylesheet missing");
-assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v2-focus-kpi-align-progress0-20261017"),"construction Stage 2B runtime missing");
+assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v3-values-progress1-align-20261017"),"construction Stage 2B stylesheet missing");
+assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v3-values-progress1-align-20261017"),"construction Stage 2B runtime missing");
 assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
 assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
 assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&stage2bJs.includes("Progress"),"construction funding fields missing");
 assert(stage2bJs.includes('return "—"'),"blank funding values must not be invented");
 assert(stage2bCss.includes(".construction-focus-title-live"),"construction focus typography missing");
-assert(stage2bCss.includes("left:945px"),"construction focus content must shift right 15px");
-assert(stage2bCss.includes("font-size:24px"),"construction focus title must shrink by 15px");
-assert(stage2bCss.includes(".construction-target-live{left:862px"),"construction target must shift right 10px");
-assert(stage2bCss.includes(".construction-collected-live{left:1126px"),"construction collected must shift right 10px");
-assert(stage2bCss.includes(".construction-remaining-live{left:1390px"),"construction remaining must shift right 10px");
-assert(stage2bCss.includes("left:986px")&&stage2bCss.includes("left:1524px"),"construction progress bar/text must shift right 10px");
+assert(stage2bCss.includes("left:960px"),"construction focus content must shift another 15px right");
+assert(stage2bCss.includes("font-size:30px"),"construction focus title must be 30px");
+assert(stage2bCss.includes(".construction-target-live{left:866px"),"construction target must shift right 4px");
+assert(stage2bCss.includes(".construction-collected-live{left:1136px"),"construction collected must shift another 10px right");
+assert(stage2bCss.includes(".construction-remaining-live{left:1400px"),"construction remaining must shift another 10px right");
+assert(stage2bCss.includes("left:991px")&&stage2bCss.includes("top:514px")&&stage2bCss.includes("left:1529px")&&stage2bCss.includes("top:518px"),"construction progress bar/text must move right 5px and down 8px");
 assert(stage2bJs.includes("return 0;"),"blank construction progress must resolve to 0");
-assert(stage2bJs.includes("(pct===0?2:pct)"),"zero progress must keep a small visible bar");
+assert(stage2bJs.includes("(pct===0?1:pct)"),"zero progress must keep a 1% visible bar");
 assert(stage2bJs.includes('numberFormat.format(pct)+"%"'),"zero progress must render as 0%");
+assert(stage2bJs.includes('return "Rp.0"'),"blank collected funding must display Rp.0");
+assert(stage2bJs.includes('return "Rp. "+numberFormat.format(value)'),"remaining funding must use Rp. spaced format");
+assert(stage2bJs.includes("campaignTarget-collectedValue"),"remaining must equal target minus collected");
 assert(stage2bCss.includes(".construction-progress-fill-live"),"construction progress live layer missing");
 
 assert(index.includes("./construction-stage2a.css?v=construction-stage2a-v8-countdown-right10-20261017"),"construction Stage 2A stylesheet missing");
@@ -73,6 +76,6 @@ assert(app.includes('"construction","prayer"'),"construction direct preview must
 assert(config.includes('constructionCampaignTarget: 145000000'),"approved construction campaign target missing");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2b-v2-20261017"'),"construction Stage 2B release marker missing");
+assert(config.includes('release: "construction-stage2b-v3-20261017"'),"construction Stage 2B release marker missing");
 
 console.log("Construction Stage 2A regression: OK");

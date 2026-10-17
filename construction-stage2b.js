@@ -31,6 +31,11 @@ function money(v){
   if(v===null||v===undefined||!Number.isFinite(v))return "—";
   return "Rp"+numberFormat.format(Math.max(0,v));
 }
+function moneyFunding(v,{compactZero=false}={}){
+  const value=Number.isFinite(v)?Math.max(0,v):0;
+  if(compactZero&&value===0)return "Rp.0";
+  return "Rp. "+numberFormat.format(value);
+}
 function percent(v){
   if(v===null||v===undefined||!Number.isFinite(v))return 0;
   return Math.max(0,Math.min(100,v));
@@ -86,22 +91,23 @@ function render(row){
   const explicitRemaining=numberOrNull(row["Kekurangan"]);
   const explicitProgress=numberOrNull(row["Progress"]);
 
+  const collectedValue=collected!==null?Math.max(collected,0):0;
   const remaining=explicitRemaining!==null
     ? explicitRemaining
-    : (collected!==null?Math.max(campaignTarget-collected,0):null);
+    : Math.max(campaignTarget-collectedValue,0);
 
   const progressValue=explicitProgress!==null
     ? explicitProgress
-    : (collected!==null&&campaignTarget>0?(collected/campaignTarget)*100:null);
+    : (campaignTarget>0?(collectedValue/campaignTarget)*100:0);
 
   if(E.focusTitle)E.focusTitle.textContent=title||"PEMBUATAN MIHRAB MASJID";
   if(E.focusNote)E.focusNote.textContent=note||"Paket termasuk plafond area mihrab ±15 m²";
   if(E.target)E.target.textContent=money(campaignTarget);
-  if(E.collected)E.collected.textContent=money(collected);
-  if(E.remaining)E.remaining.textContent=money(remaining);
+  if(E.collected)E.collected.textContent=moneyFunding(collectedValue,{compactZero:true});
+  if(E.remaining)E.remaining.textContent=moneyFunding(remaining);
 
   const pct=percent(progressValue);
-  if(E.progressFill)E.progressFill.style.width=(pct===0?2:pct)+"%";
+  if(E.progressFill)E.progressFill.style.width=(pct===0?1:pct)+"%";
   if(E.progressText)E.progressText.textContent=numberFormat.format(pct)+"%";
 }
 
