@@ -11,6 +11,8 @@ const stage2bCss=fs.readFileSync("construction-stage2b.css","utf8");
 const stage2bJs=fs.readFileSync("construction-stage2b.js","utf8");
 const stage2cCss=fs.readFileSync("construction-stage2c.css","utf8");
 const stage2cJs=fs.readFileSync("construction-stage2c.js","utf8");
+const stage2dCss=fs.readFileSync("construction-stage2d.css","utf8");
+const stage2dJs=fs.readFileSync("construction-stage2d.js","utf8");
 const image=fs.readFileSync("assets/construction-background-approved-master.png");
 
 const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>/)?.[0]||"";
@@ -37,6 +39,14 @@ assert(stage2cJs.includes("Estimasi Anggaran")&&stage2cJs.includes("Dana Terkump
 assert(stage2cJs.includes("estimate!==null?estimate:(active?campaignTarget:null)"),"agenda must prefer Sheet estimate with campaign fallback");
 assert(stage2cCss.includes(".construction-agenda-program-live"),"construction Stage 2C agenda program styling missing");
 assert(stage2cCss.includes(".construction-agenda-no-live"),"construction Stage 2C agenda number overlay missing");
+
+assert(index.includes('id="constructionVisualFocus"'),"construction Stage 2D visual focus container missing");
+assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v1-visual-focus-20261017"),"construction Stage 2D stylesheet missing");
+assert(index.includes("./construction-stage2d.js?v=construction-stage2d-v1-visual-focus-20261017"),"construction Stage 2D runtime missing");
+assert(index.includes("assets/masjid-hero-clean-final.jpg?v=construction-stage2d-v1"),"construction Stage 2D approved mosque visual missing");
+assert(stage2dCss.includes(".construction-visual-focus-live")&&stage2dCss.includes("left:62px")&&stage2dCss.includes("top:168px"),"construction Stage 2D panel geometry missing");
+assert(stage2dCss.includes("@keyframes constructionVisualKenBurns"),"construction Stage 2D visual motion missing");
+assert(stage2dJs.includes("intervalMs=7000")&&stage2dJs.includes("visibilitychange"),"construction Stage 2D slideshow runtime missing");
 
 assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v10-focus-two-lines-20261017"),"construction Stage 2B stylesheet missing");
 assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v11-focus-two-lines-20261017"),"construction Stage 2B runtime missing");
