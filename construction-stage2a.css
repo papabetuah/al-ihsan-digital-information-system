@@ -16,7 +16,7 @@
   top:32px;
   width:140px;
   text-align:center;
-  font-size:66px;
+  font-size:75px;
   line-height:1;
   font-weight:800;
   font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
@@ -44,7 +44,7 @@
   left:0;
   top:5px;
   width:200px;
-  font-size:25px;
+  font-size:35px;
   line-height:1.15;
   font-weight:600;
   font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
@@ -62,7 +62,7 @@
   left:0;
   top:36px;
   width:200px;
-  font-size:25px;
+  font-size:35px;
   line-height:1.15;
   font-weight:700;
   font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",Arial,sans-serif;
@@ -99,7 +99,7 @@
 
 .construction-next-prayer{
   position:absolute;
-  left:8px;
+  left:10px;
   top:21px;
   width:132px;
   font-size:30px;
@@ -114,7 +114,7 @@
 
 .construction-countdown-live{
   position:absolute;
-  left:8px;
+  left:10px;
   top:58px;
   width:132px;
   font-size:30px;
@@ -132,7 +132,7 @@
   content:"";
   position:absolute;
   left:18px;
-  top:31px;
+  top:36px;
   width:164px;
   height:1px;
   background:rgba(242,207,117,.88);
