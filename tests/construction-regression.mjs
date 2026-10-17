@@ -26,17 +26,18 @@ for(const id of ["constructionFocusTitle","constructionFocusNote","constructionT
   assert(block.includes('id="'+id+'"'),id+" missing");
 }
 
-assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v6-title36-kpi-align-20261017"),"construction Stage 2B stylesheet missing");
-assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v6-title36-kpi-align-20261017"),"construction Stage 2B runtime missing");
+assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v7-title38-note28-align-20261017"),"construction Stage 2B stylesheet missing");
+assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v7-title38-note28-align-20261017"),"construction Stage 2B runtime missing");
 assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
 assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
 assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&stage2bJs.includes("Progress"),"construction funding fields missing");
 assert(stage2bJs.includes('return "—"'),"blank funding values must not be invented");
 assert(stage2bCss.includes(".construction-focus-title-live"),"construction focus typography missing");
 assert(stage2bCss.includes("left:975px"),"construction focus content must shift another 15px right");
-assert(stage2bCss.includes("font-size:36px"),"construction focus title must be 36px");
-assert(stage2bCss.includes(".construction-target-live{left:864px;font-size:24px;color:#f2cf75}"),"construction target must be 24px yellow and shift left 6px");
-assert(stage2bCss.includes(".construction-collected-live{left:1076px"),"construction collected must shift another 40px left");
+assert(stage2bCss.includes("font-size:38px")&&stage2bCss.includes("top:-2px"),"construction focus title must be 38px and move up 2px");
+assert(/\.construction-focus-note-live\{[\s\S]*?left:-2px;[\s\S]*?font-size:28px;/.test(stage2bCss),"construction focus note must move left 2px and be 28px");
+assert(stage2bCss.includes(".construction-target-live{left:864px;color:#f2cf75}"),"construction target must use shared KPI font and remain yellow");
+assert(stage2bCss.includes(".construction-collected-live{left:1066px"),"construction collected must shift another 10px left");
 assert(stage2bCss.includes(".construction-remaining-live{left:1398px"),"construction remaining must shift another 6px left");
 assert(stage2bCss.includes("left:991px")&&stage2bCss.includes("top:514px")&&stage2bCss.includes("left:1529px")&&stage2bCss.includes("top:518px"),"construction progress bar/text must move right 5px and down 8px");
 assert(stage2bJs.includes("return 0;"),"blank construction progress must resolve to 0");
@@ -82,6 +83,6 @@ assert(app.includes('"construction","prayer"'),"construction direct preview must
 assert(config.includes('constructionCampaignTarget: 145000000'),"approved construction campaign target missing");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-stage2b-v6-20261017"'),"construction Stage 2B release marker missing");
+assert(config.includes('release: "construction-stage2b-v7-20261017"'),"construction Stage 2B release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
