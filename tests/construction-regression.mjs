@@ -41,7 +41,7 @@ assert(stage2cCss.includes(".construction-agenda-program-live"),"construction St
 assert(stage2cCss.includes(".construction-agenda-no-live"),"construction Stage 2C agenda number overlay missing");
 
 assert(index.includes('id="constructionVisualFocus"'),"construction Stage 2D visual focus container missing");
-assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D stylesheet missing");
+assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v3-position-42-148-20261018"),"construction Stage 2D stylesheet missing");
 assert(index.includes("./construction-stage2d.js?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D runtime missing");
 assert(index.includes("assets/construction-stage2d-mihrab-right.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D right-view visual missing");
 assert(index.includes("assets/construction-stage2d-mihrab-left.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D left-view visual missing");
