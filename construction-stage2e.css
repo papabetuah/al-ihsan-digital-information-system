@@ -60,10 +60,11 @@
 
 .construction-donation-qr-image-live{
   display:block;
-  width:136px;
-  height:136px;
+  width:138px;
+  height:138px;
+  margin:0 auto;
   object-fit:contain;
-  image-rendering:pixelated;
+  image-rendering:auto;
 }
 
 .construction-donation-qr-name-live{
