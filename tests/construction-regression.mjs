@@ -41,13 +41,13 @@ assert(stage2cCss.includes(".construction-agenda-program-live"),"construction St
 assert(stage2cCss.includes(".construction-agenda-no-live"),"construction Stage 2C agenda number overlay missing");
 
 assert(index.includes('id="constructionVisualFocus"'),"construction Stage 2D visual focus container missing");
-assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v3-position-42-148-20261018"),"construction Stage 2D stylesheet missing");
+assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v4-position-22-128-20261018"),"construction Stage 2D stylesheet missing");
 assert(index.includes("./construction-stage2d.js?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D runtime missing");
 assert(index.includes("assets/construction-stage2d-mihrab-right.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D right-view visual missing");
 assert(index.includes("assets/construction-stage2d-mihrab-left.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D left-view visual missing");
 assert(index.includes("assets/construction-stage2d-mihrab-far-center.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D far-center visual missing");
 assert(index.includes("assets/construction-stage2d-mihrab-top.webp?v=construction-stage2d-v2-final-mihrab-20261018"),"construction Stage 2D top-view visual missing");
-assert(stage2dCss.includes(".construction-visual-focus-live")&&stage2dCss.includes("left:42px")&&stage2dCss.includes("top:148px"),"construction Stage 2D panel must move 20px left and 20px up");
+assert(stage2dCss.includes(".construction-visual-focus-live")&&stage2dCss.includes("left:22px")&&stage2dCss.includes("top:128px"),"construction Stage 2D panel must be positioned at left 22px and top 128px");
 assert(stage2dCss.includes("@keyframes constructionVisualKenBurns"),"construction Stage 2D visual motion missing");
 assert(stage2dJs.includes("intervalMs=7000")&&stage2dJs.includes("visibilitychange"),"construction Stage 2D slideshow runtime missing");
 
