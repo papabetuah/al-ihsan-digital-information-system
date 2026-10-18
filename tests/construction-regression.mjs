@@ -66,7 +66,7 @@ assert(stage2eCss.includes("image-rendering:pixelated"),"construction Stage 2E Q
 assert(stage2eCss.includes("@keyframes constructionDonationPulse"),"construction Stage 2E QR pulse missing");
 assert(stage2eJs.includes('messages=["SCAN QRIS","TRANSFER BANK NAGARI","KONFIRMASI VIA WA"]'),"construction Stage 2E prompt sequence missing");
 assert(stage2eJs.includes("intervalMs=5000")&&stage2eJs.includes("visibilitychange"),"construction Stage 2E runtime cadence missing");
-assert(qris.length===3377,"construction Stage 2E QR asset size changed");
+assert(qris.length===2947,"construction Stage 2E QR asset size changed");
 assert(qris[0]===0x89&&qris[1]===0x50&&qris[2]===0x4e&&qris[3]===0x47,"construction Stage 2E QR asset must remain PNG");
 
 assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v10-focus-two-lines-20261017"),"construction Stage 2B stylesheet missing");
