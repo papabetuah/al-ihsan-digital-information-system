@@ -11,37 +11,37 @@
   position:absolute;
   left:1452px;
   top:657px;
-  width:170px;
-  height:240px;
+  width:154px;
+  height:220px;
   text-align:center;
   font-family:"Arial Narrow","Roboto Condensed","Liberation Sans Narrow",Arial,sans-serif;
 }
 
 .construction-donation-prompt-live{
-  width:162px;
-  height:28px;
-  margin:0 auto 7px;
+  width:148px;
+  height:24px;
+  margin:0 auto 6px;
   border:1px solid rgba(242,207,117,.88);
-  border-radius:14px;
+  border-radius:12px;
   background:rgba(0,45,78,.88);
   color:#f2cf75;
-  font-size:15px;
-  line-height:28px;
+  font-size:13px;
+  line-height:24px;
   font-weight:900;
-  letter-spacing:.9px;
+  letter-spacing:.7px;
   text-shadow:0 1px 4px rgba(0,0,0,.65);
   box-shadow:0 0 12px rgba(242,207,117,.14);
 }
 
 .construction-donation-qr-frame-live{
   position:relative;
-  width:154px;
-  height:154px;
+  width:140px;
+  height:140px;
   margin:0 auto;
-  padding:7px;
+  padding:6px;
   box-sizing:border-box;
   border:2px solid #f2cf75;
-  border-radius:18px;
+  border-radius:16px;
   background:#fff;
   box-shadow:
     0 8px 22px rgba(0,0,0,.42),
@@ -51,40 +51,40 @@
 .construction-donation-qr-frame-live:after{
   content:"";
   position:absolute;
-  inset:-6px;
+  inset:-5px;
   border:1px solid rgba(242,207,117,.55);
-  border-radius:22px;
+  border-radius:20px;
   opacity:.45;
   animation:constructionDonationPulse 2.8s ease-in-out infinite;
 }
 
 .construction-donation-qr-image-live{
   display:block;
-  width:138px;
-  height:138px;
+  width:124px;
+  height:124px;
   margin:0 auto;
   object-fit:contain;
   image-rendering:auto;
 }
 
 .construction-donation-qr-name-live{
-  margin-top:7px;
+  margin-top:6px;
   color:#fff;
-  font-size:12px;
-  line-height:1.15;
+  font-size:9px;
+  line-height:1.1;
   font-weight:800;
-  letter-spacing:.35px;
+  letter-spacing:.25px;
   text-shadow:0 2px 6px rgba(0,0,0,.82);
   white-space:nowrap;
 }
 
 .construction-donation-confirm-live{
-  width:170px;
-  margin:7px auto 0;
-  padding:5px 5px 6px;
+  width:154px;
+  margin:6px auto 0;
+  padding:4px 5px 5px;
   box-sizing:border-box;
   border:1px solid rgba(255,202,77,.62);
-  border-radius:11px;
+  border-radius:10px;
   background:rgba(0,42,72,.88);
   box-shadow:0 4px 12px rgba(0,0,0,.26);
 }
@@ -102,11 +102,12 @@
   display:block;
   margin-top:3px;
   color:#fff;
-  font-size:18px;
+  font-size:14px;
   line-height:1;
   font-weight:900;
-  letter-spacing:.3px;
+  letter-spacing:1px;
   text-shadow:0 2px 5px rgba(0,0,0,.78);
+  white-space:nowrap;
 }
 
 @keyframes constructionDonationPulse{
