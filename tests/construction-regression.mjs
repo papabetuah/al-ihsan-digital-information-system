@@ -57,13 +57,13 @@ assert(stage2dCss.includes("to{transform:scale(1.04)}"),"construction Stage 2D z
 assert(stage2dJs.includes("intervalMs=7000")&&stage2dJs.includes("visibilitychange"),"construction Stage 2D slideshow runtime missing");
 
 assert(index.includes('id="constructionDonationPrompt"'),"construction Stage 2E donation prompt missing");
-assert(index.includes("./construction-stage2e.css?v=construction-stage2e-v7-size170x245-20261021"),"construction Stage 2E stylesheet missing");
+assert(index.includes("./construction-stage2e.css?v=construction-stage2e-v8-size200x255-20261021"),"construction Stage 2E stylesheet missing");
 assert(index.includes("./construction-stage2e.js?v=construction-stage2e-v1-donation-qr-20261018"),"construction Stage 2E runtime missing");
 assert(index.includes("assets/construction-qris-rumah-tahfiz-v2.png?v=construction-stage2e-v2-qris-renderfix-20261018"),"construction Stage 2E QRIS asset missing");
 assert(index.includes("0851 7311 6899"),"construction Stage 2E donation confirmation number missing");
 assert(stage2eCss.includes("left:1482px")&&stage2eCss.includes("top:647px"),"construction Stage 2E QR panel must be 15px right and 20px up from previous position");
 assert(stage2eCss.includes("width:124px")&&stage2eCss.includes("height:124px")&&stage2eCss.includes("image-rendering:auto"),"construction Stage 2E QR must render at reduced 124px size");
-assert(stage2eCss.includes("width:170px")&&stage2eCss.includes("height:245px"),"construction Stage 2E panel must use 170x245 geometry");
+assert(stage2eCss.includes("width:200px")&&stage2eCss.includes("height:255px"),"construction Stage 2E panel must use 200x255 geometry");
 assert(stage2eCss.includes("font-size:14px")&&stage2eCss.includes("white-space:nowrap"),"construction Stage 2E confirmation number must remain on one line");
 assert(stage2eCss.includes("@keyframes constructionDonationPulse"),"construction Stage 2E QR pulse missing");
 assert(stage2eJs.includes('messages=["SCAN QRIS","TRANSFER BANK NAGARI","KONFIRMASI VIA WA"]'),"construction Stage 2E prompt sequence missing");
