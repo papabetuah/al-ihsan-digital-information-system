@@ -803,6 +803,7 @@ async function loadCms(){
     renderAnnouncement();renderAgenda();renderWisdom();
     if(E.cmsState){E.cmsState.textContent="CMS ONLINE";E.cmsState.classList.add("online");E.cmsState.classList.remove("offline")}
     scheduleAnnouncementRotation();
+    if(currentScene==="announcement"&&!hasAnnouncementContent())scheduleSceneRotation();
   }catch(error){
     console.warn("Announcement CMS sync unavailable",error);
     if(E.cmsState){E.cmsState.textContent="CMS LOKAL";E.cmsState.classList.add("offline");E.cmsState.classList.remove("online")}
@@ -848,14 +849,39 @@ function sceneDuration(scene){
   return R.dashboardMs||45000;
 }
 
+function hasAnnouncementContent(){
+  return announcements.length>0||agendaItems.length>0||wisdomItems.length>0;
+}
+
+function effectiveRotationSequence(){
+  const configured=Array.isArray(C.rotation?.sequence)&&C.rotation.sequence.length?C.rotation.sequence:["dashboard","donation"];
+  const filtered=configured.filter(scene=>scene!=="announcement"||hasAnnouncementContent());
+  return filtered.length?filtered:["dashboard"];
+}
+
+function nextEnabledSceneAfter(scene,seq,configured){
+  const baseIndex=configured.indexOf(scene);
+  if(baseIndex<0)return seq[0];
+  for(let step=1;step<=configured.length;step++){
+    const candidate=configured[(baseIndex+step)%configured.length];
+    if(seq.includes(candidate))return candidate;
+  }
+  return seq[0];
+}
+
 function scheduleSceneRotation(){
   clearTimeout(sceneTimerId);
   if(prayerModeActive||currentScene==="prayer"||currentScene==="zikir")return;
   const params=new URLSearchParams(location.search);
   const forced=params.get("scene");
   if(["dashboard","donation","announcement","finance","construction","zikir"].includes(forced)){setScene(forced);return}
-  const seq=Array.isArray(C.rotation?.sequence)&&C.rotation.sequence.length?C.rotation.sequence:["dashboard","donation"];
+  const configured=Array.isArray(C.rotation?.sequence)&&C.rotation.sequence.length?C.rotation.sequence:["dashboard","donation"];
+  let seq=effectiveRotationSequence();
+  if(!seq.includes(currentScene)){
+    setScene(nextEnabledSceneAfter(currentScene,seq,configured));
+  }
   sceneTimerId=setTimeout(()=>{
+    seq=effectiveRotationSequence();
     const idx=Math.max(0,seq.indexOf(currentScene));
     setScene(seq[(idx+1)%seq.length]);scheduleSceneRotation();
   },sceneDuration(currentScene));

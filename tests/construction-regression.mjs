@@ -132,6 +132,9 @@ assert(config.includes("constructionMs: 45000"),"construction rotation duration 
 assert(app.includes('if(scene==="construction")return R.constructionMs||45000;'),"construction must use its approved rotation duration");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
 assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","construction","donation"])'),"construction must be enabled in the approved general TV rotation after finance and before donation");
+assert(app.includes("function hasAnnouncementContent()"),"announcement-content availability helper missing");
+assert(app.includes('scene!=="announcement"||hasAnnouncementContent()'),"empty announcement scene must be filtered from the general TV rotation");
+assert(app.includes("nextEnabledSceneAfter(currentScene,seq,configured)"),"rotation must advance immediately when the current announcement scene becomes empty");
 assert(config.includes('release: "construction-general-rotation-v1-20261021"'),"construction general-rotation release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
