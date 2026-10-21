@@ -1,5 +1,6 @@
 name: Deploy Al Ihsan TV to GitHub Pages
 # deployment refresh after Pages activation
+# pre-azan same-origin audio bundle v114
 
 on:
   push:
