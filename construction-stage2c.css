@@ -43,11 +43,11 @@
 }
 
 .construction-agenda-row-live:nth-child(n+4){
-  transform:translateY(4px);
+  transform:translateY(3px);
 }
 
 .construction-agenda-row-live:nth-child(n+5){
-  transform:translateY(5px);
+  transform:translateY(4px);
 }
 
 .construction-agenda-row-live:nth-child(n+6){
