@@ -22,7 +22,7 @@ const block=index.match(/<section id="constructionScene"[\s\S]*?<\/section>/)?.[
 
 assert(index.includes('id="constructionScene"'),"constructionScene missing");
 assert(block.includes('class="construction-underlay"'),"approved construction image element missing");
-assert(block.includes("assets/construction-background-approved-master.png?v=approved-master-20261020-participation-final"),"approved construction PNG master must be used");
+assert(block.includes("assets/construction-background-approved-master.png?v=approved-master-20261021-final-backlayer"),"approved construction PNG master must be used");
 assert(block.includes('class="construction-upperlayer"'),"construction Stage 2A upper layer missing");
 
 for(const id of ["constructionClock","constructionDateGregorian","constructionDateHijri","constructionNextPrayer","constructionCountdown"]){
@@ -116,7 +116,7 @@ assert(stage2aCss.includes(".construction-date-live:after")&&stage2aCss.includes
 assert(/\.construction-next-prayer\{[\s\S]*?left:10px;[\s\S]*?font-size:30px;/.test(stage2aCss),"construction next-prayer must stay 30px and use 10px right offset");
 assert(/\.construction-countdown-live\{[\s\S]*?left:20px;[\s\S]*?top:58px;[\s\S]*?font-size:30px;/.test(stage2aCss),"construction countdown must move another 10px right");
 
-assert(image.length===1778110,"approved construction image size changed");
+assert(image.length===2687497,"approved construction image size changed");
 assert(image[0]===0x89&&image[1]===0x50&&image[2]===0x4e&&image[3]===0x47,"approved construction asset must remain PNG");
 
 assert(stage2aJs.includes("AL_IHSAN_CONSTRUCTION_TICK"),"construction live tick runtime missing");
