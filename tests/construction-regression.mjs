@@ -128,8 +128,10 @@ assert(app.includes('construction:$("constructionScene")'),"construction scene r
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
 assert(config.includes('constructionCampaignTarget: 55550000'),"approved construction campaign target missing");
+assert(config.includes("constructionMs: 45000"),"construction rotation duration must be 45 seconds");
+assert(app.includes('if(scene==="construction")return R.constructionMs||45000;'),"construction must use its approved rotation duration");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
-assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","donation"])'),"construction must remain preview-only");
-assert(config.includes('release: "construction-live-data-v1-20261017"'),"construction live-data release marker missing");
+assert(config.includes('sequence: Object.freeze(["dashboard","announcement","finance","construction","donation"])'),"construction must be enabled in the approved general TV rotation after finance and before donation");
+assert(config.includes('release: "construction-general-rotation-v1-20261021"'),"construction general-rotation release marker missing");
 
 console.log("Construction Stage 2A regression: OK");

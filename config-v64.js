@@ -2,14 +2,15 @@ window.AL_IHSAN_CONFIG = Object.freeze({
   name: "Masjid Al Ihsan Kapuih",
   timezone: "Asia/Jakarta",
   timezoneOffset: 7,
-  release: "construction-live-data-v1-20261017",
+  release: "construction-general-rotation-v1-20261021",
   stage: Object.freeze({ width: 1672, height: 941 }),
   rotation: Object.freeze({
     dashboardMs: 45000,
     donationMs: 30000,
     announcementMs: 60000,
     financeMs: 45000,
-    sequence: Object.freeze(["dashboard","announcement","finance","donation"]),
+    constructionMs: 45000,
+    sequence: Object.freeze(["dashboard","announcement","finance","construction","donation"]),
     startScene: "dashboard"
   }),
   cms: Object.freeze({

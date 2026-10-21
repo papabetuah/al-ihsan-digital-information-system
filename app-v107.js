@@ -844,6 +844,7 @@ function sceneDuration(scene){
   if(scene==="donation")return R.donationMs||30000;
   if(scene==="announcement")return R.announcementMs||60000;
   if(scene==="finance")return R.financeMs||45000;
+  if(scene==="construction")return R.constructionMs||45000;
   return R.dashboardMs||45000;
 }
 
