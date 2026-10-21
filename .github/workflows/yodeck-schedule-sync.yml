@@ -1,68 +1,16 @@
-name: Self-heal and sync Yodeck
+name: Legacy Yodeck automation (disabled)
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "5 17 * * *"
-  push:
-    branches: ["main"]
-    paths:
-      - ".github/workflows/yodeck-schedule-sync.yml"
-      - "scripts/yodeck_schedule_sync.js"
-      - "scripts/yodeck_rebuild.py"
-      - "config-v64.js"
-      - "prayer-times.js"
-      - "pre-azan-playlist-v107.js"
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
-  self-heal-sync:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Verify and repair Yodeck media, playlists, and dashboard
-        env:
-          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
-        run: python scripts/yodeck_rebuild.py
-
-      - name: Sync rolling 30-day prayer schedule
-        env:
-          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
-        run: node scripts/yodeck_schedule_sync.js
-
-      - name: Upload recovery report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: yodeck-recovery-report
-          path: |
-            yodeck-rebuild-report.json
-            yodeck-schedule-sync-report.json
-          retention-days: 14
-
-      - name: Open failure alert
-        if: failure()
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Web-native pre-azan is active
         run: |
-          set -e
-          TITLE="[AL-IHSAN] Otomasi Yodeck gagal"
-          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
-          if [ -z "$EXISTING" ]; then
-            gh issue create               --title "$TITLE"               --body "Pemeriksaan otomatis media/jadwal Yodeck gagal. Buka tab Actions dan periksa workflow **Self-heal and sync Yodeck**. TV masih memiliki buffer jadwal hingga 30 hari dari sinkronisasi terakhir yang berhasil."
-          fi
-
-      - name: Close recovered failure alert
-        if: success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          TITLE="[AL-IHSAN] Otomasi Yodeck gagal"
-          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
-          if [ -n "$EXISTING" ]; then
-            gh issue close "$EXISTING" --reason completed
-          fi
+          echo "Yodeck API automation is disabled."
+          echo "Pra-azan scheduling and audio now run inside the Al Ihsan website."

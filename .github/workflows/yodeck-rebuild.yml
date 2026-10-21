@@ -1,40 +1,16 @@
-name: Rebuild Yodeck content
+name: Legacy Yodeck rebuild (disabled)
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["main"]
-    paths:
-      - ".github/workflows/yodeck-rebuild.yml"
-      - "scripts/yodeck_rebuild.py"
 
 permissions:
   contents: read
 
 jobs:
-  rebuild:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Rebuild Yodeck media playlists and dashboard
-        env:
-          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
-        run: python scripts/yodeck_rebuild.py
-      - name: Sync Yodeck prayer schedule after rebuild
-        env:
-          YODECK_API_TOKEN: ${{ secrets.YODECK_API_TOKEN }}
-        run: node scripts/yodeck_schedule_sync.js
-      - name: Upload rebuild report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: yodeck-rebuild-report
-          path: yodeck-rebuild-report.json
-          retention-days: 3
-      - name: Upload schedule report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: yodeck-schedule-sync-report-after-rebuild
-          path: yodeck-schedule-sync-report.json
-          retention-days: 7
+      - name: Web-native pre-azan is active
+        run: |
+          echo "Yodeck rebuild is disabled."
+          echo "The TV should load the Al Ihsan website; pra-azan audio is handled by the website."

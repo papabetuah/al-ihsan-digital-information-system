@@ -8,6 +8,19 @@ vm.runInThisContext(fs.readFileSync(new URL("../pre-azan-playlist-v107.js",impor
 const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 assert.ok(PRE);
 
+const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v111.js",import.meta.url),"utf8");
+assert.ok(indexHtml.includes("pre-azan-audio-v111.js?v=web-native-preazan-v111-20261021"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v111.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v111.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v111"'));
+assert.ok(audioJs.includes("DRIVE_BASE_PRIMARY")&&audioJs.includes("DRIVE_BASE_FALLBACK"));
+assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
+assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
+assert.ok(audioJs.includes('state.kind==="silence"'));
+assert.ok(audioJs.includes("ensureAudioBlockedNotice"));
+
+
 const monday=new Date("2026-10-12T12:00:00+07:00");
 const fri1=new Date("2026-10-02T12:00:00+07:00");
 const fri3=new Date("2026-10-16T12:00:00+07:00");
