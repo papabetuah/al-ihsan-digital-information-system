@@ -63,7 +63,7 @@ audio.autoplay=false;
 audio.loop=false;
 audio.playsInline=true;
 audio.volume=1;
-let activeKey="",stopTimer=0,token=0,lastState=null,sourceAttempt=0;
+let activeKey="",stopTimer=0,token=0,lastState=null,sourceAttempt=0,activeBlobUrl="";
 
 function driveIdForState(state){
   if(!state||!state.item)return"";
@@ -90,7 +90,7 @@ function stop(reason="stop"){
   token++;
   clearTimeout(stopTimer);stopTimer=0;
   activeKey="";
-  try{audio.pause();audio.removeAttribute("src");audio.load()}catch(_){}
+  try{audio.pause();audio.removeAttribute("src");audio.load()}catch(_){}\n  if(activeBlobUrl){try{URL.revokeObjectURL(activeBlobUrl)}catch(_){} activeBlobUrl="";}
   setAudioStatus(reason==="silence"?"silence":"idle");
 }
 function scheduleHardStop(endMs,currentToken){
@@ -118,6 +118,18 @@ function fallbackSrcForState(state){
   const driveId=state.kind==="tilawah"?TILAWAH[id]:TTS[id];
   return driveId?DRIVE_BASE_FALLBACK+encodeURIComponent(driveId):"";
 }
+async function prepareSource(src){
+  if(!String(src||"").startsWith("./assets/pre-azan-audio/"))return src;
+  const response=await fetch(src,{cache:"no-store"});
+  if(!response.ok)throw new Error("LOCAL_HTTP_"+response.status);
+  const buffer=await response.arrayBuffer();
+  if(buffer.byteLength<2048)throw new Error("LOCAL_AUDIO_TOO_SMALL");
+  const blob=new Blob([buffer],{type:"audio/mpeg"});
+  if(activeBlobUrl){try{URL.revokeObjectURL(activeBlobUrl)}catch(_){}}
+  activeBlobUrl=URL.createObjectURL(blob);
+  return activeBlobUrl;
+}
+
 async function playState(state){
   if(!state||state.kind==="silence"||!state.item){
     stop("silence");return;
@@ -143,7 +155,9 @@ async function playState(state){
     try{
       setAudioStatus(i===0?"loading":"retry-fallback",i===0?"":`source-${i+1}`);
       audio.pause();
-      audio.src=src;
+      const playableSrc=await prepareSource(src);
+      if(currentToken!==token)return;
+      audio.src=playableSrc;
       audio.load();
       seekFromSchedule(state,currentToken);
       await audio.play();
@@ -303,7 +317,7 @@ if(TEST_MODE){
   else runPreAzanTest();
 }
 window.AL_IHSAN_PRE_AZAN_AUDIO=Object.freeze({
-  version:"pre-azan-audio-v113",
+  version:"pre-azan-audio-v113-blobfix",
   ttsDriveIds:TTS,
   tilawahDriveIds:TILAWAH,
   srcForState,
