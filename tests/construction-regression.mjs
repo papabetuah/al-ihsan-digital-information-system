@@ -34,7 +34,7 @@ for(const id of ["constructionFocusTitle","constructionFocusNote","constructionT
 }
 
 assert(block.includes('id="constructionAgendaRows"'),"construction Stage 2C agenda container missing");
-assert(index.includes("./construction-stage2c.css?v=construction-stage2c-v7-rows5to6-down2-20261017"),"construction Stage 2C stylesheet missing");
+assert(index.includes("./construction-stage2c.css?v=construction-stage2c-v8-row4up1-row5up2-row6up3-20261021"),"construction Stage 2C stylesheet missing");
 assert(index.includes("./construction-stage2c.js?v=construction-stage2c-v3-sheet-master-20261017"),"construction Stage 2C runtime missing");
 assert(stage2cJs.includes("Pembangunan Agenda"),"construction Stage 2C must read Pembangunan Agenda");
 assert(stage2cJs.includes(".slice(0,6)"),"construction Stage 2C must show six agenda rows");
@@ -42,6 +42,7 @@ assert(stage2cJs.includes("Estimasi Anggaran")&&stage2cJs.includes("Dana Terkump
 assert(stage2cJs.includes("estimate!==null?estimate:(active?campaignTarget:null)"),"agenda must prefer Sheet estimate with campaign fallback");
 assert(stage2cCss.includes(".construction-agenda-program-live"),"construction Stage 2C agenda program styling missing");
 assert(stage2cCss.includes(".construction-agenda-no-live"),"construction Stage 2C agenda number overlay missing");
+assert(stage2cCss.includes("nth-child(n+4){\n  transform:translateY(4px)")&&stage2cCss.includes("nth-child(n+5){\n  transform:translateY(5px)")&&stage2cCss.includes("nth-child(n+6){\n  transform:translateY(4px)"),"construction agenda rows 4/5/6 must use final vertical offsets 4/5/4px");
 
 assert(index.includes('id="constructionVisualFocus"'),"construction Stage 2D visual focus container missing");
 assert(index.includes("./construction-stage2d.css?v=construction-stage2d-v9-hq-render-20261018"),"construction Stage 2D stylesheet missing");
@@ -57,11 +58,11 @@ assert(stage2dCss.includes("to{transform:scale(1.04)}"),"construction Stage 2D z
 assert(stage2dJs.includes("intervalMs=7000")&&stage2dJs.includes("visibilitychange"),"construction Stage 2D slideshow runtime missing");
 
 assert(index.includes('id="constructionDonationPrompt"'),"construction Stage 2E donation prompt missing");
-assert(index.includes("./construction-stage2e.css?v=construction-stage2e-v13-pos1452-652-size225x450-20261021"),"construction Stage 2E stylesheet missing");
+assert(index.includes("./construction-stage2e.css?v=construction-stage2e-v14-pos1447-637-size225x450-20261021"),"construction Stage 2E stylesheet missing");
 assert(index.includes("./construction-stage2e.js?v=construction-stage2e-v1-donation-qr-20261018"),"construction Stage 2E runtime missing");
 assert(index.includes("assets/construction-qris-rumah-tahfiz-v2.png?v=construction-stage2e-v2-qris-renderfix-20261018"),"construction Stage 2E QRIS asset missing");
 assert(index.includes("0851 7311 6899"),"construction Stage 2E donation confirmation number missing");
-assert(stage2eCss.includes("left:1452px")&&stage2eCss.includes("top:652px"),"construction Stage 2E QR panel must use left 1452px and top 652px geometry");
+assert(stage2eCss.includes("left:1447px")&&stage2eCss.includes("top:637px"),"construction Stage 2E QR panel must use left 1447px and top 637px geometry");
 assert(stage2eCss.includes("width:124px")&&stage2eCss.includes("height:124px")&&stage2eCss.includes("image-rendering:auto"),"construction Stage 2E QR must render at reduced 124px size");
 assert(stage2eCss.includes("width:225px")&&stage2eCss.includes("height:450px"),"construction Stage 2E panel must use 225x450 geometry");
 assert(stage2eCss.includes("font-size:14px")&&stage2eCss.includes("white-space:nowrap"),"construction Stage 2E confirmation number must remain on one line");
@@ -71,7 +72,7 @@ assert(stage2eJs.includes("intervalMs=5000")&&stage2eJs.includes("visibilitychan
 assert(qris.length===1619,"construction Stage 2E QR asset size changed");
 assert(qris[0]===0x89&&qris[1]===0x50&&qris[2]===0x4e&&qris[3]===0x47,"construction Stage 2E QR asset must remain PNG");
 
-assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v10-focus-two-lines-20261017"),"construction Stage 2B stylesheet missing");
+assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v11-progress-left1-collected-right10-20261021"),"construction Stage 2B stylesheet missing");
 assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v11-focus-two-lines-20261017"),"construction Stage 2B runtime missing");
 assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
 assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
@@ -83,9 +84,9 @@ assert(/\.construction-focus-title-live\{[\s\S]*?font-size:30px;[\s\S]*?white-sp
 assert(/\.construction-focus-note-live\{[\s\S]*?left:2px;[\s\S]*?font-size:21px;[\s\S]*?white-space:pre-line;/.test(stage2bCss),"construction focus note must be a compact two-line 21px block");
 assert(stage2bJs.includes("focusTitleTwoLines")&&stage2bJs.includes("focusNoteTwoLines"),"construction focus two-line runtime formatting missing");
 assert(stage2bCss.includes(".construction-target-live{left:864px;font-size:25px;color:#f2cf75}"),"construction target must be 25px and remain yellow");
-assert(stage2bCss.includes(".construction-collected-live{left:1056px"),"construction collected must shift 10px right");
+assert(stage2bCss.includes(".construction-collected-live{left:1066px"),"construction collected must shift another 10px right");
 assert(stage2bCss.includes(".construction-remaining-live{left:1398px"),"construction remaining must shift another 6px left");
-assert(stage2bCss.includes("left:991px")&&stage2bCss.includes("top:514px")&&stage2bCss.includes("left:1529px")&&stage2bCss.includes("top:518px"),"construction progress bar/text must move right 5px and down 8px");
+assert(stage2bCss.includes("left:990px")&&stage2bCss.includes("top:514px")&&stage2bCss.includes("left:1528px")&&stage2bCss.includes("top:518px"),"construction progress bar/text must shift 1px left");
 assert(stage2bJs.includes("return 0;"),"blank construction progress must resolve to 0");
 assert(stage2bJs.includes("(pct===0?1:pct)"),"zero progress must keep a 1% visible bar");
 assert(stage2bJs.includes('numberFormat.format(pct)+"%"'),"zero progress must render as 0%");
