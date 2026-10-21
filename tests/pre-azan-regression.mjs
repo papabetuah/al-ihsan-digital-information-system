@@ -9,19 +9,22 @@ const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 assert.ok(PRE);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v113.js",import.meta.url),"utf8");
-assert.ok(indexHtml.includes("pre-azan-audio-v113.js?v=same-origin-audio-v113-20261021"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v113.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v113.js")<indexHtml.indexOf("app-v107.js"));
-assert.ok(audioJs.includes('version:"pre-azan-audio-v113"'));
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v114.js",import.meta.url),"utf8");
+assert.ok(indexHtml.includes("pre-azan-audio-v114.js?v=same-origin-build-v114-20261021"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v114.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v114.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v114"'));
 assert.ok(audioJs.includes("DRIVE_BASE_PRIMARY")&&audioJs.includes("DRIVE_BASE_FALLBACK"));
 assert.ok(audioJs.includes("sourcesForState")&&audioJs.includes("retry-fallback"));
-assert.ok(audioJs.includes('"./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3"'),"same-origin pre-azan audio source must be first choice");
+assert.ok(audioJs.includes('"./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-local-v114-20261021"'),"same-origin pre-azan audio source must be first choice");
 assert.ok(audioJs.includes('name==="NotAllowedError"')&&audioJs.includes('setAudioStatus("media-error"'));
 assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
 assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
 assert.ok(audioJs.includes('state.kind==="silence"'));
 assert.ok(audioJs.includes("ensureAudioBlockedNotice"));
+const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
+assert.ok(pagesYml.includes("Build same-origin pre-azan audio bundle"),"Pages deploy must build local pre-azan MP3 assets");
+assert.ok(pagesYml.includes('"ISYA-03":"1ELa8rzRYz3qudMGx-pHrCf8nj6UYm-0W"'),"Pages audio bundle must include ISYA-03");
 
 
 const monday=new Date("2026-10-12T12:00:00+07:00");
