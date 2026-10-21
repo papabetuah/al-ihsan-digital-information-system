@@ -317,7 +317,7 @@ if(TEST_MODE){
   else runPreAzanTest();
 }
 window.AL_IHSAN_PRE_AZAN_AUDIO=Object.freeze({
-  version:"pre-azan-audio-v114-blobfix",
+  version:"pre-azan-audio-v114",
   ttsDriveIds:TTS,
   tilawahDriveIds:TILAWAH,
   srcForState,
