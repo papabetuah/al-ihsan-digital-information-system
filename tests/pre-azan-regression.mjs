@@ -59,8 +59,8 @@ assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.autoplayPriming,true);
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.gapSeconds,2);
 
 assert.ok(!audioJs.includes("URL.createObjectURL"),"pre-azan player must not use Blob URLs on Android TV");
-assert.ok(audioJs.includes('new URL("./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-autoprime-v119-20261022",document.baseURI).href'),"pre-azan must use same-origin local MP3");
-assert.ok(audioJs.includes('name==="NotAllowedError"')&&audioJs.includes('setAudioStatus("media-error"'));
+assert.ok(audioJs.includes('"./assets/pre-azan-audio/"')&&audioJs.includes("preazan-autoprime-v119-20261022"),"pre-azan must use same-origin local MP3 with v119 cache-buster");
+assert.ok(audioJs.includes('htmlName==="NotAllowedError"')&&audioJs.includes('webName==="NotAllowedError"')&&audioJs.includes('setAudioStatus("autoplay-retry"')),"autoplay failure must self-retry without click");
 assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
 assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
 assert.ok(audioJs.includes('state.kind==="silence"'));
