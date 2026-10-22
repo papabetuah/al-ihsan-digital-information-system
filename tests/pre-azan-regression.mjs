@@ -9,11 +9,11 @@ const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 assert.ok(PRE);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v117.js",import.meta.url),"utf8");
-assert.ok(indexHtml.includes("pre-azan-audio-v117.js?v=restore-audio-status-v117-20261022"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v117.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v117.js")<indexHtml.indexOf("app-v107.js"));
-assert.ok(audioJs.includes('version:"pre-azan-audio-v117"'));
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v118.js",import.meta.url),"utf8");
+assert.ok(indexHtml.includes("pre-azan-audio-v118.js?v=runtime-safe-local-v118-20261022"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v118.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v118.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v118"'));
 assert.ok(audioJs.includes("playViaWebAudio"),"Android TV fallback must include Web Audio engine");
 assert.ok(audioJs.includes("function setAudioStatus(status,detail"),"audio status dispatcher must exist");
 assert.ok(audioJs.includes("function ensureAudioBlockedNotice()"),"audio unblock helper must exist");
@@ -21,8 +21,40 @@ assert.ok(audioJs.includes("function forceAudibleElement()"),"audio element must
 assert.ok(audioJs.includes('setAudioStatus("retry-fallback","web-audio")'),"HTML Audio failure must retry with Web Audio");
 assert.ok(!audioJs.includes("drive.google.com"),"runtime pre-azan audio must not depend on Google Drive");
 assert.ok(audioJs.includes("waitForPlayable"),"pre-azan player must wait for Android media readiness");
+
+assert.ok(!audioJs.includes("ttsDriveIds:TTS"),"runtime player must not reference removed Drive TTS map");
+assert.ok(!audioJs.includes("tilawahDriveIds:TILAWAH"),"runtime player must not reference removed Drive tilawah map");
+
+// Execute initialization in a minimal DOM stub so unresolved runtime globals cannot slip through string-only checks.
+const audioElementStub={
+  id:"",preload:"",autoplay:false,loop:false,controls:false,playsInline:false,
+  volume:1,muted:false,defaultMuted:false,paused:true,readyState:0,currentSrc:"",src:"",
+  style:{},dataset:{},
+  setAttribute(){},removeAttribute(){},addEventListener(){},
+  pause(){this.paused=true},load(){},
+  play(){this.paused=false;return Promise.resolve()}
+};
+const runtimeContext={
+  console,URL,URLSearchParams,setTimeout,clearTimeout,
+  location:{search:""},
+  CustomEvent:class CustomEvent{constructor(type,init={}){this.type=type;this.detail=init.detail}},
+  dispatchEvent(){return true},
+  addEventListener(){},
+  document:{
+    readyState:"loading",hidden:false,baseURI:"https://example.test/",
+    body:{appendChild(){}},documentElement:{appendChild(){},dataset:{}},
+    createElement(tag){return tag==="audio"?audioElementStub:{style:{},appendChild(){},remove(){},setAttribute(){},addEventListener(){}}},
+    getElementById(){return null},
+    addEventListener(){}
+  }
+};
+runtimeContext.window=runtimeContext;
+runtimeContext.globalThis=runtimeContext;
+vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v118.js"});
+assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v118");
+
 assert.ok(!audioJs.includes("URL.createObjectURL"),"pre-azan player must not use Blob URLs on Android TV");
-assert.ok(audioJs.includes('new URL("./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-direct-v116-20261022",document.baseURI).href'),"pre-azan must use same-origin local MP3");
+assert.ok(audioJs.includes('new URL("./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-direct-v118-20261022",document.baseURI).href'),"pre-azan must use same-origin local MP3");
 assert.ok(audioJs.includes('name==="NotAllowedError"')&&audioJs.includes('setAudioStatus("media-error"'));
 assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
 assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
