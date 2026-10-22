@@ -27,7 +27,7 @@ assert.ok(audioJs.includes('state.kind==="silence"'));
 assert.ok(audioJs.includes("ensureAudioBlockedNotice"));
 const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
 assert.ok(pagesYml.includes("Validate committed pre-azan audio bundle"),"Pages deploy must validate committed local pre-azan MP3 assets");
-assert.ok(pagesYml.includes('"ISYA-03":"1ELa8rzRYz3qudMGx-pHrCf8nj6UYm-0W"'),"Pages audio bundle must include ISYA-03");
+assert.ok(fs.existsSync(new URL("../assets/pre-azan-audio/ISYA-03.mp3",import.meta.url))&&fs.statSync(new URL("../assets/pre-azan-audio/ISYA-03.mp3",import.meta.url)).size>2048,"Committed audio bundle must include a valid ISYA-03 MP3");
 
 
 const monday=new Date("2026-10-12T12:00:00+07:00");
