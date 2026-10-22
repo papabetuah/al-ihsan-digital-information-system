@@ -1,15 +1,18 @@
 package org.alihsan.kapuih.player;
 
 import android.app.Activity;
+import android.app.role.RoleManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,15 +20,16 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public final class MainActivity extends Activity {
     private static final String SITE_URL =
             "https://papabetuah.github.io/al-ihsan-digital-information-system/?nativePlayer=1";
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private WebView webView;
     private AudioManager audioManager;
     private AudioFocusRequest audioFocusRequest;
+    private boolean homePromptAttempted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public final class MainActivity extends Activity {
         settings.setAllowContentAccess(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setUserAgentString(
-                settings.getUserAgentString() + " AlIhsanNativePlayer/1.0"
+                settings.getUserAgentString() + " AlIhsanNativePlayer/1.1"
         );
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -77,6 +81,54 @@ public final class MainActivity extends Activity {
 
         setContentView(webView);
         webView.loadUrl(SITE_URL);
+    }
+
+    private boolean isDefaultHome() {
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo info = getPackageManager().resolveActivity(
+                homeIntent,
+                android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
+        );
+        if (info == null || info.activityInfo == null) return false;
+        ComponentName resolved = new ComponentName(
+                info.activityInfo.packageName,
+                info.activityInfo.name
+        );
+        return getPackageName().equals(resolved.getPackageName());
+    }
+
+    private void requestDefaultHomeIfNeeded() {
+        if (homePromptAttempted || isDefaultHome()) return;
+        homePromptAttempted = true;
+
+        Toast.makeText(
+                this,
+                "Pilih Al Ihsan TV sebagai aplikasi Home lalu pilih Selalu / Always.",
+                Toast.LENGTH_LONG
+        ).show();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            RoleManager roleManager = getSystemService(RoleManager.class);
+            if (roleManager != null
+                    && roleManager.isRoleAvailable(RoleManager.ROLE_HOME)
+                    && !roleManager.isRoleHeld(RoleManager.ROLE_HOME)) {
+                try {
+                    startActivity(roleManager.createRequestRoleIntent(RoleManager.ROLE_HOME));
+                    return;
+                } catch (RuntimeException ignored) { }
+            }
+        }
+
+        try {
+            startActivity(new Intent(Settings.ACTION_HOME_SETTINGS));
+        } catch (RuntimeException first) {
+            try {
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(Intent.createChooser(home, "Pilih Al Ihsan TV sebagai Home"));
+            } catch (RuntimeException ignored) { }
+        }
     }
 
     private void requestPermanentMediaAudioFocus() {
@@ -129,6 +181,7 @@ public final class MainActivity extends Activity {
             webView.onResume();
             webView.resumeTimers();
         }
+        requestDefaultHomeIfNeeded();
     }
 
     @Override
@@ -139,7 +192,6 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
         if (audioManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && audioFocusRequest != null) {
             audioManager.abandonAudioFocusRequest(audioFocusRequest);
         }
