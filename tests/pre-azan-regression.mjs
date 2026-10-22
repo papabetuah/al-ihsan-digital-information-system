@@ -9,21 +9,24 @@ const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 assert.ok(PRE);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v115.js",import.meta.url),"utf8");
-assert.ok(indexHtml.includes("pre-azan-audio-v115.js?v=direct-same-origin-v115-20261022"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v115.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v115.js")<indexHtml.indexOf("app-v107.js"));
-assert.ok(audioJs.includes('version:"pre-azan-audio-v115"'));
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v116.js",import.meta.url),"utf8");
+assert.ok(indexHtml.includes("pre-azan-audio-v116.js?v=dual-engine-local-v116-20261022"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v107.js")<indexHtml.indexOf("pre-azan-audio-v116.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v116.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v116"'));
+assert.ok(audioJs.includes("playViaWebAudio"),"Android TV fallback must include Web Audio engine");
+assert.ok(audioJs.includes('setAudioStatus("retry-fallback","web-audio")'),"HTML Audio failure must retry with Web Audio");
+assert.ok(!audioJs.includes("drive.google.com"),"runtime pre-azan audio must not depend on Google Drive");
 assert.ok(audioJs.includes("waitForPlayable"),"pre-azan player must wait for Android media readiness");
 assert.ok(!audioJs.includes("URL.createObjectURL"),"pre-azan player must not use Blob URLs on Android TV");
-assert.ok(audioJs.includes('new URL("./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-direct-v115-20261022",document.baseURI).href'),"pre-azan must use same-origin local MP3");
+assert.ok(audioJs.includes('new URL("./assets/pre-azan-audio/"+encodeURIComponent(id)+".mp3?v=preazan-direct-v116-20261022",document.baseURI).href'),"pre-azan must use same-origin local MP3");
 assert.ok(audioJs.includes('name==="NotAllowedError"')&&audioJs.includes('setAudioStatus("media-error"'));
 assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
 assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
 assert.ok(audioJs.includes('state.kind==="silence"'));
 assert.ok(audioJs.includes("ensureAudioBlockedNotice"));
 const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
-assert.ok(pagesYml.includes("Build same-origin pre-azan audio bundle"),"Pages deploy must build local pre-azan MP3 assets");
+assert.ok(pagesYml.includes("Validate committed pre-azan audio bundle"),"Pages deploy must validate committed local pre-azan MP3 assets");
 assert.ok(pagesYml.includes('"ISYA-03":"1ELa8rzRYz3qudMGx-pHrCf8nj6UYm-0W"'),"Pages audio bundle must include ISYA-03");
 
 
