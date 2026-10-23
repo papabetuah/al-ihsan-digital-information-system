@@ -47,7 +47,28 @@ jobs:
 
           Path("assets/construction-background-approved-master-v2.webp").write_bytes(data)
           PY
-      - name: Validate committed pre-azan audio bundle
+      - name: Fetch Subuh Tarhim runtime asset
+        run: |
+          mkdir -p assets/pre-azan-audio
+          curl -L --fail --retry 3 --retry-delay 2 \
+            -o assets/pre-azan-audio/SUBUH-TARHIM.mp3 \
+            "https://drive.usercontent.google.com/download?id=1tgXXZlgC60ca8h6ePK-FWw2bVWZDY9Ru&export=download&confirm=t"
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          path=Path("assets/pre-azan-audio/SUBUH-TARHIM.mp3")
+          blob=path.read_bytes()
+          expected_size=6197651
+          expected_sha256="10fddc9d86bdded73546fafb78afdeff5fffac0e9f164cb557895db522b83a6f"
+          if len(blob)!=expected_size:
+              raise SystemExit(f"Unexpected SUBUH-TARHIM size: {len(blob)}")
+          if hashlib.sha256(blob).hexdigest()!=expected_sha256:
+              raise SystemExit("SUBUH-TARHIM SHA-256 mismatch")
+          if not (blob[:3]==b"ID3" or any(blob[i]==0xFF and (blob[i+1]&0xE0)==0xE0 for i in range(min(len(blob)-1,4096)))):
+              raise SystemExit("SUBUH-TARHIM is not a valid MP3")
+          print("SUBUH-TARHIM runtime asset verified")
+          PY
+      - name: Validate pre-azan audio bundle
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -55,7 +76,7 @@ jobs:
           expected = [
             "05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
             "SUBUH-01","SUBUH-02","SUBUH-03","ZUHUR-01","ZUHUR-02","ZUHUR-03","ASAR-01","ASAR-02","ASAR-03",
-            "MAGRIB-01","MAGRIB-02","MAGRIB-03","ISYA-01","ISYA-02","ISYA-03","JUMAT-01","JUMAT-02","JUMAT-03"
+            "MAGRIB-01","MAGRIB-02","MAGRIB-03","ISYA-01","ISYA-02","ISYA-03","JUMAT-01","JUMAT-02","JUMAT-03","SUBUH-TARHIM"
           ]
           root = Path("assets/pre-azan-audio")
           missing=[]
