@@ -12,19 +12,22 @@ assert.equal(PRE.interAudioGapSeconds,2);
 assert.equal(PRE.silenceBeforeAzanSeconds,30);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v123.js",import.meta.url),"utf8");
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v124.js",import.meta.url),"utf8");
 assert.ok(indexHtml.includes("pre-azan-playlist-v111.js?v=h45-subuh-maghrib-v111-20261023"));
-assert.ok(indexHtml.includes("pre-azan-audio-v123.js?v=h45-subuh-maghrib-v123-20261023"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v111.js")<indexHtml.indexOf("pre-azan-audio-v123.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v123.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(indexHtml.includes("pre-azan-audio-v124.js?v=h45-browser-unlock-v124-20261023"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v111.js")<indexHtml.indexOf("pre-azan-audio-v124.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v124.js")<indexHtml.indexOf("app-v107.js"));
 
-assert.ok(audioJs.includes('version:"pre-azan-audio-v123"'));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v124"'));
 assert.ok(audioJs.includes("async function playFridayPackage(state)"));
 assert.ok(audioJs.includes("async function playExtendedPackage(state)"));
 assert.ok(audioJs.includes("audio.addEventListener(\"ended\""),"dynamic packages must advance on actual audio end");
 assert.ok(audioJs.includes("EXTENDED_DURATION_UNAVAILABLE"),"Subuh/Maghrib must inspect actual MP3 duration");
 assert.ok(audioJs.includes('setAudioStatus("gap",prayerName+" • 2 detik")'),"Subuh/Maghrib gaps must be 2 seconds");
 assert.ok(audioJs.includes('kind:TEST_PRAYER==="Jumat"?"friday-package":"extended-package"'),"full test mode must cover Subuh and Maghrib");
+assert.ok(audioJs.includes('button.textContent="MULAI AUDIO"'),"browser simulation must expose an explicit one-click audio unlock");
+assert.ok(audioJs.includes("unlockBrowserTestAudio"),"browser simulation must unlock media inside the click gesture");
+assert.ok(audioJs.includes('setAudioStatus("autoplay-blocked"'),"dynamic player must surface autoplay failures");
 assert.ok(!audioJs.includes("drive.google.com"));
 
 function assertH45(prayer,iso){
@@ -96,15 +99,24 @@ const runtimeContext={
 };
 runtimeContext.window=runtimeContext;
 runtimeContext.globalThis=runtimeContext;
-vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v123.js"});
-assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v123");
+vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v124.js"});
+assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v124");
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.autoplayPriming,true);
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.gapSeconds,2);
 
 const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
 assert.ok(pagesYml.includes("Validate committed pre-azan audio bundle"));
-for(const f of ["SUBUH-01.mp3","SUBUH-02.mp3","SUBUH-03.mp3","MAGRIB-01.mp3","MAGRIB-02.mp3","MAGRIB-03.mp3"]){
-  assert.ok(fs.existsSync(new URL("../assets/pre-azan-audio/"+f,import.meta.url)),f+" must exist");
+for(const prayer of ["Subuh","Maghrib"]){
+  const ids=[
+    ...PRE.extendedPackageFor(prayer).map(x=>x.item.id),
+    ...PRE.extendedRepeatTilawahFor(prayer).map(x=>x.id),
+    ...PRE.extendedFinisherFor(prayer).map(x=>x.id)
+  ];
+  for(const id of new Set(ids)){
+    const f=id+".mp3";
+    assert.ok(fs.existsSync(new URL("../assets/pre-azan-audio/"+f,import.meta.url)),prayer+" package audio must exist: "+f);
+    assert.ok(fs.statSync(new URL("../assets/pre-azan-audio/"+f,import.meta.url)).size>2048,prayer+" package audio must be non-empty: "+f);
+  }
 }
 
 console.log("Pre-azan rotation regression: OK");
