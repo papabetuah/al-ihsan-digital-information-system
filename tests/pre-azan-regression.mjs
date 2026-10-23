@@ -3,29 +3,33 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 
 globalThis.window=globalThis;
-vm.runInThisContext(fs.readFileSync(new URL("../pre-azan-playlist-v114.js",import.meta.url),"utf8"));
+vm.runInThisContext(fs.readFileSync(new URL("../calendar-engine-v106.js",import.meta.url),"utf8"));
+vm.runInThisContext(fs.readFileSync(new URL("../pre-azan-playlist-v115.js",import.meta.url),"utf8"));
 const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 
 assert.ok(PRE);
-assert.equal(PRE.version,"pre-azan-v114");
+assert.equal(PRE.version,"pre-azan-v115");
 assert.equal(PRE.interAudioGapSeconds,2);
 assert.equal(PRE.silenceBeforeAzanSeconds,30);
+assert.equal(PRE.ramadanMaghribSirenSeconds,17);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v128.js",import.meta.url),"utf8");
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v129.js",import.meta.url),"utf8");
 const appJs=fs.readFileSync(new URL("../app-v107.js",import.meta.url),"utf8");
 
-assert.ok(indexHtml.includes("pre-azan-playlist-v114.js?v=isya-h10-v114-20261023"));
-assert.ok(indexHtml.includes("pre-azan-audio-v128.js?v=isya-h10-v128-20261023"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v114.js")<indexHtml.indexOf("pre-azan-audio-v128.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v128.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(indexHtml.includes("pre-azan-playlist-v115.js?v=ramadan-maghrib-siren-v115-20261023"));
+assert.ok(indexHtml.includes("pre-azan-audio-v129.js?v=ramadan-maghrib-siren-v129-20261023"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v115.js")<indexHtml.indexOf("pre-azan-audio-v129.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v129.js")<indexHtml.indexOf("app-v107.js"));
 
-assert.ok(audioJs.includes('version:"pre-azan-audio-v128"'));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v129"'));
 assert.ok(audioJs.includes("extendedRepeatMessagesFor"));
 assert.ok(audioJs.includes('["Jumat","Subuh","Maghrib","Dzuhur","Ashar","Isya"].includes(TEST_PRAYER)'));
 assert.ok(audioJs.includes('TEST_PRAYER==="Isya"?10'));
 assert.ok(audioJs.includes('button.textContent="MULAI AUDIO"'));
 assert.ok(audioJs.includes('setAudioStatus("gap",prayerName+" • 2 detik")'));
+assert.ok(audioJs.includes('primeMedia(state.item.id,"silence-primed")'));
+assert.ok(audioJs.includes('state.kind==="ramadan-siren"'));
 assert.ok(!audioJs.includes("drive.google.com"));
 assert.ok(appJs.includes('[isFriday?"Jumat":"Dzuhur",times.dzuhur.ts]'));
 
@@ -53,6 +57,21 @@ assertDynamic("Maghrib","2026-10-24T18:08:00+07:00",45);
 assertDynamic("Dzuhur","2026-10-24T12:04:00+07:00",15);
 assertDynamic("Ashar","2026-10-24T15:21:00+07:00",15);
 assertDynamic("Isya","2026-10-24T19:19:00+07:00",10);
+
+const ramadanMaghribAzan=new Date("2027-02-08T18:20:00+07:00").getTime();
+const ramadanMaghrib=PRE.scheduleFor(new Date(ramadanMaghribAzan),"Maghrib",ramadanMaghribAzan);
+assert.equal(PRE.isRamadan(new Date(ramadanMaghribAzan)),true);
+assert.equal(ramadanMaghrib.packageName,"Maghrib H-45 Dynamic + Ramadan Siren");
+assert.equal(ramadanMaghrib.ramadanMaghrib,true);
+assert.equal(ramadanMaghrib.endMs,ramadanMaghribAzan+17000);
+assert.deepEqual(ramadanMaghrib.segments.map(x=>x.kind),["extended-package","silence","ramadan-siren"]);
+assert.equal(ramadanMaghrib.segments[1].item.id,"RAMADAN-MAGRIB-SIREN");
+assert.equal(ramadanMaghrib.segments[2].startMs,ramadanMaghribAzan);
+assert.equal(ramadanMaghrib.segments[2].endMs,ramadanMaghribAzan+17000);
+assert.equal(PRE.stateAt(ramadanMaghribAzan+1000,"Maghrib",ramadanMaghribAzan).kind,"ramadan-siren");
+const sirenPath=new URL("../assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3",import.meta.url);
+assert.ok(fs.existsSync(sirenPath),"Ramadan Maghrib siren missing");
+assert.ok(fs.statSync(sirenPath).size>100000,"Ramadan Maghrib siren invalid");
 
 // Isya must be 100% spoken material: hadith/advice/appeals, no tilawah.
 const isyaPrimary=PRE.extendedPackageFor("Isya");
@@ -92,8 +111,8 @@ const runtimeContext={
 };
 runtimeContext.window=runtimeContext;
 runtimeContext.globalThis=runtimeContext;
-vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v128.js"});
-assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v128");
+vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v129.js"});
+assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v129");
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.gapSeconds,2);
 
 const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
