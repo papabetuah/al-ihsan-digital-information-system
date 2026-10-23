@@ -1,0 +1,41 @@
+name: Import Ramadan Maghrib Siren
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-ramadan-siren.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download cleaned siren from Drive
+        run: |
+          set -euo pipefail
+          mkdir -p assets/pre-azan-audio
+          curl -L --fail --retry 3 \
+            "https://drive.usercontent.google.com/download?id=1qMsSkMY5UdT-NiWffjPHgpWjvnO7HRwQ&export=download&confirm=t" \
+            -o assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3
+          test -s assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3
+          size=$(stat -c%s assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3)
+          if [ "$size" -lt 100000 ]; then
+            echo "Downloaded siren is unexpectedly small: $size bytes"
+            exit 1
+          fi
+          file assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3
+      - name: Commit siren and remove one-off importer
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/pre-azan-audio/RAMADAN-MAGRIB-SIREN.mp3
+          git rm .github/workflows/import-ramadan-siren.yml
+          git commit -m "Add cleaned Ramadan Maghrib siren"
+          git push origin HEAD:main
