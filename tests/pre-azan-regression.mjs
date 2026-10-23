@@ -12,18 +12,21 @@ assert.equal(PRE.interAudioGapSeconds,2);
 assert.equal(PRE.silenceBeforeAzanSeconds,30);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v121.js",import.meta.url),"utf8");
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v122.js",import.meta.url),"utf8");
 assert.ok(indexHtml.includes("pre-azan-playlist-v110.js?v=jumat-h45-dynamic-v110-20261023"));
-assert.ok(indexHtml.includes("pre-azan-audio-v121.js?v=jumat-h45-dynamic-v121-20261023"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v110.js")<indexHtml.indexOf("pre-azan-audio-v121.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v121.js")<indexHtml.indexOf("app-v107.js"));
+assert.ok(indexHtml.includes("pre-azan-audio-v122.js?v=jumat-h45-fulltest-v122-20261023"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v110.js")<indexHtml.indexOf("pre-azan-audio-v122.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v122.js")<indexHtml.indexOf("app-v107.js"));
 
-assert.ok(audioJs.includes('version:"pre-azan-audio-v121"'));
+assert.ok(audioJs.includes('version:"pre-azan-audio-v122"'));
 assert.ok(audioJs.includes("async function playFridayPackage(state)"),"Friday package engine must exist");
 assert.ok(audioJs.includes("audio.addEventListener(\"ended\""),"Friday package must advance on actual audio ended");
 assert.ok(audioJs.includes("FRIDAY_DURATION_UNAVAILABLE"),"Friday package must inspect actual media duration");
 assert.ok(audioJs.includes("loaded.durationMs+250>remaining"),"Friday package must not start a file that cannot finish");
 assert.ok(audioJs.includes('setAudioStatus("gap","Jumat • 2 detik")'),"Friday package must keep 2-second gaps");
+assert.ok(audioJs.includes('state={\n        kind:"friday-package"')||audioJs.includes('kind:"friday-package"'),"Friday test must use the production full-track engine");
+assert.ok(audioJs.includes("setTimeout(()=>playState(state)"),"Friday test must invoke the production package state");
+assert.ok(audioJs.includes("45*60000-30000"),"Friday test must preserve the H-45 window and 30-second final silence");
 assert.ok(!audioJs.includes("drive.google.com"),"runtime audio must remain same-origin");
 
 const monday=new Date("2026-10-12T12:00:00+07:00");
@@ -80,8 +83,8 @@ const runtimeContext={
 };
 runtimeContext.window=runtimeContext;
 runtimeContext.globalThis=runtimeContext;
-vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v121.js"});
-assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v121");
+vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v122.js"});
+assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v122");
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.autoplayPriming,true);
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.gapSeconds,2);
 
