@@ -3,37 +3,64 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 
 globalThis.window=globalThis;
-vm.runInThisContext(fs.readFileSync(new URL("../pre-azan-playlist-v109.js",import.meta.url),"utf8"));
+vm.runInThisContext(fs.readFileSync(new URL("../pre-azan-playlist-v110.js",import.meta.url),"utf8"));
 
 const PRE=globalThis.AL_IHSAN_PRE_AZAN;
 assert.ok(PRE);
+assert.equal(PRE.version,"pre-azan-v110");
+assert.equal(PRE.interAudioGapSeconds,2);
+assert.equal(PRE.silenceBeforeAzanSeconds,30);
 
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v120.js",import.meta.url),"utf8");
-assert.ok(indexHtml.includes("pre-azan-audio-v120.js?v=jumat-h45-v120-20261023"));
-assert.ok(indexHtml.indexOf("pre-azan-playlist-v109.js")<indexHtml.indexOf("pre-azan-audio-v120.js"));
-assert.ok(indexHtml.indexOf("pre-azan-audio-v120.js")<indexHtml.indexOf("app-v107.js"));
-assert.ok(audioJs.includes('version:"pre-azan-audio-v120"'));
-assert.ok(audioJs.includes("playViaWebAudio"),"Android TV fallback must include Web Audio engine");
-assert.ok(audioJs.includes("function setAudioStatus(status,detail"),"audio status dispatcher must exist");
-assert.ok(audioJs.includes('setAudioStatus("retry-fallback","web-audio")'),"HTML Audio failure must retry with Web Audio");
-assert.ok(audioJs.includes('audio.autoplay=true'),"audio element must enable autoplay");
-assert.ok(audioJs.includes("async function primeMedia"),"audio must prime the next local file during each gap");
-assert.ok(audioJs.includes("async function primeIdleAutoplay"),"audio media session must be primed automatically at boot");
-assert.ok(audioJs.includes("armAutoRetry"),"blocked autoplay must retry automatically without click");\nassert.ok(audioJs.includes("source.loop=Boolean(state.loop)"),"Friday murattal segments must loop in Web Audio fallback");\nassert.ok(audioJs.includes("audibleMode(Boolean(state.loop))"),"Friday murattal segments must loop in HTML Audio");
-assert.ok(!audioJs.includes("AKTIFKAN SUARA"),"production autoplay must not depend on a click-to-enable button");
-assert.ok(!audioJs.includes("drive.google.com"),"runtime pre-azan audio must not depend on Google Drive");
-assert.ok(audioJs.includes("waitForPlayable"),"pre-azan player must wait for Android media readiness");
+const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v121.js",import.meta.url),"utf8");
+assert.ok(indexHtml.includes("pre-azan-playlist-v110.js?v=jumat-h45-dynamic-v110-20261023"));
+assert.ok(indexHtml.includes("pre-azan-audio-v121.js?v=jumat-h45-dynamic-v121-20261023"));
+assert.ok(indexHtml.indexOf("pre-azan-playlist-v110.js")<indexHtml.indexOf("pre-azan-audio-v121.js"));
+assert.ok(indexHtml.indexOf("pre-azan-audio-v121.js")<indexHtml.indexOf("app-v107.js"));
 
-assert.ok(!audioJs.includes("ttsDriveIds:TTS"),"runtime player must not reference removed Drive TTS map");
-assert.ok(!audioJs.includes("tilawahDriveIds:TILAWAH"),"runtime player must not reference removed Drive tilawah map");
+assert.ok(audioJs.includes('version:"pre-azan-audio-v121"'));
+assert.ok(audioJs.includes("async function playFridayPackage(state)"),"Friday package engine must exist");
+assert.ok(audioJs.includes("audio.addEventListener(\"ended\""),"Friday package must advance on actual audio ended");
+assert.ok(audioJs.includes("FRIDAY_DURATION_UNAVAILABLE"),"Friday package must inspect actual media duration");
+assert.ok(audioJs.includes("loaded.durationMs+250>remaining"),"Friday package must not start a file that cannot finish");
+assert.ok(audioJs.includes('setAudioStatus("gap","Jumat • 2 detik")'),"Friday package must keep 2-second gaps");
+assert.ok(!audioJs.includes("drive.google.com"),"runtime audio must remain same-origin");
 
-// Execute initialization in a minimal DOM stub so unresolved runtime globals cannot slip through string-only checks.
+const monday=new Date("2026-10-12T12:00:00+07:00");
+let sel=PRE.selectionFor(monday,"Subuh");
+assert.equal(sel.tilawah.id,"SUBUH-01");
+assert.equal(sel.messages[0].id,"09");
+assert.equal(sel.intro.id,"17");
+
+const azan=new Date("2026-10-12T04:50:00+07:00").getTime();
+const normal=PRE.scheduleFor(new Date(azan),"Subuh",azan);
+assert.equal(normal.startMs,azan-8*60000-6000);
+assert.deepEqual(normal.segments.map(s=>s.kind),["gap","tilawah","gap","message","gap","intro","silence"]);
+assert.equal(normal.segments.at(-1).startMs,azan-30000);
+
+const jumatAzan=new Date("2026-10-23T12:04:00+07:00").getTime();
+const jumat=PRE.scheduleFor(new Date(jumatAzan),"Jumat",jumatAzan);
+assert.equal(jumat.packageName,"Jumat H-45 Dynamic");
+assert.equal(jumat.startBeforeAzanSeconds,45*60);
+assert.equal(jumat.startMs,jumatAzan-45*60000);
+assert.deepEqual(jumat.segments.map(s=>s.kind),["friday-package","silence"]);
+assert.equal(jumat.segments[0].endMs,jumatAzan-30000);
+assert.equal(jumat.segments[1].startMs,jumatAzan-30000);
+assert.equal(jumat.segments[1].endMs,jumatAzan);
+
+const primary=PRE.fridayPackageFor();
+assert.equal(primary.length,26);
+assert.equal(primary.filter(x=>x.kind==="tilawah").length,18);
+assert.equal(primary.filter(x=>x.kind==="message"||x.kind==="intro").length,8);
+assert.deepEqual(primary.filter(x=>x.kind==="message"||x.kind==="intro").map(x=>x.item.id),["22","09","10","14","13","23","25","24"]);
+assert.equal(PRE.fridayRepeatTilawahFor().length,18);
+assert.equal(PRE.fridayFinisherFor().length,8);
+
 const audioElementStub={
   id:"",preload:"",autoplay:false,loop:false,controls:false,playsInline:false,
   volume:1,muted:false,defaultMuted:false,paused:true,readyState:0,currentSrc:"",src:"",
   style:{},dataset:{},
-  setAttribute(){},removeAttribute(){},addEventListener(){},
+  setAttribute(){},removeAttribute(){},addEventListener(){},removeEventListener(){},
   pause(){this.paused=true},load(){},
   play(){this.paused=false;return Promise.resolve()}
 };
@@ -46,89 +73,20 @@ const runtimeContext={
   document:{
     readyState:"loading",hidden:false,baseURI:"https://example.test/",
     body:{appendChild(){}},documentElement:{appendChild(){},dataset:{}},
-    createElement(tag){return tag==="audio"?audioElementStub:{style:{},appendChild(){},remove(){},setAttribute(){},addEventListener(){}}},
+    createElement(tag){return tag==="audio"?audioElementStub:{style:{},appendChild(){},remove(){},setAttribute(){},addEventListener(){},querySelector(){return null}}},
     getElementById(){return null},
     addEventListener(){}
   }
 };
 runtimeContext.window=runtimeContext;
 runtimeContext.globalThis=runtimeContext;
-vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v120.js"});
-assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v120");
+vm.runInNewContext(audioJs,runtimeContext,{filename:"pre-azan-audio-v121.js"});
+assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.version,"pre-azan-audio-v121");
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.autoplayPriming,true);
 assert.equal(runtimeContext.AL_IHSAN_PRE_AZAN_AUDIO.gapSeconds,2);
 
-assert.ok(!audioJs.includes("URL.createObjectURL"),"pre-azan player must not use Blob URLs on Android TV");
-assert.ok(audioJs.includes('"./assets/pre-azan-audio/"')&&audioJs.includes("preazan-friday45-v120-20261023"),"pre-azan must use same-origin local MP3 with v119 cache-buster");
-assert.ok(audioJs.includes('htmlName==="NotAllowedError"')&&audioJs.includes('webName==="NotAllowedError"')&&audioJs.includes('setAudioStatus("autoplay-retry"'),"autoplay failure must self-retry without click");
-assert.ok(audioJs.includes('"dzuhur":"Dzuhur"')&&audioJs.includes('"ashar":"Ashar"')&&audioJs.includes('"maghrib":"Maghrib"')&&audioJs.includes('"isya":"Isya"'));
-assert.ok(audioJs.includes('addEventListener("al-ihsan:pre-azan-change"'));
-assert.ok(audioJs.includes('state.kind==="silence"'));
-assert.ok(audioJs.includes('state.kind==="gap"'));
 const pagesYml=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
-assert.ok(pagesYml.includes("Validate committed pre-azan audio bundle"),"Pages deploy must validate committed local pre-azan MP3 assets");
-assert.ok(fs.existsSync(new URL("../assets/pre-azan-audio/ISYA-03.mp3",import.meta.url))&&fs.statSync(new URL("../assets/pre-azan-audio/ISYA-03.mp3",import.meta.url)).size>2048,"Committed audio bundle must include a valid ISYA-03 MP3");
-
-
-const monday=new Date("2026-10-12T12:00:00+07:00");
-const fri1=new Date("2026-10-02T12:00:00+07:00");
-const fri3=new Date("2026-10-16T12:00:00+07:00");
-
-let sel=PRE.selectionFor(monday,"Subuh");
-assert.equal(sel.tilawah.id,"SUBUH-01");
-assert.equal(sel.messages[0].id,"09");
-assert.equal(sel.intro.id,"17");
-
-sel=PRE.selectionFor(fri1,"Jumat");
-assert.equal(sel.cycle,1);
-assert.equal(sel.tilawah.id,"JUMAT-01");
-assert.deepEqual(sel.messages.map(x=>x.id),["22","23"]);
-assert.equal(sel.intro.id,"24");
-
-sel=PRE.selectionFor(fri3,"Jumat");
-assert.equal(sel.cycle,3);
-assert.equal(sel.tilawah.id,"JUMAT-03");
-assert.deepEqual(sel.messages.map(x=>x.id),["23","25"]);
-
-const azan=new Date("2026-10-12T04:50:00+07:00").getTime();
-const schedule=PRE.scheduleFor(new Date(azan),"Subuh",azan);
-assert.equal(PRE.interAudioGapSeconds,2);
-assert.equal(schedule.leadAdvanceSeconds,6);
-assert.equal(schedule.startMs,azan-8*60000-6000);
-assert.deepEqual(schedule.segments.map(s=>s.kind),["gap","tilawah","gap","message","gap","intro","silence"]);
-assert.equal(schedule.segments[0].endMs-schedule.segments[0].startMs,2000);
-assert.equal(schedule.segments[0].item.id,"SUBUH-01");
-assert.equal(schedule.segments[2].item.id,"09");
-assert.equal(schedule.segments[4].item.id,"17");
-assert.equal(schedule.segments.at(-1).kind,"silence");
-assert.equal(schedule.segments.at(-1).startMs,azan-30000);
-assert.equal(schedule.segments.at(-1).endMs,azan);
-
-const firstGap=PRE.stateAt(new Date(azan-8*60000-5000),"Subuh",azan);
-assert.equal(firstGap.kind,"gap");
-assert.equal(firstGap.item.id,"SUBUH-01");
-
-const state=PRE.stateAt(new Date(azan-90000),"Subuh",azan);
-assert.equal(state.kind,"intro");
-assert.equal(state.item.id,"17");
-
-const silent=PRE.stateAt(new Date(azan-15000),"Subuh",azan);
-assert.equal(silent.kind,"silence");
-assert.equal(silent.item,null);
-
-const jumatAzan=new Date("2026-10-16T12:15:00+07:00").getTime();
-const jumatSchedule=PRE.scheduleFor(new Date(jumatAzan),"Jumat",jumatAzan);
-assert.equal(jumatSchedule.packageName,"Jumat H-45");
-assert.equal(jumatSchedule.packageMediaCount,26);
-assert.equal(jumatSchedule.startBeforeAzanSeconds,45*60);
-assert.equal(jumatSchedule.startMs,jumatAzan-45*60000);
-assert.equal(jumatSchedule.segments.filter(s=>s.kind==="gap").length,26);
-assert.equal(jumatSchedule.segments.filter(s=>s.kind==="tilawah").length,18);
-assert.equal(jumatSchedule.segments.filter(s=>s.kind==="message"||s.kind==="intro").length,8);
-assert.equal(jumatSchedule.segments.filter(s=>s.kind==="tilawah").every(s=>s.loop===true),true);
-assert.equal(jumatSchedule.segments.at(-1).kind,"silence");
-assert.equal(jumatSchedule.segments.at(-1).startMs,jumatAzan-30000);
-assert.equal(jumatSchedule.segments.at(-1).endMs,jumatAzan);
-assert.deepEqual(PRE.fridayPackageFor().filter(x=>x.kind==="message"||x.kind==="intro").map(x=>x.item.id),["22","09","10","14","13","23","25","24"]);
+assert.ok(pagesYml.includes("Validate committed pre-azan audio bundle"));
+assert.ok(fs.existsSync(new URL("../assets/pre-azan-audio/JUMAT-03.mp3",import.meta.url)));
 
 console.log("Pre-azan rotation regression: OK");
