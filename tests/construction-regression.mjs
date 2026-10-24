@@ -35,7 +35,7 @@ for(const id of ["constructionFocusTitle","constructionFocusNote","constructionT
 
 assert(block.includes('id="constructionAgendaRows"'),"construction Stage 2C agenda container missing");
 assert(index.includes("./construction-stage2c.css?v=construction-stage2c-v9-row4up1-row5up1-20261021"),"construction Stage 2C stylesheet missing");
-assert(index.includes("./construction-stage2c.js?v=construction-stage2c-v3-sheet-master-20261017"),"construction Stage 2C runtime missing");
+assert(index.includes("./construction-stage2c.js?v=construction-stage2c-v4-target-65m-20261024"),"construction Stage 2C runtime missing");
 assert(stage2cJs.includes("Pembangunan Agenda"),"construction Stage 2C must read Pembangunan Agenda");
 assert(stage2cJs.includes(".slice(0,6)"),"construction Stage 2C must show six agenda rows");
 assert(stage2cJs.includes("Estimasi Anggaran")&&stage2cJs.includes("Dana Terkumpul")&&stage2cJs.includes("Kekurangan"),"construction Stage 2C funding columns missing");
@@ -73,7 +73,7 @@ assert(qris.length===1619,"construction Stage 2E QR asset size changed");
 assert(qris[0]===0x89&&qris[1]===0x50&&qris[2]===0x4e&&qris[3]===0x47,"construction Stage 2E QR asset must remain PNG");
 
 assert(index.includes("./construction-stage2b.css?v=construction-stage2b-v12-progress-left2-20261021"),"construction Stage 2B stylesheet missing");
-assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v11-focus-two-lines-20261017"),"construction Stage 2B runtime missing");
+assert(index.includes("./construction-stage2b.js?v=construction-stage2b-v12-target-65m-20261024"),"construction Stage 2B runtime missing");
 assert(stage2bJs.includes("Pembangunan Agenda"),"construction Stage 2B must read Pembangunan Agenda");
 assert(stage2bJs.includes("PRIORITAS AKTIF"),"construction Stage 2B must resolve active priority");
 assert(stage2bJs.includes("Dana Terkumpul")&&stage2bJs.includes("Kekurangan")&&stage2bJs.includes("Progress"),"construction funding fields missing");
