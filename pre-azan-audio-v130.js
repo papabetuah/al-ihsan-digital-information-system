@@ -13,6 +13,7 @@
   const TEST_PRAYER=TEST_PRAYER_MAP[TEST_PRAYER_RAW.toLowerCase()]||"";
   const TEST_MODE=Boolean(TEST_PRAYER);
   const RAMADAN_TEST=params.get("ramadanTest")==="1";
+  const SMOKE_TEST=params.get("smokeTest")==="1";
   const IDLE_PRIME_ID="05";
   function playlistDateForState(state){
     const ms=Number(state?.playlistDateMs||state?.azanMs||Date.now());
@@ -681,8 +682,10 @@
         button.remove();
 
         const packageStart=Date.now()+250;
-        const packageEnd=packageStart+(leadMinutes*60000-30000);
-        const azanMs=packageEnd+30000;
+        const smokePackageMs=25000;
+        const smokeSilenceMs=5000;
+        const packageEnd=packageStart+(SMOKE_TEST?smokePackageMs:(leadMinutes*60000-30000));
+        const azanMs=packageEnd+(SMOKE_TEST?smokeSilenceMs:30000);
         const state={
           kind:TEST_PRAYER==="Jumat"?"friday-package":"extended-package",
           item:null,
@@ -695,7 +698,7 @@
         };
         window.AL_IHSAN_PRE_AZAN_TEST_STATE=state;
         hud.title.textContent=TEST_PRAYER+" • PAKET H-"+leadMinutes;
-        hud.info.textContent="Simulasi "+(testPlan?.id||TEST_PRAYER)+" aktif: audio penuh → jeda 2 detik → audio berikutnya.";
+        hud.info.textContent=(SMOKE_TEST?"SMOKE TEST singkat • ":"")+"Simulasi "+(testPlan?.id||TEST_PRAYER)+" aktif: audio penuh → jeda 2 detik → audio berikutnya.";
 
         setTimeout(()=>playState(state),Math.max(0,packageStart-Date.now()));
 
@@ -713,7 +716,7 @@
             startMs:packageEnd,endMs:azanMs,prayerName:TEST_PRAYER,azanMs,playlistDateMs:testPlaylistDate.getTime()
           };
           window.AL_IHSAN_PRE_AZAN_TEST_STATE=silence;
-          hud.title.textContent=TEST_PRAYER+" • HENING • 0:30";
+          hud.title.textContent=TEST_PRAYER+" • HENING • "+(SMOKE_TEST?"0:05":"0:30");
           hud.info.textContent="Audio dihentikan. Menunggu azan live.";
           playState(silence);
         },Math.max(0,packageEnd-Date.now()));
