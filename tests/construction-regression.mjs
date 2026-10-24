@@ -127,7 +127,7 @@ assert(app.includes("AL_IHSAN_CONSTRUCTION_TICK"),"main render loop must feed co
 assert(app.includes('construction:$("constructionScene")'),"construction scene reference missing");
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
-assert(config.includes('constructionCampaignTarget: 55550000'),"approved construction campaign target missing");
+assert(config.includes('constructionCampaignTarget: 65000000'),"approved construction campaign target missing");
 assert(config.includes("constructionMs: 45000"),"construction rotation duration must be 45 seconds");
 assert(app.includes('if(scene==="construction")return R.constructionMs||45000;'),"construction must use its approved rotation duration");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
@@ -135,6 +135,6 @@ assert(config.includes('sequence: Object.freeze(["dashboard","announcement","fin
 assert(app.includes("function hasAnnouncementContent()"),"announcement-content availability helper missing");
 assert(app.includes('scene!=="announcement"||hasAnnouncementContent()'),"empty announcement scene must be filtered from the general TV rotation");
 assert(app.includes("nextEnabledSceneAfter(currentScene,seq,configured)"),"rotation must advance immediately when the current announcement scene becomes empty");
-assert(config.includes('release: "construction-general-rotation-v1-20261021"'),"construction general-rotation release marker missing");
+assert(config.includes('release: "construction-target-65m-v1-20261024"'),"construction general-rotation release marker missing");
 
 console.log("Construction Stage 2A regression: OK");
