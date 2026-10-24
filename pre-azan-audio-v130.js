@@ -77,8 +77,8 @@
     audio.volume=1;
     audio.setAttribute("muted","");
   }
-  function audibleMode(){
-    audio.loop=false;
+  function audibleMode(loop=false){
+    audio.loop=Boolean(loop);
     audio.muted=false;
     audio.defaultMuted=false;
     audio.volume=1;
@@ -106,7 +106,8 @@
     const apply=()=>{
       if(currentToken!==token)return;
       if(Number.isFinite(audio.duration)&&audio.duration>0){
-        try{audio.currentTime=Math.min(offset,Math.max(0,audio.duration-0.15))}catch(_){}
+        const mediaOffset=state?.kind==="ramadan-siren"?offset%audio.duration:Math.min(offset,Math.max(0,audio.duration-0.15));
+        try{audio.currentTime=mediaOffset}catch(_){}
       }else{
         try{audio.currentTime=offset}catch(_){}
       }
@@ -185,9 +186,11 @@
     stopWebAudio();
     const source=webAudioContext.createBufferSource();
     source.buffer=decoded;
+    source.loop=state?.kind==="ramadan-siren";
     source.connect(webAudioContext.destination);
     webAudioSource=source;
-    const offset=Math.min(desiredOffset(state),Math.max(0,decoded.duration-0.15));
+    const rawOffset=desiredOffset(state);
+    const offset=state?.kind==="ramadan-siren"&&decoded.duration>0?rawOffset%decoded.duration:Math.min(rawOffset,Math.max(0,decoded.duration-0.15));
     source.onended=()=>{if(webAudioSource===source)webAudioSource=null};
     source.start(0,offset);
     setAudioStatus("playing","web-audio");
@@ -251,7 +254,7 @@
         if(currentToken!==token)return;
       }
       setScheduledOffset(state,currentToken);
-      audibleMode();
+      audibleMode(state.kind==="ramadan-siren");
       await audio.play();
       if(currentToken!==token)return;
       setAudioStatus("playing",wasPrimed?"primed-html-audio":"html-audio");
@@ -728,7 +731,7 @@
             const siren={kind:"ramadan-siren",item:sirenItem,itemKey:sirenItem.key,startMs:azanMs,endMs:sirenEnd,prayerName:"Maghrib",azanMs,playlistDateMs:testPlaylistDate.getTime()};
             window.AL_IHSAN_PRE_AZAN_TEST_STATE=siren;
             hud.title.textContent="Maghrib • SIRINE BERBUKA";
-            hud.info.textContent="Waktu Maghrib masuk. Sirine diputar penuh, lalu azan tetap live oleh muazin.";
+            hud.info.textContent="Waktu Maghrib masuk. Sirine diputar 3 kali berturut-turut, lalu azan live oleh muazin.";
             playState(siren);
           },Math.max(0,azanMs-Date.now()));
         }
