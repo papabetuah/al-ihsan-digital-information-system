@@ -19,12 +19,16 @@ const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8")
 const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v130.js",import.meta.url),"utf8");
 const appJs=fs.readFileSync(new URL("../app-v107.js",import.meta.url),"utf8");
 assert.ok(indexHtml.includes("pre-azan-playlist-v117.js?v=rolling-policy-v117-prod-20261024"));
-assert.ok(indexHtml.includes("pre-azan-audio-v130.js?v=rolling-policy-v130-prod-20261024"));
+assert.ok(indexHtml.includes("pre-azan-audio-v130.js?v=rolling-policy-v130-prod-smoke-20261024"));
 assert.ok(indexHtml.indexOf("pre-azan-playlist-v117.js")<indexHtml.indexOf("pre-azan-audio-v130.js"));
 assert.ok(indexHtml.indexOf("pre-azan-audio-v130.js")<indexHtml.indexOf("app-v107.js"));
 assert.ok(audioJs.includes('version:"pre-azan-audio-v130"'));
 assert.ok(audioJs.includes("playlistDateForState"));
 assert.ok(audioJs.includes('params.get("ramadanTest")==="1"'));
+assert.ok(audioJs.includes('params.get("smokeTest")==="1"'));
+assert.ok(audioJs.includes("SMOKE_TEST?smokePackageMs"));
+assert.ok(audioJs.includes("SMOKE_TEST?smokeSilenceMs"));
+assert.ok(audioJs.includes('SMOKE_TEST?"0:05":"0:30"'));
 assert.ok(audioJs.includes('primeMedia(state.item.id,"silence-primed")'));
 assert.ok(audioJs.includes('state.kind==="ramadan-siren"'));
 assert.ok(audioJs.includes('button.textContent="MULAI AUDIO"'));
