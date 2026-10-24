@@ -277,6 +277,7 @@ function selectionFor(date,prayerName){
 }
 const GAP_MS=2000;
 const SILENCE_MS=30000;
+const RAMADAN_MAGHRIB_SILENCE_MS=5000;
 const RAMADAN_MAGHRIB_SIREN_ID="RAMADAN-MAGRIB-SIREN";
 const RAMADAN_MAGHRIB_SIREN_CLIP_MS=17000;
 const RAMADAN_MAGHRIB_SIREN_REPEAT_COUNT=3;
@@ -325,8 +326,9 @@ function scheduleFor(date,prayerName,azanTs){
   if(Object.prototype.hasOwnProperty.call(EXTENDED_START_BEFORE_MS,selection.prayerName)){
     const startBeforeMs=Number(EXTENDED_START_BEFORE_MS[selection.prayerName]);
     const packageStart=azanMs-startBeforeMs;
-    const packageEnd=azanMs-SILENCE_MS;
     const ramadanMaghrib=selection.prayerName==="Maghrib"&&isRamadan(new Date(azanMs));
+    const finalSilenceMs=ramadanMaghrib?RAMADAN_MAGHRIB_SILENCE_MS:SILENCE_MS;
+    const packageEnd=azanMs-finalSilenceMs;
     const ramadanSiren=ramadanMaghrib?material(RAMADAN_MAGHRIB_SIREN_ID):null;
     const scheduleEndMs=ramadanMaghrib?azanMs+RAMADAN_MAGHRIB_SIREN_MS:azanMs;
     const segments=[
@@ -390,6 +392,7 @@ window.AL_IHSAN_PRE_AZAN=Object.freeze({
   version:"pre-azan-v117",
   timezone:TZ,
   silenceBeforeAzanSeconds:30,
+  ramadanMaghribSilenceSeconds:RAMADAN_MAGHRIB_SILENCE_MS/1000,
   interAudioGapSeconds:2,
   tilawahFiles:TILAWAH,
   materialNames:MATERIAL,
