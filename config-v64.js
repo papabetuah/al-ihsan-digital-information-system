@@ -2,7 +2,7 @@ window.AL_IHSAN_CONFIG = Object.freeze({
   name: "Masjid Al Ihsan Kapuih",
   timezone: "Asia/Jakarta",
   timezoneOffset: 7,
-  release: "construction-general-rotation-v1-20261021",
+  release: "construction-target-65m-v1-20261024",
   stage: Object.freeze({ width: 1672, height: 941 }),
   rotation: Object.freeze({
     dashboardMs: 45000,
@@ -19,7 +19,7 @@ window.AL_IHSAN_CONFIG = Object.freeze({
     financeRefreshMs: 300000,
     constructionRefreshMs: 300000,
     constructionAgendaRefreshMs: 300000,
-    constructionCampaignTarget: 55550000,
+    constructionCampaignTarget: 65000000,
     sheets: Object.freeze({
       announcements: "Pengumuman Utama",
       agenda: "Agenda Kegiatan",
