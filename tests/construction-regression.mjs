@@ -128,6 +128,10 @@ assert(app.includes('construction:$("constructionScene")'),"construction scene r
 assert(app.includes('"construction","prayer"'),"construction direct preview must remain available");
 
 assert(config.includes('constructionCampaignTarget: 65000000'),"approved construction campaign target missing");
+assert(!index.includes("55.550.000"),"legacy Rp55.55m construction target must not remain embedded in index");
+assert(index.includes("65.000.000"),"Rp65m construction target must be embedded for instant first paint");
+assert(!stage2bJs.includes("55550000"),"legacy Rp55.55m Stage 2B fallback must not remain");
+assert(stage2bJs.includes('"Estimasi Anggaran":65000000')&&stage2bJs.includes('"Kekurangan":65000000'),"Stage 2B fallback must use Rp65m");
 assert(config.includes("constructionMs: 45000"),"construction rotation duration must be 45 seconds");
 assert(app.includes('if(scene==="construction")return R.constructionMs||45000;'),"construction must use its approved rotation duration");
 assert(config.includes('constructionAgenda: "Pembangunan Agenda"'),"construction agenda sheet config missing");
