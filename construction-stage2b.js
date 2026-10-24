@@ -143,9 +143,9 @@ async function refresh(){
     console.warn("Construction Stage 2B refresh failed",error);
     render({
       "Program Pembangunan":"Pembuatan mihrab masjid + plafond mihrab",
-      "Estimasi Anggaran":55550000,
+      "Estimasi Anggaran":65000000,
       "Dana Terkumpul":0,
-      "Kekurangan":55550000,
+      "Kekurangan":65000000,
       "Progress":0,
       "Catatan":"Mihrab dan plafond area mihrab menjadi satu paket pekerjaan."
     });
