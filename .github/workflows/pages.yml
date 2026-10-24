@@ -94,6 +94,25 @@ jobs:
             raise SystemExit(f"pre-azan audio invalid: missing={missing}, invalid={invalid}")
           print(f"Validated {len(expected)} committed MP3 files, total {total} bytes")
           PY
+      - name: Stamp deployment version
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          sha = os.environ["GITHUB_SHA"].strip()
+          if len(sha) != 40:
+              raise SystemExit("Unexpected GITHUB_SHA")
+
+          index = Path("index.html")
+          html = index.read_text()
+          marker = "__AL_IHSAN_BUILD_SHA__"
+          if marker not in html:
+              raise SystemExit("Build marker missing from index.html")
+          index.write_text(html.replace(marker, sha))
+          Path("version.json").write_text(json.dumps({"version": sha}, separators=(",", ":")))
+          print(f"Stamped deployment version {sha}")
+          PY
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

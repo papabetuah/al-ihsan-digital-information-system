@@ -21,6 +21,7 @@ assert.deepEqual(Object.fromEntries(Object.entries(PRE.policy).map(([k,v])=>[k,v
 const indexHtml=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
 const audioJs=fs.readFileSync(new URL("../pre-azan-audio-v130.js",import.meta.url),"utf8");
 const appJs=fs.readFileSync(new URL("../app-v107.js",import.meta.url),"utf8");
+const pagesWorkflow=fs.readFileSync(new URL("../.github/workflows/pages.yml",import.meta.url),"utf8");
 assert.ok(indexHtml.includes("pre-azan-playlist-v117.js?v=ramadan-silence5-v117-prod-20261024"));
 assert.ok(indexHtml.includes("pre-azan-audio-v130.js?v=ramadan-siren3-v130-prod-20261024"));
 assert.ok(indexHtml.indexOf("pre-azan-playlist-v117.js")<indexHtml.indexOf("pre-azan-audio-v130.js"));
@@ -39,6 +40,17 @@ assert.ok(audioJs.includes('source.loop=state?.kind==="ramadan-siren"'));
 assert.ok(audioJs.includes('button.textContent="MULAI AUDIO"'));
 assert.ok(!audioJs.includes("drive.google.com"));
 assert.ok(appJs.includes('[isFriday?"Jumat":"Dzuhur",times.dzuhur.ts]'));
+assert.ok(indexHtml.includes('<meta name="al-ihsan-build" content="__AL_IHSAN_BUILD_SHA__">'));
+assert.ok(indexHtml.includes("app-v107.js?v=smart-auto-update-2h-v1-20261024"));
+assert.ok(appJs.includes("AUTO_UPDATE_INTERVAL_MS=2*60*60*1000"));
+assert.ok(appJs.includes('fetch("./version.json?_="+Date.now(),{cache:"no-store"})'));
+assert.ok(appJs.includes('currentScene==="prayer"||currentScene==="zikir"'));
+assert.ok(appJs.includes("preAzanState||window.AL_IHSAN_PRE_AZAN_STATE"));
+assert.ok(appJs.includes("importantMediaActive()"));
+assert.ok(appJs.includes('location.replace(next.href)'));
+assert.ok(pagesWorkflow.includes('marker = "__AL_IHSAN_BUILD_SHA__"'));
+assert.ok(pagesWorkflow.includes('Path("version.json").write_text'));
+assert.ok(pagesWorkflow.includes('os.environ["GITHUB_SHA"]'));
 
 const dates=["2026-10-24T12:00:00+07:00","2026-10-25T12:00:00+07:00","2026-10-26T12:00:00+07:00","2026-10-27T12:00:00+07:00"].map(x=>new Date(x));
 for(const prayer of ["Subuh","Dzuhur","Ashar","Maghrib","Isya"]){

@@ -37,6 +37,11 @@ const cloneZikirDefaults=()=>({
 let zikirSettings=cloneZikirDefaults();
 let prayerModeActive=false,prayerModeSignature="",prayerScheduleTimerId=0,activePrayerState=null;
 let preAzanScheduleTimerId=0,preAzanState=null,preAzanSignature="";
+let autoUpdateCheckTimerId=0,autoUpdateApplyTimerId=0,pendingUpdateVersion="",lastAutoUpdateCheckMs=0;
+const AUTO_UPDATE_INTERVAL_MS=2*60*60*1000;
+const AUTO_UPDATE_SAFE_RETRY_MS=30000;
+const AUTO_UPDATE_INITIAL_DELAY_MS=30000;
+const CURRENT_APP_BUILD=String(document.querySelector('meta[name="al-ihsan-build"]')?.content||"").trim();
 let lastPrayerReturnScene=C.rotation?.startScene||"dashboard";
 const MAX_SCHEDULE_DELAY_MS=2147483000;
 const previewQuery=new URLSearchParams(location.search);
@@ -1013,12 +1018,113 @@ function scheduleNextTick(){
   timerId=setTimeout(()=>{render();scheduleNextTick()},delay);
 }
 
+function publishAutoUpdateStatus(state,detail=""){
+  const payload={
+    state:String(state||""),
+    currentBuild:CURRENT_APP_BUILD,
+    pendingVersion:pendingUpdateVersion,
+    lastCheckMs:lastAutoUpdateCheckMs,
+    detail:String(detail||"")
+  };
+  window.AL_IHSAN_AUTO_UPDATE_STATUS=payload;
+  document.documentElement.dataset.autoUpdate=payload.state;
+  if(pendingUpdateVersion)document.documentElement.dataset.updatePending=pendingUpdateVersion;
+  else delete document.documentElement.dataset.updatePending;
+}
+
+function importantMediaActive(){
+  return Array.from(document.querySelectorAll("audio,video")).some(media=>{
+    try{return !media.paused&&!media.ended&&!media.muted&&Number(media.volume||0)>0}
+    catch(_){return false}
+  });
+}
+
+function autoUpdateSafeNow(){
+  try{recoverPrayerSchedule("auto-update-safety")}catch(_){}
+  try{recoverPreAzanSchedule("auto-update-safety")}catch(_){}
+  const preAzanBusy=Boolean(preAzanState||window.AL_IHSAN_PRE_AZAN_STATE);
+  const worshipBusy=Boolean(prayerModeActive||activePrayerState||currentScene==="prayer"||currentScene==="zikir");
+  return !preAzanBusy&&!worshipBusy&&!importantMediaActive();
+}
+
+function schedulePendingUpdateAttempt(delay=AUTO_UPDATE_SAFE_RETRY_MS){
+  clearTimeout(autoUpdateApplyTimerId);
+  if(!pendingUpdateVersion)return;
+  autoUpdateApplyTimerId=setTimeout(()=>attemptPendingUpdate(),Math.max(1000,Number(delay)||AUTO_UPDATE_SAFE_RETRY_MS));
+}
+
+function reloadToBuild(build){
+  const next=new URL(location.href);
+  next.searchParams.set("_tvbuild",String(build||"").slice(0,12)||String(Date.now()));
+  publishAutoUpdateStatus("reloading","safe-window");
+  location.replace(next.href);
+}
+
+function attemptPendingUpdate(){
+  if(!pendingUpdateVersion)return;
+  if(!autoUpdateSafeNow()){
+    publishAutoUpdateStatus("pending-unsafe","menunggu pra-azan/sholat/zikir/audio selesai");
+    schedulePendingUpdateAttempt();
+    return;
+  }
+  publishAutoUpdateStatus("pending-safe","verifikasi ulang sebelum reload");
+  clearTimeout(autoUpdateApplyTimerId);
+  autoUpdateApplyTimerId=setTimeout(()=>{
+    if(!pendingUpdateVersion)return;
+    if(!autoUpdateSafeNow()){
+      publishAutoUpdateStatus("pending-unsafe","kondisi berubah saat grace period");
+      schedulePendingUpdateAttempt();
+      return;
+    }
+    reloadToBuild(pendingUpdateVersion);
+  },5000);
+}
+
+async function checkForAppUpdate(reason="interval"){
+  clearTimeout(autoUpdateCheckTimerId);
+  lastAutoUpdateCheckMs=Date.now();
+  try{
+    if(!/^[0-9a-f]{40}$/i.test(CURRENT_APP_BUILD)){
+      publishAutoUpdateStatus("disabled","build marker tidak valid");
+      return;
+    }
+    const response=await fetch("./version.json?_="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw new Error("VERSION_HTTP_"+response.status);
+    const data=await response.json();
+    const remote=String(data?.version||"").trim();
+    if(!/^[0-9a-f]{40}$/i.test(remote))throw new Error("VERSION_INVALID");
+    if(remote!==CURRENT_APP_BUILD){
+      pendingUpdateVersion=remote;
+      publishAutoUpdateStatus("pending",reason);
+      attemptPendingUpdate();
+    }else{
+      pendingUpdateVersion="";
+      clearTimeout(autoUpdateApplyTimerId);
+      publishAutoUpdateStatus("current",reason);
+    }
+  }catch(error){
+    publishAutoUpdateStatus("check-error",String(error?.message||error||"unknown"));
+  }finally{
+    autoUpdateCheckTimerId=setTimeout(()=>checkForAppUpdate("2h-interval"),AUTO_UPDATE_INTERVAL_MS);
+  }
+}
+
+function startAutoUpdateWatcher(){
+  publishAutoUpdateStatus("scheduled","startup + setiap 2 jam");
+  clearTimeout(autoUpdateCheckTimerId);
+  autoUpdateCheckTimerId=setTimeout(()=>checkForAppUpdate("startup"),AUTO_UPDATE_INITIAL_DELAY_MS);
+  addEventListener("al-ihsan:pre-azan-change",()=>{
+    if(pendingUpdateVersion)schedulePendingUpdateAttempt(1500);
+  });
+}
+
 function init(){
   fit();loadDonationUnderlay();loadAnnouncementUnderlay();
   const params=new URLSearchParams(location.search),forced=params.get("scene");
   setScene(["dashboard","donation","announcement","finance","construction","prayer","zikir"].includes(forced)?forced:(C.rotation?.startScene||"dashboard"));
   render();renderAnnouncement();renderAgenda();renderWisdom();
   scheduleNextTick();recoverPrayerSchedule("startup");recoverPreAzanSchedule("startup");scheduleSceneRotation();
+  startAutoUpdateWatcher();
   Promise.allSettled([loadCms(),loadPrayerConfig()]).finally(()=>{
     recoverPrayerSchedule("config-loaded");recoverPreAzanSchedule("config-loaded");
     scheduleCmsRefresh();
