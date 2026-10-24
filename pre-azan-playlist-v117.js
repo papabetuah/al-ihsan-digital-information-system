@@ -278,7 +278,9 @@ function selectionFor(date,prayerName){
 const GAP_MS=2000;
 const SILENCE_MS=30000;
 const RAMADAN_MAGHRIB_SIREN_ID="RAMADAN-MAGRIB-SIREN";
-const RAMADAN_MAGHRIB_SIREN_MS=17000;
+const RAMADAN_MAGHRIB_SIREN_CLIP_MS=17000;
+const RAMADAN_MAGHRIB_SIREN_REPEAT_COUNT=3;
+const RAMADAN_MAGHRIB_SIREN_MS=RAMADAN_MAGHRIB_SIREN_CLIP_MS*RAMADAN_MAGHRIB_SIREN_REPEAT_COUNT;
 function isRamadan(date){
   const d=date instanceof Date?date:new Date(date);
   const h=globalThis.AL_IHSAN_CALENDAR?.hijriFromDate?.(d);
@@ -407,6 +409,8 @@ window.AL_IHSAN_PRE_AZAN=Object.freeze({
   extendedTailFor,
   extendedTailReserveMs,
   isRamadan,
+  ramadanMaghribSirenClipSeconds:RAMADAN_MAGHRIB_SIREN_CLIP_MS/1000,
+  ramadanMaghribSirenRepeatCount:RAMADAN_MAGHRIB_SIREN_REPEAT_COUNT,
   ramadanMaghribSirenSeconds:RAMADAN_MAGHRIB_SIREN_MS/1000,
   scheduleFor,
   stateAt
