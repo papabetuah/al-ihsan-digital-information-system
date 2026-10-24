@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Al Ihsan TV</string>
+    <string name="app_name">Masjid Al Ihsan Kapuih OS (Sholat &amp; Operasional)</string>
+    <string name="audio_test_name">Masjid Al Ihsan Kapuih OS — Audio Test</string>
 </resources>

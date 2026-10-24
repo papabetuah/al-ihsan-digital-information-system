@@ -44,9 +44,15 @@ jobs:
       - name: Build debug APK
         run: gradle -p android-player :app:assembleDebug --stacktrace
 
+      - name: Prepare install package
+        run: |
+          mkdir -p dist
+          cp android-player/app/build/outputs/apk/debug/app-debug.apk "dist/Masjid-Al-Ihsan-Kapuih-OS-Sholat-Operasional-v2.0.0.apk"
+          sha256sum "dist/Masjid-Al-Ihsan-Kapuih-OS-Sholat-Operasional-v2.0.0.apk" > "dist/Masjid-Al-Ihsan-Kapuih-OS-Sholat-Operasional-v2.0.0.apk.sha256"
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: al-ihsan-native-tv-player
-          path: android-player/app/build/outputs/apk/debug/app-debug.apk
+          name: masjid-al-ihsan-kapuih-os-v2.0.0
+          path: dist/
           if-no-files-found: error
